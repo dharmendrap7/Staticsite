@@ -1,0 +1,369 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ConquerorHubModelStoreContainer" CdmEntityContainer="ConquerorHubEntities3">
+    <EntitySetMapping Name="C__MigrationHistory">
+      <EntityTypeMapping TypeName="ConquerorHubModel.C__MigrationHistory">
+        <MappingFragment StoreEntitySet="__MigrationHistory">
+          <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+          <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+          <ScalarProperty Name="Model" ColumnName="Model" />
+          <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetRoles">
+      <EntityTypeMapping TypeName="ConquerorHubModel.AspNetRole">
+        <MappingFragment StoreEntitySet="AspNetRoles">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUserClaims">
+      <EntityTypeMapping TypeName="ConquerorHubModel.AspNetUserClaim">
+        <MappingFragment StoreEntitySet="AspNetUserClaims">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+          <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUserLogins">
+      <EntityTypeMapping TypeName="ConquerorHubModel.AspNetUserLogin">
+        <MappingFragment StoreEntitySet="AspNetUserLogins">
+          <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+          <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUsers">
+      <EntityTypeMapping TypeName="ConquerorHubModel.AspNetUser">
+        <MappingFragment StoreEntitySet="AspNetUsers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+          <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+          <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+          <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+          <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+          <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+          <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Usertype" ColumnName="Usertype" />
+          <ScalarProperty Name="UserActive" ColumnName="UserActive" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CH_BlockTable">
+      <EntityTypeMapping TypeName="ConquerorHubModel.CH_BlockTable">
+        <MappingFragment StoreEntitySet="CH_BlockTable">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="BlockingUser" ColumnName="BlockingUser" />
+          <ScalarProperty Name="BlockedUser" ColumnName="BlockedUser" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CH_CommentTable">
+      <EntityTypeMapping TypeName="ConquerorHubModel.CH_CommentTable">
+        <MappingFragment StoreEntitySet="CH_CommentTable">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DestinationUserId" ColumnName="DestinationUserId" />
+          <ScalarProperty Name="SourceUserId" ColumnName="SourceUserId" />
+          <ScalarProperty Name="PostId" ColumnName="PostId" />
+          <ScalarProperty Name="CommentMessage" ColumnName="CommentMessage" />
+          <ScalarProperty Name="CommentedDate" ColumnName="CommentedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CH_CulturalVideos">
+      <EntityTypeMapping TypeName="ConquerorHubModel.CH_CulturalVideos">
+        <MappingFragment StoreEntitySet="CH_CulturalVideos">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ContentType" ColumnName="ContentType" />
+          <ScalarProperty Name="Data" ColumnName="Data" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CH_EventRegistrationFromOrganizer">
+      <EntityTypeMapping TypeName="ConquerorHubModel.CH_EventRegistrationFromOrganizer">
+        <MappingFragment StoreEntitySet="CH_EventRegistrationFromOrganizer">
+          <ScalarProperty Name="EventId" ColumnName="EventId" />
+          <ScalarProperty Name="OrganizerId" ColumnName="OrganizerId" />
+          <ScalarProperty Name="NameofOrganizer" ColumnName="NameofOrganizer" />
+          <ScalarProperty Name="EventName" ColumnName="EventName" />
+          <ScalarProperty Name="modeofevent" ColumnName="modeofevent" />
+          <ScalarProperty Name="TypeOfEvent" ColumnName="TypeOfEvent" />
+          <ScalarProperty Name="SubTypeOfEvent" ColumnName="SubTypeOfEvent" />
+          <ScalarProperty Name="ImageorVideoforEvent" ColumnName="ImageorVideoforEvent" />
+          <ScalarProperty Name="StreamOfParticipants" ColumnName="StreamOfParticipants" />
+          <ScalarProperty Name="AgeGroup" ColumnName="AgeGroup" />
+          <ScalarProperty Name="MaxnumofTeam" ColumnName="MaxnumofTeam" />
+          <ScalarProperty Name="numofParticipantsinteam" ColumnName="numofParticipantsinteam" />
+          <ScalarProperty Name="StartofEventRegistration" ColumnName="StartofEventRegistration" />
+          <ScalarProperty Name="EndOfEventRegistration" ColumnName="EndOfEventRegistration" />
+          <ScalarProperty Name="StartofVideoUpload" ColumnName="StartofVideoUpload" />
+          <ScalarProperty Name="EndOfVideoUpload" ColumnName="EndOfVideoUpload" />
+          <ScalarProperty Name="StartOfValuationfromvoters" ColumnName="StartOfValuationfromvoters" />
+          <ScalarProperty Name="EndofValuationFromVoters" ColumnName="EndofValuationFromVoters" />
+          <ScalarProperty Name="ResultDate" ColumnName="ResultDate" />
+          <ScalarProperty Name="FirstPrize" ColumnName="FirstPrize" />
+          <ScalarProperty Name="SecondPrize" ColumnName="SecondPrize" />
+          <ScalarProperty Name="ThirdPrize" ColumnName="ThirdPrize" />
+          <ScalarProperty Name="EventImage" ColumnName="EventImage" />
+          <ScalarProperty Name="EventVideo" ColumnName="EventVideo" />
+          <ScalarProperty Name="EventStatus" ColumnName="EventStatus" />
+          <ScalarProperty Name="Eventdisplayonhomepage" ColumnName="Eventdisplayonhomepage" />
+          <ScalarProperty Name="Eventfee" ColumnName="Eventfee" />
+          <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
+          <ScalarProperty Name="CurrentDateandTime" ColumnName="CurrentDateandTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CH_HomePageData">
+      <EntityTypeMapping TypeName="ConquerorHubModel.CH_HomePageData">
+        <MappingFragment StoreEntitySet="CH_HomePageData">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Postid" ColumnName="Postid" />
+          <ScalarProperty Name="PostText" ColumnName="PostText" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="Video" ColumnName="Video" />
+          <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CH_Judges">
+      <EntityTypeMapping TypeName="ConquerorHubModel.CH_Judges">
+        <MappingFragment StoreEntitySet="CH_Judges">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Expertise" ColumnName="Expertise" />
+          <ScalarProperty Name="Year_of_Experience" ColumnName="Year_of_Experience" />
+          <ScalarProperty Name="Invited" ColumnName="Invited" />
+          <ScalarProperty Name="Fee_per_Hour" ColumnName="Fee_per_Hour" />
+          <ScalarProperty Name="Requested" ColumnName="Requested" />
+          <ScalarProperty Name="RequestedDateTime" ColumnName="RequestedDateTime" />
+          <ScalarProperty Name="InvitedDateTime" ColumnName="InvitedDateTime" />
+          <ScalarProperty Name="AcceptedDateTime" ColumnName="AcceptedDateTime" />
+          <ScalarProperty Name="Totalnumberofhours" ColumnName="Totalnumberofhours" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CH_LastLogin">
+      <EntityTypeMapping TypeName="ConquerorHubModel.CH_LastLogin">
+        <MappingFragment StoreEntitySet="CH_LastLogin">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="SessionToken" ColumnName="SessionToken" />
+          <ScalarProperty Name="CreatedDateandTime" ColumnName="CreatedDateandTime" />
+          <ScalarProperty Name="ExpiryDateTime" ColumnName="ExpiryDateTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CH_Likes">
+      <EntityTypeMapping TypeName="ConquerorHubModel.CH_Likes">
+        <MappingFragment StoreEntitySet="CH_Likes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="LikeStatus" ColumnName="LikeStatus" />
+          <ScalarProperty Name="Imageid" ColumnName="Imageid" />
+          <ScalarProperty Name="SourceUserId" ColumnName="SourceUserId" />
+          <ScalarProperty Name="DestinationUserId" ColumnName="DestinationUserId" />
+          <ScalarProperty Name="DateandTime" ColumnName="DateandTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CH_MainPhotos">
+      <EntityTypeMapping TypeName="ConquerorHubModel.CH_MainPhotos">
+        <MappingFragment StoreEntitySet="CH_MainPhotos">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="PhotosId" ColumnName="PhotosId" />
+          <ScalarProperty Name="BannerPicData" ColumnName="BannerPicData" />
+          <ScalarProperty Name="ProfilePicData" ColumnName="ProfilePicData" />
+          <ScalarProperty Name="Datetime" ColumnName="Datetime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CH_OrganiztionAboutUs">
+      <EntityTypeMapping TypeName="ConquerorHubModel.CH_OrganiztionAboutUs">
+        <MappingFragment StoreEntitySet="CH_OrganiztionAboutUs">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="NameOfOrganization" ColumnName="NameOfOrganization" />
+          <ScalarProperty Name="StartedInTheYear" ColumnName="StartedInTheYear" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+          <ScalarProperty Name="VisionofTheOrganization" ColumnName="VisionofTheOrganization" />
+          <ScalarProperty Name="MissionOfTheOrganization" ColumnName="MissionOfTheOrganization" />
+          <ScalarProperty Name="Selfdesctiption" ColumnName="Selfdesctiption" />
+          <ScalarProperty Name="Datetime" ColumnName="Datetime" />
+          <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+          <ScalarProperty Name="Fax" ColumnName="Fax" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CH_ParticipantRegistration">
+      <EntityTypeMapping TypeName="ConquerorHubModel.CH_ParticipantRegistration">
+        <MappingFragment StoreEntitySet="CH_ParticipantRegistration">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="EventId" ColumnName="EventId" />
+          <ScalarProperty Name="OrganizerId" ColumnName="OrganizerId" />
+          <ScalarProperty Name="ParticipantId" ColumnName="ParticipantId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="CollegeorSchool" ColumnName="CollegeorSchool" />
+          <ScalarProperty Name="Qualification" ColumnName="Qualification" />
+          <ScalarProperty Name="DateOfBirthh" ColumnName="DateOfBirthh" />
+          <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+          <ScalarProperty Name="About_Self" ColumnName="About Self" />
+          <ScalarProperty Name="Modeofcompitetion" ColumnName="Modeofcompitetion" />
+          <ScalarProperty Name="RegistrationStatus" ColumnName="RegistrationStatus" />
+          <ScalarProperty Name="ParticipantStatus" ColumnName="ParticipantStatus" />
+          <ScalarProperty Name="ContentType" ColumnName="ContentType" />
+          <ScalarProperty Name="Data" ColumnName="Data" />
+          <ScalarProperty Name="ParticipantsPostId" ColumnName="ParticipantsPostId" />
+          <ScalarProperty Name="EventStatus" ColumnName="EventStatus" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+          <ScalarProperty Name="DateandTime" ColumnName="DateandTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CH_ParticipantsAbout">
+      <EntityTypeMapping TypeName="ConquerorHubModel.CH_ParticipantsAbout">
+        <MappingFragment StoreEntitySet="CH_ParticipantsAbout">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Userid" ColumnName="Userid" />
+          <ScalarProperty Name="BasicDetails" ColumnName="BasicDetails" />
+          <ScalarProperty Name="ContactDetails" ColumnName="ContactDetails" />
+          <ScalarProperty Name="EducationDetails" ColumnName="EducationDetails" />
+          <ScalarProperty Name="DateandTime" ColumnName="DateandTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CH_ParticipantsGallery">
+      <EntityTypeMapping TypeName="ConquerorHubModel.CH_ParticipantsGallery">
+        <MappingFragment StoreEntitySet="CH_ParticipantsGallery">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="PostId" ColumnName="PostId" />
+          <ScalarProperty Name="ImageData" ColumnName="ImageData" />
+          <ScalarProperty Name="Caption" ColumnName="Caption" />
+          <ScalarProperty Name="VideoData" ColumnName="VideoData" />
+          <ScalarProperty Name="DateAndTime" ColumnName="DateAndTime" />
+          <ScalarProperty Name="ContentType" ColumnName="ContentType" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CH_ShareTable">
+      <EntityTypeMapping TypeName="ConquerorHubModel.CH_ShareTable">
+        <MappingFragment StoreEntitySet="CH_ShareTable">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="PostId" ColumnName="PostId" />
+          <ScalarProperty Name="DestPostid" ColumnName="DestPostid" />
+          <ScalarProperty Name="SourcePage" ColumnName="SourcePage" />
+          <ScalarProperty Name="DestinationPage" ColumnName="DestinationPage" />
+          <ScalarProperty Name="ShareCount" ColumnName="ShareCount" />
+          <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+          <ScalarProperty Name="ContentType" ColumnName="ContentType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CH_SubComment">
+      <EntityTypeMapping TypeName="ConquerorHubModel.CH_SubComment">
+        <MappingFragment StoreEntitySet="CH_SubComment">
+          <ScalarProperty Name="SubCommentId" ColumnName="SubCommentId" />
+          <ScalarProperty Name="DestinationUserId" ColumnName="DestinationUserId" />
+          <ScalarProperty Name="SourceUserId" ColumnName="SourceUserId" />
+          <ScalarProperty Name="PostId" ColumnName="PostId" />
+          <ScalarProperty Name="CommentId" ColumnName="CommentId" />
+          <ScalarProperty Name="SubCommentDatetime" ColumnName="SubCommentDatetime" />
+          <ScalarProperty Name="SubCommentmsg" ColumnName="SubCommentmsg" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CH_SubscriptionTable">
+      <EntityTypeMapping TypeName="ConquerorHubModel.CH_SubscriptionTable">
+        <MappingFragment StoreEntitySet="CH_SubscriptionTable">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SubscriberUserId" ColumnName="SubscriberUserId" />
+          <ScalarProperty Name="ProfileUserId" ColumnName="ProfileUserId" />
+          <ScalarProperty Name="SubscriptionStatus" ColumnName="SubscriptionStatus" />
+          <ScalarProperty Name="Datetime" ColumnName="Datetime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CH_VoteTable">
+      <EntityTypeMapping TypeName="ConquerorHubModel.CH_VoteTable">
+        <MappingFragment StoreEntitySet="CH_VoteTable">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="PostId" ColumnName="PostId" />
+          <ScalarProperty Name="userid" ColumnName="userid" />
+          <ScalarProperty Name="VoteStatus" ColumnName="VoteStatus" />
+          <ScalarProperty Name="EventId" ColumnName="EventId" />
+          <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OTP_VerificationTable">
+      <EntityTypeMapping TypeName="ConquerorHubModel.OTP_VerificationTable">
+        <MappingFragment StoreEntitySet="OTP_VerificationTable">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="EventId" ColumnName="EventId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="OTP" ColumnName="OTP" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SessionTokens">
+      <EntityTypeMapping TypeName="ConquerorHubModel.SessionToken">
+        <MappingFragment StoreEntitySet="SessionToken">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="SessionToken1" ColumnName="SessionToken" />
+          <ScalarProperty Name="CreatedDateandTime" ColumnName="CreatedDateandTime" />
+          <ScalarProperty Name="ExpiryDateandTime" ColumnName="ExpiryDateandTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sponsors">
+      <EntityTypeMapping TypeName="ConquerorHubModel.Sponsor">
+        <MappingFragment StoreEntitySet="Sponsors">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Image" ColumnName="Image" />
+          <ScalarProperty Name="Caption" ColumnName="Caption" />
+          <ScalarProperty Name="Like" ColumnName="Like" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+          <ScalarProperty Name="Private" ColumnName="Private" />
+          <ScalarProperty Name="Public" ColumnName="Public" />
+          <ScalarProperty Name="DateandTime" ColumnName="DateandTime" />
+          <ScalarProperty Name="ImageId" ColumnName="ImageId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CH_EventSubType">
+      <EntityTypeMapping TypeName="ConquerorHubModel.CH_EventSubType">
+        <MappingFragment StoreEntitySet="CH_EventSubType">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="EventReferenceId" ColumnName="EventReferenceId" />
+          <ScalarProperty Name="EventSubType" ColumnName="EventSubType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="AspNetUserRoles" TypeName="ConquerorHubModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+      <EndProperty Name="AspNetRoles">
+        <ScalarProperty Name="Id" ColumnName="RoleId" />
+      </EndProperty>
+      <EndProperty Name="AspNetUsers">
+        <ScalarProperty Name="Id" ColumnName="UserId" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

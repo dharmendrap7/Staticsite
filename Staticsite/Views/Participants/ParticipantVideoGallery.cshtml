@@ -1,0 +1,216 @@
+﻿@model Conquerorhub.Models.GalleryViewModel
+@{
+    ViewBag.Title = "ParticipantVideoGallery";
+    Layout = "~/Views/Shared/_winkuFormLayout.cshtml";
+}
+
+
+<style>
+    .show-read-more .more-text {
+        display: none;
+    }
+</style>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+
+<div class="col-lg-6">
+    <div class="central-meta">
+        <div class="new-postbox">
+            <figure>
+                <img src="~/Content/assets/images/resources/admin2.jpg" alt="">
+            </figure>
+            <div class="newpst-input">
+                @if (ViewBag.UserId == null)
+                {
+
+
+                    using (Html.BeginForm("ParticipantVideoGallery", "Participants", FormMethod.Post, new { enctype = "multipart/form-data", Id = "frmAddImage" }))
+                    {
+                        @Html.HiddenFor(m => m.GalleryData.Id)
+                        <form method="post">
+                            @Html.TextAreaFor(m => m.GalleryData.Caption, new { rows = "2", placeholder = "Write Caption" })
+
+                            <div class="attachments">
+                                <ul>
+
+                                    @*<li>
+                                        <i class="fa fa-image"></i>
+                                        <label class="fileContainer">
+                                            @Html.TextBoxFor(m => m.GalleryData.UploadedPost, new { type = "file" })
+
+                                        </label>
+                                    </li>*@
+                                    <li>
+                                            <i class="fa fa-video-camera"></i>
+                                            <label class="fileContainer">
+                                               @Html.TextBoxFor(m => m.GalleryData.UploadedPost, new { type = "file", name = "file[]", @class = "file_multi_video" })
+
+                                            </label>
+                                        </li>
+                                   
+
+                                    <li>
+                                        <button type="submit">Upload</button>
+                                    </li>
+                                   
+
+                                </ul>
+                                <div class="row">
+                                    <p>
+                                        <video width="150" height="150" controls hidden id="VidPreview">
+                                            <source src="" id="video_here">
+
+                                        </video>
+                                    </p>
+                                </div>
+                                
+                            </div>
+
+                           
+                        </form>
+                    }
+                }
+            </div>
+        </div>
+    </div><!-- add post new box -->
+
+    @if (Model.GalleryList.Count != 0)
+    {
+        var n = 0;
+        bool x = true;
+        Guid? id = Guid.Empty;
+
+        <div class="central-meta item">
+            <ul class="photos">
+                @foreach (var item in Model.GalleryList)
+                {
+                    if (item.ContentType != null && item.VideoData != null)
+                    {
+                      
+                        n++;
+                    <li>
+@if (ViewBag.UserId == null)
+{
+                        <div class="close" onclick='Deletesponsorimage("@item.PostId","@item.UserId")'>x</div>
+}
+                        <div class="friend-info" id="postid_@item.PostId">
+                            <a class="strip" href="@Url.Action("DownloadFile1", "Participants", new { VideoID = item.PostId })" title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
+                                <video id="VideoPlayer" src='@Url.Action("DownloadFile1", "Participants", new { VideoID = item.PostId })' controls="true" width="300" height="200" loop="true" />
+
+
+                            </a>
+                            <div class="we-video-info">
+                                <ul>
+
+                                    <li>
+                                        <input type="hidden" id="detinationId" value="@item.UserId" />
+                                        <input type="text" value="0" id="PostId" hidden />  <!-- Ch2-->
+                                        <input type="text" id="pcid" hidden />  <!-- Ch3-->
+                                        <input type="text" value="0" id="IsReplay" hidden />  <!-- Ch4-->
+                                        <span class="comment" data-toggle="tooltip" title="Comments" id="@item.PostId">
+                                            <!-- Ch5-->
+                                            <i class="fa fa-comments-o"></i>
+                                            @{
+                                                var count = Model.commentData.Where(model => model.DestinationUserId == item.UserId && model.PostId == item.PostId).ToList().Count() != 0 ? Model.commentData.Where(model => model.DestinationUserId == item.UserId && model.PostId == item.PostId).ToList().Count() : 0;
+                                                ViewBag.commentCount = count;
+                                            }
+                                            <ins>@ViewBag.commentCount</ins>
+                                        </span>
+                                    </li>
+                                    <li>
+
+                                        <span class="like" data-toggle="tooltip" title="like">
+
+                                            <i class="ti-heart" onclick="postlike(true,'@item.PostId','@item.UserId',this)"></i>
+                                            @{var abc = Model.likesdata.Select(model => model.Imageid == item.PostId && model.DestinationUserId == item.UserId).ToList().Count() != 0 ? Model.likesdata.Where(model => model.Imageid == item.PostId && model.DestinationUserId == item.UserId && model.LikeStatus == true).Select(model => model.LikeStatus == true).Count() : 0;
+                                                ViewBag.Count = abc;
+                                            }
+                                            <ins id="Like_@item.PostId">@ViewBag.Count</ins>
+                                        </span>
+
+                                    </li>
+                                    <li>
+
+                                        <span class="dislike" data-toggle="tooltip" title="dislike">
+                                            <i class="ti-heart-broken" onclick="postlike(false,'@item.PostId','@item.UserId',this)"></i>
+                                            @{var abc1 = Model.likesdata.Select(model => model.Imageid == item.PostId && model.DestinationUserId == item.UserId).ToList().Count() != 0 ? Model.likesdata.Where(model => model.Imageid == item.PostId && model.DestinationUserId == item.UserId && model.LikeStatus == false).Select(model => model.LikeStatus == false).Count() : 0;
+                                                ViewBag.Count1 = abc1;
+                                            }
+                                            <ins id="DisLike_@item.PostId">@ViewBag.Count1</ins>
+                                        </span>
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <div class="description">
+
+                                <p class="show-read-more">@item.Caption</p>
+                            </div>
+                            </div>
+</li>
+                    }
+
+                }
+            </ul>
+            <div class="lodmore"><button class="btn-view btn-load-more"></button></div>
+        </div><!-- photos -->
+    }
+</div><!-- centerl meta -->
+<script>
+$(document).ready(function(){
+    debugger;
+    var maxLength = 20;
+    $(".show-read-more").each(function(){
+        var myStr = $(this).text();
+        if($.trim(myStr).length > maxLength){
+            var newStr = myStr.substring(0, maxLength);
+            var removedStr = myStr.substring(maxLength, $.trim(myStr).length);
+            $(this).empty().html(newStr);
+            $(this).append(' <a href="javascript:void(0);" class="read-more">read more...</a>');
+            $(this).append('<span class="more-text">' + removedStr + '</span>');
+        }
+    });
+    $(".read-more").click(function(){
+        $(this).siblings(".more-text").contents().unwrap();
+        $(this).remove();
+    });
+});
+</script>
+
+<script>
+        function Deleteparticipantsgallerypost(id,userid) {
+            debugger;
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeletePaticipantsGalleryPost", "BasicFunctionality")",
+
+                contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({
+                Postid: id,
+                Userid:userid
+            }),
+            dataType: "json",
+            success: function (result) {
+                if (result != null) {
+                    alert("Image deleted successfully")
+                }
+                else {
+                    alert("Image not deleted sucessfully")
+                };
+
+
+
+
+            },
+            error: function () { alert('A error'); }
+        });
+        }
+</script>
+<script>
+ $(document).on("change", ".file_multi_video", function (evt) {
+        $("#VidPreview").removeAttr("hidden");
+        var $source = $('#video_here');
+        $source[0].src = URL.createObjectURL(this.files[0]);
+        $source.parent()[0].load();
+    });
+</script>

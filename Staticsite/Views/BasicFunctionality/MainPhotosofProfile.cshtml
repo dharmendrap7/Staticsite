@@ -1,0 +1,35 @@
+﻿
+@model Conquerorhub.Models.MainPhotosModel
+
+@using (Html.BeginForm("MainPhotosofProfile", "BasicFunctionality", FormMethod.Post, new { enctype = "multipart/form-data", Id = "frmAddImage" }))
+{
+    <div class="likeds">
+        <div class="likeright">
+            <div class="popup" onclick="Photos()">
+                <b>Edit</b>
+                <div class="popuptext1" id="photo">
+                    <div class="notfication-details">
+                        <div class="notification-info">
+                            @Html.EditorFor(m => m.BannerPic, new { type = "file" })
+
+
+                        </div>
+                    </div>
+                    <div class="notfication-details">
+                        <div class="notification-info">
+                            @Html.EditorFor(m => m.ProfilePic, new { type = "file" })
+                        </div>
+                    </div>
+                    <div class="notfication-details">
+                        <div class="notification-info">
+
+                            <input type="submit" id="btnAddImage" value="Upload" class="btn btn-primary" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+}

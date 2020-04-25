@@ -1,0 +1,143 @@
+﻿@using Conquerorhub.Models
+@model Conquerorhub.Models.EventRegistrationfromOrganizerModel
+
+
+
+@{
+    ViewBag.Title = "OrganizeEvent";
+    Layout = "~/Views/Shared/_winkuFormLayout.cshtml";
+
+}
+
+
+
+
+
+<div class="col-lg-6">
+    <div class="central-meta">
+        <div class="about">
+            <div class="personal">
+                <h5 class="f-title"><i class="ti-info-alt"></i> Personal Info</h5>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                </p>
+            </div>
+            <div class="d-flex flex-row mt-2">
+                <ul class="nav nav-tabs nav-tabs--vertical nav-tabs--left">
+                    <li class="nav-item">
+                        <a href="#basic" class="nav-link active" data-toggle="tab">About Event</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#location" class="nav-link" data-toggle="tab">About Participant</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#work" class="nav-link" data-toggle="tab">Important Dates</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#interest" class="nav-link" data-toggle="tab">Awards and Rewards</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#lang" class="nav-link" data-toggle="tab">Event Image and Video</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="basic">
+                        <ul class="basics">
+                            <li><label>Event Organizer</label>    <b style="margin-left:20px; color:blue">@Model.aboutEvent.NameofOrganizer</b> </li>
+                            
+                            <li><label>Event Name</label>    <b style="margin-left:20px;color:blue">@Model.aboutEvent.EventName</b> </li>
+                            <li><label>Type of event</label>    <b style="margin-left:20px;color:blue">@Model.aboutEvent.TypeOfEvent</b> </li>
+                            <li><label>Sub Type of Event</label>    <b style="margin-left:20px;color:blue">@Model.aboutEvent.SubTypeOfEventstring</b> </li>
+                            <li><label>Mode of Event</label> <b style="margin-left:20px;color:blue">@Model.aboutEvent.modeofevent</b></li>
+
+
+                        </ul>
+                    </div>
+                    <div class="tab-pane fade" id="location" role="tabpanel">
+                        <ul class="basics">
+                            <li>
+                        <label>Stream of participants</label><b style="margin-left:20px;color:blue">
+                            @Model.aboutParticipants.StreamOfParticipants
+                        </b>
+                                </li>
+                            <li>
+                        <label>Age group</label><b style="margin-left:20px;color:blue">
+                            @Model.aboutParticipants.AgeGroup
+                        </b>
+</li>
+                            <li>
+                        <label>Number of participants in a team</label><b style="margin-left:20px;color:blue">@Model.aboutParticipants.numofParticipantsinteam</b>
+                                </li>
+</ul>
+                    </div>
+                    @if ((int)Model.aboutEvent.modeofevent == 1 ||(int) Model.aboutEvent.modeofevent == 3)
+                    {
+                    <div class="tab-pane fade" id="work" role="tabpanel">
+                        
+                            <ul class="basics">
+                                <li><label>Start of event registration</label>    <b style="margin-left:20px;color:blue">@Model.importantDates.StartofEventRegistration</b> </li>
+                                <li><label>End of event registration</label>    <b style="margin-left:20px;color:blue">@Model.importantDates.EndOfEventRegistration</b> </li>
+                                <li><label>Start of performance upload</label>    <b style="margin-left:20px;color:blue">@Model.importantDates.StartofVideoUpload</b> </li>
+                                <li><label>End of performance upload</label>    <b style="margin-left:20px;color:blue">@Model.importantDates.EndOfVideoUpload</b> </li>
+                                <li><label>Start of valuation from voters</label>    <b style="margin-left:20px;color:blue">@Model.importantDates.StartOfValuationfromvoters</b> </li>
+                                <li><label>End of valuation fron voters</label>    <b style="margin-left:20px;color:blue">@Model.importantDates.EndofValuationFromVoters</b> </li>
+                           
+
+
+                            </ul>
+                        
+                    </div>
+                    }
+                    else if ((int)Model.aboutEvent.modeofevent == 2)
+                    {
+                        <div class="tab-pane fade" id="work" role="tabpanel">
+
+                            <ul class="basics">
+                                <li><label>Start of event registration</label>    <b style="margin-left:20px;color:blue">@Model.importantDates.StartofEventRegistration</b> </li>
+                                <li><label>End of event registration</label>    <b style="margin-left:20px;color:blue">@Model.importantDates.EndOfEventRegistration</b> </li>
+                             
+                                <li><label>Event starts on</label>    <b style="margin-left:20px;color:blue">@Model.importantDates.StartOfValuationfromvoters</b> </li>
+                                <li><label>Events ends on</label>    <b style="margin-left:20px;color:blue">@Model.importantDates.EndofValuationFromVoters</b> </li>
+
+
+
+                            </ul>
+
+                        </div>
+
+                    }
+                    <div class="tab-pane fade" id="interest" role="tabpanel">
+                       
+                            <ul class="basics">
+                                <li><label>First Prize</label>    <b style="margin-left:20px;color:blue">@Model.awardReward.FirstPrize</b> </li>
+                                <li><label>Second Prize</label>    <b style="margin-left:20px;color:blue">@Model.awardReward.SecondPrize</b> </li>
+                                <li><label>Third Prize</label>    <b style="margin-left:20px;color:blue">@Model.awardReward.ThirdPrize</b> </li>
+                                <li><label>Participation certificate for all shortlisted participants</label></li>
+
+
+                            </ul>
+                    
+                    </div>
+                    <div class="tab-pane fade" id="lang" role="tabpanel">
+                        <div class="col-sm-6">
+                            <a class="strip" href="@Model.Imagevideo.Image" title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
+                                <img class="img" src="@Model.Imagevideo.Image">
+                            </a>
+                           
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="col-sm-6">
+                               
+                                    <video id="VideoPlayer" src='@Url.Action("DownloadFile1", "Events", new { VideoID=Guid.Empty, EventId = Model.Imagevideo.EventIdImageorVideo})' controls="true" width="200" height="200" loop="true" />
+                                
+
+                            </div>
+                        
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

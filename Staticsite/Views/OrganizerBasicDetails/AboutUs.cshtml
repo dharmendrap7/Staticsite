@@ -1,0 +1,96 @@
+﻿@model Conquerorhub.Models.OrganizerAboutusModels
+
+@{
+    ViewBag.Title = "Aboutus";
+    Layout = "~/Views/Shared/_winkuFormLayout.cshtml";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+@if (ViewBag.UserId == null)
+
+{
+<div class="col-lg-6">
+    <div class="central-meta">
+        <div class="editing-info">
+            <h5 class="f-title"><i class="ti-info-alt"></i> Edit Basic Information</h5>
+  @using (Html.BeginForm("AboutUs", "OrganizerBasicDetails", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+  {
+
+            <form method="post">
+                <div class="form-group">
+                    @Html.TextBoxFor(m => m.NameOfOrganization, new {id = "nameoforganization"})
+                    <label class="control-label" for="input">Name of Organization</label><i class="mtrl-select"></i>
+                    @Html.ValidationMessageFor(model => model.NameOfOrganization,"", new { @class ="text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.StartedInTheYear, "{0:yyyy-MM-dd}", new {@type = "date"})
+                    <label class="control-label" for="input">Started in the year</label><i class="mtrl-select"></i>
+                    @Html.ValidationMessageFor(model => model.StartedInTheYear, " ", new { @class ="text-danger" })
+                </div>
+                <div class="form-group half">
+                    @Html.TextBoxFor(m => m.Address.Country, new {id = "country" })
+                    <label class="control-label" for="input">Country</label><i class="mtrl-select"></i>
+                    @Html.ValidationMessageFor(model => model.Address.Country, " ", new { @class ="text-danger" })
+                </div>
+                <div class="form-group half">
+                    @Html.TextBoxFor(m => m.Address.State, new {id = "state" })
+                    <label class="control-label" for="input">State</label><i class="mtrl-select"></i>
+                    @Html.ValidationMessageFor(model => model.Address.State, " ", new { @class ="text-danger" })
+                </div>
+               
+                <div class="form-group">
+                   @Html.TextBoxFor(m => m.Address.City, new {id = "city"})
+                    <label class="control-label" for="input">City</label><i class="mtrl-select"></i>
+                @Html.ValidationMessageFor(model => model.Address.City, " ", new { @class ="text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.TextBoxFor(m => m.Address.ProperAddress, new {id = "prpraddress" })
+                    <label class="control-label" for="input">Complete Address</label><i class="mtrl-select"></i>
+                    @Html.ValidationMessageFor(model => model.Address.ProperAddress, " ", new { @class ="text-danger" })
+                </div>
+                <div class="form-group half">
+                    @Html.TextBoxFor(m => m.Address.zip, new {id = "zip" })
+                    <label class="control-label" for="input">Zip</label><i class="mtrl-select"></i>
+                    @Html.ValidationMessageFor(model => model.Address.zip, " ", new { @class ="text-danger" })
+                </div>
+                <div class="form-group half">
+                    @Html.TextBoxFor(m => m.ContactNumber, new {id = "cntctnumber" })
+                    <label class="control-label" for="input">Contact Number</label><i class="mtrl-select"></i>
+                    @Html.ValidationMessageFor(model => model.ContactNumber, "", new { @class ="text-danger" })
+                </div>
+                <div class="form-group half">
+                    @Html.TextBoxFor(m => m.EmailId, new { id = "cntctnumber", @type = "EmailId" })
+                    <label class="control-label" for="input">Email Id</label><i class="mtrl-select"></i>
+                    @Html.ValidationMessageFor(model => model.EmailId, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group half">
+                    @Html.TextBoxFor(m => m.Fax, new { id = "cntctnumber"})
+                    <label class="control-label" for="input">Fax</label><i class="mtrl-select"></i>
+                    @Html.ValidationMessageFor(model => model.Fax, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.TextBoxFor(m => m.VisionofTheOrganization, new {id = "VofOrganization" })
+                    <label class="control-label" for="input">Vision of organization</label><i class="mtrl-select"></i>
+                    @Html.ValidationMessageFor(model => model.VisionofTheOrganization, " ", new { @class ="text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.TextBoxFor(m => m.MissionOfTheOrganization, new {id = "MofOrganization" })
+                    <label class="control-label" for="input">Mission of organization</label><i class="mtrl-select"></i>
+                    @Html.ValidationMessageFor(model => model.MissionOfTheOrganization, " ", new { @class ="text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.TextAreaFor(m => m.Selfdesctiption, new {id = "selfdescription" })
+                    <label class="control-label" for="input">Lines on organization</label><i class="mtrl-select"></i>
+                    @Html.ValidationMessageFor(model => model.Selfdesctiption, " ", new { @class ="text-danger" })
+                </div>
+                <div class="submit-btns"> 
+                    <button type="button" class="mtr-btn"><span>Cancel</span></button>
+                    <button type="submit" class="mtr-btn"><span>Submit</span></button>
+                </div>
+            </form>
+  }
+
+        </div>
+    </div>
+</div><!-- centerl meta -->
+    }

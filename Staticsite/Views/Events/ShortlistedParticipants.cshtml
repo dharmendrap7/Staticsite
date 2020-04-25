@@ -1,0 +1,135 @@
+﻿
+
+@model Conquerorhub.Models.ParticipantsDetailModel
+@{
+    ViewBag.Title = "ShortlistedParticipants";
+    Layout = "~/Views/Shared/_WinkuRegisteredParticipantLayout.cshtml";
+}
+@for (int i = 0; i < Model.Participantregistration.Count; i++)
+
+{
+
+    <div class="card col-sm-3" height="30%">
+        <div class="card-header">
+            <h5>Name: @Model.Participantregistration[i].Name</h5>
+            <h6>College/School: @Model.Participantregistration[i].CollegeorSchool</h6>
+            <h6> Qualification: @Model.Participantregistration[i].Qualification</h6>
+
+        </div>
+
+        <div class="card-body">
+            @if (Model.Participantregistration[i].Data != null)
+            {
+                <a class="strip" href='@Url.Action("DownloadFile", "Events", new { VideoID = Model.Participantregistration[i].VideoId, EventId = Model.Participantregistration[i].EventId })' title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
+                    <video id="VideoPlayer" src='@Url.Action("DownloadFile", "Events", new { VideoID = Model.Participantregistration[i].VideoId, EventId = Model.Participantregistration[i].EventId })' controls="true" width="150" height="150" loop="true" />
+                </a>
+            }
+            else if (Model.Participantregistration[i].Images != null)
+            {
+                <a class="strip" href="@Model.Participantregistration[i].Images" title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
+                    <img class="img" src="@Model.Participantregistration[i].Images">
+                </a>
+
+            }
+        </div>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-sm-4">
+                    @if (Model.voterslist != null)
+                    {
+                        if (Model.voterslist.Where(m => m.PostId == Model.Participantregistration[i].VideoId).Select(m => m.VoteStatus).FirstOrDefault() == false || Model.voterslist.Where(m => m.PostId == Model.Participantregistration[i].VideoId).Select(m => m.VoteStatus).FirstOrDefault() == null)
+                        {
+                            var demo = Model.voterslist.Where(m => m.PostId == Model.Participantregistration[i].VideoId && m.VoteStatus == true);
+                            var demo1 = demo.Count();
+                            ViewBag.Count = demo1;
+                            <span id="trueVote_@Model.Participantregistration[i].VideoId">@ViewBag.Count</span>
+                                        <input type="hidden" id="hdvote" value="1" />
+                                        <a href="#" onclick="postVote('@Model.Participantregistration[i].VideoId','@Model.Participantregistration[i].EventId',this)">Vote</a>
+                        }
+                        else if (Model.voterslist.Where(m => m.PostId == Model.Participantregistration[i].VideoId).Select(m => m.VoteStatus).FirstOrDefault() == true)
+                        {
+                            var demo = Model.voterslist.Where(m => m.PostId == Model.Participantregistration[i].VideoId && m.VoteStatus == true);
+                            var demo1 = demo.Count();
+                            ViewBag.Count = demo1;
+                            <span id="falseVote_@Model.Participantregistration[i].VideoId">@ViewBag.Count </span>
+                                        <input type="hidden" id="hdvote" value="0" />
+                                        <a href="#" onclick="postVote('@Model.Participantregistration[i].VideoId','@Model.Participantregistration[i].EventId',this)">Vote</a>
+                        }
+                    }
+                </div>
+                <div class="col-sm-4">
+                    <span id="shareId_@Model.Participantregistration[i].VideoId">@ViewBag.ShareCount</span>
+                    <a href="#" onclick="postshare('@Model.Participantregistration[i].VideoId', '@Model.Participantregistration[i].OrganizerId')">Share</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    function GetVote(id, userid) {
+        debugger;
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetVotersList", "BasicFunctionality")",
+
+            contentType: "application/json; charset=utf-8",
+            data: { Id: id },
+            dataType: "json",
+            success: function (result) {
+                $('#trueVote_' + id).html('');
+                $('#trueVote_' + id).html(result.result1);
+                $('#falseVote_' + id).html('');
+                $('#falseVote_' + id).html(result.result1);
+
+
+                alert(result.result1);
+            },
+            error: function () { alert('A error'); }
+        });
+    }
+    function postVote(id, userId, ref) {
+        debugger;
+        var voteStatus = $('#hdvote').val();
+        var x = voteStatus == 1 ? false : true;
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("SaveVoters", "BasicFunctionality")",
+
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({
+                status: x,
+                id: id,
+                userid: userId
+            }),
+            dataType: "json",
+            success: function (result) {
+                debugger;
+                if (voteStatus == 1) { $('#hdvote').val(0) }
+                else { $('#hdvote').val(1) }
+                GetVote(id, userId);
+                alert('Success');
+
+
+            },
+            error: function () { alert('A error'); }
+        });
+    }
+
+</script>
+

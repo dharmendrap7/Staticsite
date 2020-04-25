@@ -1,0 +1,30 @@
+﻿@{
+
+//Layout = "~/Views/Shared/_NewLayoutForOrganizer.cshtml";
+}
+
+<li>
+    @{ 
+        var x = ViewBag.Subscribers as Conquerorhub.Models.SubscribersModel;
+
+    }
+    @if(x==null){
+     <a href="@Url.Action("SaveSubscribers","BasicFunctionality",new {status=true, UserId=ViewBag.UserId })"  type="button" class="likeright" style="margin-left:799px">Subscribe</a>
+    }
+    else {
+        var y = ViewBag.UserId;
+        if (x.SubscriptionStatus == null || x.SubscriptionStatus == false)
+        {           <span style="margin-left:799px">@ViewBag.SubscribersCount</span>
+                    <a href="#" onclick="postlike(true,'@y');GetLike('@y')" type="button" class="likeright">Subscribe</a>
+
+                    }
+                    else if (x.SubscriptionStatus == true)
+                    {
+            <span style="margin-left:799px">@ViewBag.SubscribersCount</span >
+        <a href = "#" onclick = "postlike(false,'@y');GetLike('@y')" type = "button" class="likeright">Subscribe</a>
+        }
+    }
+
+    
+
+</li>

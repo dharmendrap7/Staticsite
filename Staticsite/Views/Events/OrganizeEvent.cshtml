@@ -1,0 +1,553 @@
+﻿@using Conquerorhub.Models
+@model Conquerorhub.Models.EventRegistrationfromOrganizerModel
+
+
+
+@{
+    ViewBag.Title = "OrganizeEvent";
+    Layout = "~/Views/Shared/_winkuFormLayout.cshtml";
+
+}
+
+
+
+
+
+<div class="col-lg-9">
+    <div class="inbox-sec">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="inbox-navigation">
+                    <div class="inbox-panel-head">
+
+                        <h1><i>Organize Event</i></h1>
+                        <p>Here you can organize the Event which will be published to your subscribers.</p>
+
+
+                    </div><!-- Inbox Panel Head -->
+                    <div class="flaged d-flex flex-row mt-2">
+                        <ul class="nav nav-tabs nav-tabs--vertical nav-tabs--left">
+<li class="nav-item">
+    @if (ViewBag.Default == true)
+    {
+
+
+        <a href="#Event" class="nav-link active" data-toggle="tab" id="defaultOpen" onchange="activatetab()"><i class="fa fa-paper-plane-o"></i>About Event</a>
+                       
+    }
+    else
+    {
+    
+
+        <a href="#Event" class="nav-link  " data-toggle="tab"  ><i class="fa fa-paper-plane-o"></i>About Event</a>
+ 
+
+}
+    </li>
+                            <li class="nav-item">
+@if (ViewBag.AboutParticipantopen == true)
+{
+
+                                <a href="#Participants" class="nav-link active" data-toggle="tab" id="defaultOp" onfocus="activatetab()"> About Participants</a>
+}
+else
+{
+    <a href="#Participants" class="nav-link" data-toggle="tab" >About Participants</a>
+}
+                            </li>
+
+
+
+                            <li class="nav-item">
+@if (ViewBag.ImportantDateandtime == true)
+{
+                                <a href="#Dates" class="nav-link active" data-toggle="tab" id="defaultOpen" onchange="activatetab()">Importanat Dates</a>
+}
+
+else
+{
+    <a href="#Dates" class="nav-link" data-toggle="tab" >Importanat Dates</a>
+}
+
+                            </li>
+
+                            <li class="nav-item">
+@if (ViewBag.AwardReward == true)
+{
+                                <a href="#Awards" class="nav-link active" data-toggle="tab" id="defaultOpen" onchange="activatetab()">Awards & Rewards</a>
+}
+else
+{
+    <a href="#Awards" class="nav-link" data-toggle="tab" >Awards & Rewards</a>
+}
+                            </li>
+
+                            <li class="nav-item">
+                                @if (ViewBag.EventImageVideo == true)
+                                {
+                                <a href="#Images" class="nav-link active" data-toggle="tab" id="defaultOpen" onchange="activatetab()">Images/Videos</a>
+                                }
+                                else
+                                {
+                                    <a href="#Images" class="nav-link" data-toggle="tab" >Images/Videos</a>
+                                }
+                            </li>
+                           
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-8 col-sm-7">
+                <div class="central-meta" style="height:100%">
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="Event">
+                            <div class="editing-info">
+                                <h5 class="f-title"><i class="ti-info-alt"></i> Fill Info About Event</h5>
+                                <p>
+                                   Fill up the details about your event
+                                </p>
+@using (Html.BeginForm("OrganizeEvent", "Events", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+                                <form method="post">
+                                    <div class="form-group half">
+                                        @Html.TextBoxFor(m => m.aboutEvent.NameofOrganizer, new { id = "nameoforganization" })
+                                        <label class="control-label" for="input">Name of Organizer</label><i class="mtrl-select"></i>
+                                       
+                                        @Html.ValidationMessageFor(m => m.aboutEvent.NameofOrganizer, null, new { style = "color:red" })
+                                    </div>
+                                    <div class="form-group half">
+                                        @Html.TextBoxFor(m => m.aboutEvent.EventName, new { id = "nameoforganization" })
+                                        <label class="control-label" for="input">Event Name</label><i class="mtrl-select"></i>
+                                        
+                                        @Html.ValidationMessageFor(m => m.aboutEvent.EventName, null, new { style = "color:red" })
+                                    </div>
+                                    
+                                    <div class="form-group half">
+                                        @Html.DropDownList("aboutEvent.modeofevent", new SelectList(Enum.GetValues(typeof(ModeofEvent))), "Select", new { @class = "btn btn-white btn-round", style = "width:100% ;padding:12px" })
+                                        <label class="control-label" for="input">What is the mode of Event?</label><i class="mtrl-select"></i>
+                                         @Html.ValidationMessageFor(m => m.aboutEvent.modeofevent, null, new { style = "color:red" })
+                                    </div>
+
+                                    <div class="form-group half">
+                                        @Html.DropDownList("aboutEvent.TypeOfEvent", new SelectList(Enum.GetValues(typeof(TypeofEvent))), "Select", new { @class = "btn btn-white btn-round", style = "width:100% ;padding:12px", id = "eventType" })
+                                        <label class="control-label" for="input">Select type of event</label><i class="mtrl-select"></i>
+                                         @Html.ValidationMessageFor(m => m.aboutEvent.TypeOfEvent, null, new { style = "color:red" })
+                                    </div>
+                                    <div class="form-group half">
+                                        @Html.DropDownList("aboutEvent.SubTypeOfEvent", new SelectList(string.Empty, "Value", "Text"), "Select", new { @class = "btn btn-white btn-round", style = "width:100% ;padding:12px" })
+                                        @*@Html.DropDownListFor(m=>m.aboutEvent.SubTypeOfEvent, new SelectList(string.Empty, "Value", "Text"), "Select", new { @class = "btn btn-white btn-round", style = "width:100% ;padding:12px", id = "eventSubtype" })*@
+                                        <label class="control-label" for="input">What is sub type of event?</label><i class="mtrl-select"></i>
+                                         @Html.ValidationMessageFor(m => m.aboutEvent.SubTypeOfEvent, null, new { style = "color:red" })
+                                    </div>
+                                    <div class="form-group half">
+                                        @Html.TextBoxFor(m => m.aboutEvent.Eventfee, new { id = "nameoforganization" })
+                                        <label class="control-label" for="input">Entrance Fee</label><i class="mtrl-select"></i>
+                                        @Html.ValidationMessageFor(m => m.aboutEvent.Eventfee, null, new { style = "color:red" })
+                                    </div>
+                                    <div class="form-group half">
+                                        @Html.DropDownList("aboutEvent.ImageorVideo", new SelectList(Enum.GetValues(typeof(ExpectingVideoorImage))), "Select", new { @class = "btn btn-white btn-round", style = "width:100% ;padding:12px" })
+                                        <label class="control-label" for="input">Expecting Image or Video</label><i class="mtrl-select"></i>
+                                        @Html.ValidationMessageFor(m => m.aboutEvent.ImageorVideo, null, new { style = "color:red" })
+                                    </div>
+                                    <div class="submit-btns">
+                                        <button type="button" class="mtr-btn"><span>Cancel</span></button>
+                                        <button type="submit" class="mtr-btn"><span>Submit</span></button>
+                                    </div>
+                                </form>
+}
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="Participants" role="tabpanel">
+                            <div class="editing-info">
+                                <h5 class="f-title"><i class="ti-info-alt"></i> About Participants</h5>
+@using (Html.BeginForm("OrganizeEvent", "Events", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+                                <form method="post">
+                                    @Html.HiddenFor(m => m.aboutParticipants.EventId);
+                                    <div class="form-group half">
+                                        @Html.DropDownListFor(m => m.aboutParticipants.StreamOfParticipants, new SelectList(Enum.GetValues(typeof(streamofparticipants))), "Select", new { @class = "btn btn-white btn-round", style = "width:100% ;padding:12px" })
+                                        <label class="control-label" for="input">Participants Domain</label><i class="mtrl-select"></i>
+                                        <br />
+                                        @Html.ValidationMessageFor(m => m.aboutParticipants.StreamOfParticipants, null, new { style = "color:red" })
+                                    </div>
+                                    <div class="form-group half">
+                                        @Html.DropDownListFor(m => m.aboutParticipants.AgeGroup,new List<SelectListItem>
+                                   {
+                                   new SelectListItem { Text="<18",Value="1"} ,
+                                   new SelectListItem { Text = ">18 and <50", Value = "2" },
+                                   new SelectListItem { Text = ">50", Value = "3" },
+                                   new SelectListItem { Text = "No limits", Value = "4" }}, "Select", new { @class = "btn btn-white btn-round", style = "width:100% ;padding:12px" })
+                                        <label class="control-label" for="input">Participants age group</label><i class="mtrl-select"></i>
+                                          <br/>
+                                        @Html.ValidationMessageFor(m => m.aboutParticipants.AgeGroup, null, new { style = "color:red" })
+                                    </div>
+                                    <div class="form-group half">
+                                        @Html.DropDownList("aboutParticipants.MaxnumofTeam", new SelectList(Enum.GetValues(typeof(Numberofteam))), "Select", new { @class = "btn btn-white btn-round", style = "width:100% ;padding:12px" })
+                                        <label class="control-label" for="input">Maximun team limit</label><i class="mtrl-select"></i>
+                                         <br/>
+                                        @Html.ValidationMessageFor(m => m.aboutParticipants.MaxnumofTeam, null, new { style = "color:red" })
+                                    </div>
+                                    <div class="form-group half">
+                                        @Html.DropDownList("aboutParticipants.numofParticipantsinteam",new List<SelectListItem> {
+                                   new SelectListItem { Text="None",Value="0"},
+                                   new SelectListItem { Text="Solo",Value="1"},
+                                   new SelectListItem { Text="<5",Value="2"},
+                                   new SelectListItem { Text="No limits",Value="3"}}, "Select", new { @class = "btn btn-white btn-round", style = "width:100% ;padding:12px" })
+                                        <label class="control-label" for="input">Maximum participants in each team</label><i class="mtrl-select"></i>
+                                        <br />
+
+                                        @Html.ValidationMessageFor(m => m.aboutParticipants.numofParticipantsinteam, null, new { style = "color:red" })
+                                    </div>
+                                  
+                                    <div class="submit-btns">
+                                        <button type="button" class="mtr-btn"><span>Cancel</span></button>
+                                        <button type="submit" class="mtr-btn"><span>Submit</span></button>
+                                    </div>
+                                </form>
+}
+                            </div>
+                        </div>
+                        @if (Model != null)
+                        {
+                        if (Model.aboutEvent != null)
+                        {
+                            if ((int)Model.aboutEvent.modeofevent == 1 || (int)Model.aboutEvent.modeofevent == 3)
+                            {
+                        <div class="tab-pane fade" id="Dates" role="tabpanel">
+                            <div class="editing-info">
+                                <h5 class="f-title"><i class="ti-info-alt"></i>Event Importanat Dates</h5>
+@using (Html.BeginForm("OrganizeEvent", "Events", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.HiddenFor(m => m.importantDates.EventId);
+                                <form method="post">
+                                    <div class="form-group half">
+                                        @Html.TextBoxFor(m => m.importantDates.StartofEventRegistration, "{0:yyyy-MM-dd}", new { @type = "date" })
+                                        <label class="control-label" for="input">Participant Registration for event begins on</label><i class="mtrl-select"></i>
+                                        <br/>
+                                      
+                                        @Html.ValidationMessageFor(m => m.importantDates.StartofEventRegistration, null, new { style = "color:red" })
+                                    </div>
+                                    <div class="form-group half">
+                                        @Html.TextBoxFor(m => m.importantDates.EndOfEventRegistration, "{0:yyyy-MM-dd}", new { @type = "date" })
+                                        <label class="control-label" for="input">Participant Registration for event ends on</label><i class="mtrl-select"></i>
+                                        <br />
+                                        @Html.ValidationMessageFor(m => m.importantDates.EndOfEventRegistration, null, new { style = "color:red" })
+                                    </div>
+                                   
+
+                                    <div class="form-group half">
+                                        @Html.TextBoxFor(m => m.importantDates.StartofVideoUpload, "{0:yyyy-MM-dd}", new { @type = "date" })
+                                        <label class="control-label" for="input">Performance upload begins on</label><i class="mtrl-select"></i>
+                                        <br />
+                                        @Html.ValidationMessageFor(m => m.importantDates.StartofVideoUpload, null, new { style = "color:red" })
+                                    </div>
+                                    <div class="form-group half">
+                                        @Html.TextBoxFor(m => m.importantDates.EndOfVideoUpload, "{0:yyyy-MM-dd}", new { @type = "date" })
+                                        <label class="control-label" for="input">Performance upload ends on</label><i class="mtrl-select"></i>
+                                        <br />
+                                        @Html.ValidationMessageFor(m => m.importantDates.EndOfVideoUpload, null, new { style = "color:red" })
+                                    </div>
+                                    <div class="form-group half">
+                                        @Html.TextBoxFor(m => m.importantDates.StartOfValuationfromvoters, "{0:yyyy-MM-dd}", new { @type = "date" })
+                                        <label class="control-label" for="input">Evaluation from the viewers begins on</label><i class="mtrl-select"></i>
+                                        <br />
+                                        @Html.ValidationMessageFor(m => m.importantDates.StartOfValuationfromvoters, null, new { style = "color:red" })
+                                    </div>
+                                    <div class="form-group half">
+                                        @Html.TextBoxFor(m => m.importantDates.EndofValuationFromVoters, "{0:yyyy-MM-dd}", new { @type = "date" })
+                                        <label class="control-label" for="input">Evaluation from viewers ends on</label><i class="mtrl-select"></i>
+                                        <br />
+                                        @Html.ValidationMessageFor(m => m.importantDates.EndofValuationFromVoters, null, new { style = "color:red" })
+                                    </div>
+                                    <div class="form-group">
+                                       @Html.TextBoxFor(m => m.importantDates.ResultDate, "{0:yyyy-MM-dd}", new { @type = "date" })
+                                        <label class="control-label" for="input">Result of event is on</label><i class="mtrl-select"></i>
+                                        <br />
+                                        @Html.ValidationMessageFor(m => m.importantDates.EndofValuationFromVoters, null, new { style = "color:red" })
+                                    </div>
+                                    <div class="submit-btns">
+                                        <button type="button" class="mtr-btn"><span>Cancel</span></button>
+                                        <button type="submit" class="mtr-btn"><span>Submit</span></button>
+                                    </div>
+                                </form>
+}
+                            </div>
+                        </div>
+                            }
+                            else if ((int)Model.aboutEvent.modeofevent == 2)
+                            { <div class="tab-pane fade" id="Dates" role="tabpanel">
+                            <div class="editing-info">
+                                <h5 class="f-title"><i class="ti-info-alt"></i>Event Importanat Dates</h5>
+                                @using (Html.BeginForm("OrganizeEvent", "Events", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                {
+                                    @Html.HiddenFor(m => m.importantDates.EventId);
+                                    <form method="post">
+                                        <div class="form-group half">
+                                            @Html.TextBoxFor(m => m.importantDates.StartofEventRegistration, "{0:yyyy-MM-dd}", new { @type = "date" })
+                                            <label class="control-label" for="input">Participant Registration for event begins on</label><i class="mtrl-select"></i>
+                                            <br />
+
+                                            @Html.ValidationMessageFor(m => m.importantDates.StartofEventRegistration, null, new { style = "color:red" })
+                                        </div>
+                                        <div class="form-group half">
+                                            @Html.TextBoxFor(m => m.importantDates.EndOfEventRegistration, "{0:yyyy-MM-dd}", new { @type = "date" })
+                                            <label class="control-label" for="input">Participant Registration for event ends on</label><i class="mtrl-select"></i>
+                                            <br />
+                                            @Html.ValidationMessageFor(m => m.importantDates.EndOfEventRegistration, null, new { style = "color:red" })
+                                        </div>
+                                        <div class="form-group half">
+                                            @Html.TextBoxFor(m => m.importantDates.StartofVideoUpload, "{0:yyyy-MM-dd}", new { @type = "date" })
+                                            <label class="control-label" for="input">Event Starts On</label><i class="mtrl-select"></i>
+                                            <br />
+                                            @Html.ValidationMessageFor(m => m.importantDates.StartofVideoUpload, null, new { style = "color:red" })
+                                        </div>
+                                        <div class="form-group half">
+                                            @Html.TextBoxFor(m => m.importantDates.EndOfVideoUpload, "{0:yyyy-MM-dd}", new { @type = "date" })
+                                            <label class="control-label" for="input">Event Ends On</label><i class="mtrl-select"></i>
+                                            <br />
+                                            @Html.ValidationMessageFor(m => m.importantDates.EndOfVideoUpload, null, new { style = "color:red" })
+                                        </div>
+
+
+                                       
+                                       
+                                      
+                                        
+                                        <div class="submit-btns">
+                                            <button type="button" class="mtr-btn"><span>Cancel</span></button>
+                                            <button type="submit" class="mtr-btn"><span>Submit</span></button>
+                                        </div>
+                                    </form>
+                                }
+                            </div>
+                        </div>
+
+                            }
+                        }
+                        }
+                        <div class="tab-pane fade" id="Awards" role="tabpanel">
+                            <div class="editing-info">
+                                <h5 class="f-title"><i class="ti-info-alt"></i>Event Prize And Awards Details</h5>
+@using (Html.BeginForm("OrganizeEvent", "Events", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.HiddenFor(m => m.awardReward.EventId);
+                                <form method="post">
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.awardReward.FirstPrize, new {  id = "nameoforganization" })
+                                        <label class="control-label" for="input">First prize for winners</label><i class="mtrl-select"></i>
+                                        <br />
+                                        @Html.ValidationMessageFor(m => m.awardReward.FirstPrize, null, new { style = "color:red" })
+
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.awardReward.SecondPrize, new {id = "nameoforganization" })
+                                        <label class="control-label" for="input">Second prize for winners</label><i class="mtrl-select"></i>
+                                        <br />
+                                        @Html.ValidationMessageFor(m => m.awardReward.SecondPrize, null, new { style = "color:red" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.awardReward.ThirdPrize, new {id = "nameoforganization" })
+                                        <label class="control-label" for="input">Third prize for winners</label><i class="mtrl-select"></i>
+                                        <br />
+                                        @Html.ValidationMessageFor(m => m.awardReward.ThirdPrize, null, new { style = "color:red" })
+                                    </div>
+                                    <h6>Click<a href="#" class="underline"> here</a> to upload your event Sponsors </h6>
+
+                                    <div class="submit-btns">
+                                        <button type="button" class="mtr-btn text-center"><span>Cancel</span></button>
+                                        <button type="submit" class="mtr-btn"><span>Submit</span></button>
+                                    </div>
+                                </form>
+}
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="Images" role="tabpanel">
+                            <div class="editing-info">
+                                <h5 class="f-title"><i class="ti-info-alt"></i>Event Prize And Awards Details</h5>
+@using (Html.BeginForm("OrganizeEvent", "Events", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(m => m.Imagevideo.EventIdImageorVideo);
+
+                                <form method="post">
+                                    <div class="form-group" style="margin-left:150px">
+                                        <span>Image:</span>
+                                        <div class="edit-phto" style="margin-bottom: -104px;margin-left: -140px">
+                                            <i class="fa fa-camera-retro"></i>
+                                            <label class="fileContainer">
+                                                Click to chose file
+                                                @Html.TextBoxFor(m => m.Imagevideo.PostedImage,new { type = "file", id = " ImgUpload1", onchange = "ImgPre(this)" })
+                                                @Html.ValidationMessageFor(m => m.Imagevideo.PostedImage, "", new { @class = "text-danger" })
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        <img id="ImgPreview" height="100" width="100" hidden />
+                                    </p>
+                                    <div class="form-group" style="margin-left:150px">
+                                        <span>Video:</span>
+                                        <div class="edit-phto" style="margin-bottom: -104px;margin-left: -140px">
+                                            <i class="fa fa-camera-retro"></i>
+                                            <label class="fileContainer">
+                                             
+                                                Click to chose file
+                                                @Html.TextBoxFor(m => m.Imagevideo.PostedVideo, new { type = "file", name = "file[]", @class = "file_multi_video" })
+                                                @Html.ValidationMessageFor(m => m.Imagevideo.PostedVideo, "", new { @class = "text-danger" })
+                                               
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        <video width="150" height="150" controls hidden id="VidPreview">
+                                            <source src="" id="video_here">
+
+                                        </video>
+                                    </p>
+
+                                    <div class="submit-btns glyphicon-align-center">
+                                        <button type="button" class="mtr-btn"><span>Cancel</span></button>
+                                        <button type="submit" class="mtr-btn"><span>Submit</span></button>
+                                    </div>
+                                </form>
+}
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="Payment" role="tabpanel">
+                            <div class="editing-info">
+                                <h5 class="f-title"><i class="ti-info-alt"></i>Payment Page</h5>
+                                <form method="post">
+
+                                    <span>This Page is under-porocess...</span>
+                                    @*<div class="form-group">
+                                            <input type="date" id="input" required="required" />
+                                            <label class="control-label" for="input">First Prize</label><i class="mtrl-select"></i>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="date" id="input" required="required" />
+                                            <label class="control-label" for="input">Second Prize</label><i class="mtrl-select"></i>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="date" id="input" required="required" />
+                                            <label class="control-label" for="input">Third Prize</label><i class="mtrl-select"></i>
+                                        </div>
+                                        <h6>Click<a href="#" class="underline"> here</a> to upload your event Sponsors </h6>
+
+                                        <div class="submit-btns">
+                                            <button type="button" class="mtr-btn text-center"><span>Cancel</span></button>
+                                            <button type="button" class="mtr-btn"><span>Update</span></button>
+                                        </div>*@
+                                </form>
+}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        //alert("On change11");
+        $("#eventType").change(function () {
+            debugger;
+            // alert($("#eventType").val());
+            alert("On change");
+            $.ajax({
+               
+                type: "Get",
+                url: "@Url.Action("GetSubEvents", "Events")",
+
+                contentType: "application/json; charset=utf-8",
+                data:{ name: $("#eventType").val() },
+                dataType: "json",
+                success: function (data1) {
+                    debugger;
+
+                    $("#aboutEvent_SubTypeOfEvent").html('');  //aboutEvent.SubTypeOfEvent     eventSubtype
+                    //$("#eventSubtype").html('<option>Please Select</option>');
+                    $.each(data1, function (i, data) {
+                        debugger;
+
+                        $("#aboutEvent_SubTypeOfEvent").append($('<option></option>').val(data.Value).html(data.Text));
+                            //$("#eventSubtype").append('<option value="'
+                            //                           + data1.Value + '">'
+                            //                     + data1.Text + '</option>'); 
+                  
+                    });
+                    $("#aboutEvent_SubTypeOfEvent").removeAttr("style");
+
+                    $("#aboutEvent_SubTypeOfEvent").css({ "width": "100%", "padding": "12px" });
+                    $("#aboutEvent_SubTypeOfEvent_chosen").hide();
+
+                },
+                error: function (ex) {
+                    debugger;
+                    alert('Failed.' + ex);
+                }
+            })})})
+
+
+
+</script>
+
+    
+        @if (ViewBag.AboutParticipantopen == true)
+        {
+            <script>
+                $("#Event").removeClass("show active")
+                    $("#Participants").addClass("show active")
+                
+            </script>
+        }
+             
+
+
+            else if (ViewBag.ImportantDateandtime == true) {
+              <script>
+                  $("#Event").removeClass("show active")
+                  $("#Participants").removeClass("show active")
+                  $("#Dates").addClass("show active")
+                  </script>
+            }
+
+            else if (ViewBag.AwardReward == true) {
+            <script>
+                $("#Event").removeClass("show active")
+                $("#Dates").removeClass("show active")
+                $("#Awards").addClass("show active")
+                </script>
+            }
+            else if (ViewBag.EventImageVideo == true) {
+            <script>
+                $("#Event").removeClass("show active")
+                $("#Awards").removeClass("show active")
+                $("#Images").addClass("show active")
+                </script>
+            }
+       
+
+
+
+
+
+<script>
+    function ImgPre(input) {
+        $("#ImgPreview").removeAttr("hidden");
+        if (input.files[0]) {
+            var uploadimg = new FileReader();
+            uploadimg.onload = function (displayimg) {
+                $("#ImgPreview").attr('src', displayimg.target.result);
+            }
+            uploadimg.readAsDataURL(input.files[0]);
+        }
+    }
+    $(document).on("change", ".file_multi_video", function (evt) {
+        $("#VidPreview").removeAttr("hidden");
+        var $source = $('#video_here');
+        $source[0].src = URL.createObjectURL(this.files[0]);
+        $source.parent()[0].load();
+    });
+</script>

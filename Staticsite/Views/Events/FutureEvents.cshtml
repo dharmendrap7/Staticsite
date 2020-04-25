@@ -1,0 +1,129 @@
+﻿@model Conquerorhub.Models.EventRegistrationfromOrganizerModel
+@{
+    ViewBag.Title = "FutureEvents";
+    //Layout = "~/Views/Shared/_NewLayoutForOrganizer.cshtml";
+    Layout = "~/Views/Shared/_ThemeforestLayoutForOrganizer.cshtml";
+
+}
+@*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">*@
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>*@
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>*@
+
+
+   
+        <!-- main body -->
+        <!-- ################################################################################################ -->
+        <section class="section-artist-page-header">
+            <div class="container">
+                <h1 class="entry-title">Upcoming Events</h1>
+            </div>
+        </section>
+@if (Model.aboutEventlist.Where(a=>a.EventStatus==1).Count()== 0)
+{
+<div class="jumbotron">
+    <h1> There are no upcoming events</h1>
+</div>
+    }
+    else {
+        <section class="section-artist-content">
+            <div class="container">
+                <div class="row">
+                    <div id="primary" class="col-sm-12 col-md-12">
+@for (int i = 0; i < Model.aboutEventlist.Count(); i++)
+
+{
+    var x = Model.aboutEventlist.Count();
+    if (Model.aboutEventlist[i].EventStatus == 1)
+    {
+                        <div class="artist-event-item">
+                            <div class="row">
+                                <div class="artist-event-item-info col-sm-12">
+
+
+
+                                    <h3><label style="float:left;font-size:18px">Event Name:@Model.aboutEventlist[i].EventName</label></h3>
+                                    <ul class="row">
+                                        <li class="col-sm-6">
+                                            <label style="font-size:18px">Event Organizer:@Model.aboutEventlist[i].NameofOrganizer</label>
+                                            @*<span class="location">Pittsburgh, PA</span>*@
+                                        </li>
+
+                                        <li class="col-sm-6">
+                                            <b style="font-size:18px">  To know more about event </b>
+                                            <div class="artist-event-item-price col-sm-3">
+                                                <a href="@Url.Action("EventDetailsToParticipants", "Events", new { id = Model.aboutEventlist[i].EventId, Userid = ViewBag.UserId })">Click Here</a>
+
+                                            </div>
+
+                                        </li>
+                                       
+                                    </ul>
+
+                                    
+                                </div>
+                               
+                            </div>
+                        </div>
+    }
+}
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+        }
+
+                        @*<div class="group excerpts">
+                                <article class="one">
+
+                                    <div class="container">
+                                     @for (int i = 0; i < Model.aboutEventlist.Count(); i++)
+
+                                     {
+                                         var x = Model.aboutEventlist.Count();
+                                         if (Model.aboutEventlist[i].EventStatus==1) {
+                                        <div class="card">
+
+
+                                            <div class="card-header"><label style="float:left">Event Name:@Model.aboutEventlist[i].EventName</label><label style="float:right">Event Organizer:@Model.aboutEventlist[i].NameofOrganizer</label></div>
+
+
+
+                                            <div class="card-body"><label>Starting date of the event:@Model.importantDateslist[i].StartofEventRegistration</label></div>
+                                            <div class="card-footer">To know more click <a href="@Url.Action("EventDetailsToParticipants", "Events" ,new {id=Model.aboutEventlist[i].EventId })">here</a></div>
+
+
+
+                                        </div>
+                                         }
+                                         if ((Model.importantDateslist.Where(v => v.StartofEventRegistration > DateTime.UtcNow).Count() == 0))
+                                         {
+                                             if (i == (x - 1))
+                                             {
+                                                <div class="jumbotron">
+                                                    <h1>There are no upcoming events</h1>
+
+                                                    </div>
+                                                    }
+                                                    }
+                                                    <br />
+                                                    <br />
+                                                    }
+
+
+
+                                                </div>
+
+
+
+
+
+
+                                </article>
+                            </div>*@
+
+
+
+
+  

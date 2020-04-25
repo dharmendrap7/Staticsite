@@ -1,0 +1,119 @@
+﻿@model  Conquerorhub.Models.SubscribersViewmodel
+@{
+    ViewBag.Title = "Subscribers";
+    Layout = "~/Views/Shared/_winkuFormLayout.cshtml";
+}
+
+<div class="col-lg-6">
+    <div class="central-meta">
+        <div class="frnds">
+            <ul class="nav nav-tabs">
+                <li class="nav-item"><a class="active" href="#subscribers" data-toggle="tab">Subscribers</a> <span>@Model.Subcsriberslist.Where(model=>model.Subscribersname!=null).Select(model=>model.Subscribersname).Count()</span></li>
+                <li class="nav-item"><a class="" href="#subscribedto" data-toggle="tab">Subscribed to</a><span>@Model.Subcsriberslist.Where(model => model.Subscribedtoname != null).Select(model=>model.Subscribedtoname).Count()</span></li>
+               
+
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane active fade show " id="subscribers">
+                    <ul class="nearby-contct">
+                       
+                       @foreach(var item in Model.Subcsriberslist) {
+                           if (item.SubscriberUserId != null)
+                           {
+                        <li>
+                            <div class="nearly-pepls">
+                                <figure>
+                                    <a href="@Url.Action("ProfilePage","OrganizerBasicDetails",new {UserId=item.SubscriberUserId })" title=""><img src="@item.profilepic" alt=""></a>
+                                </figure>
+                                <div class="pepl-info">
+                                    <h4><a href="@Url.Action("ProfilePage","OrganizerBasicDetails",new {UserId=item.SubscriberUserId })" title="">@item.Subscribersname</a></h4>
+                                    @if (item.usertype == "1")
+                                    {
+                                    <span>Organizer</span>
+                                    }
+                                    @if (item.usertype == "2")
+                                    {
+                                        <span>Participant</span>
+                                    }
+                                @{
+                                    if (item.SubscriptionStatus == false)
+                                    {
+                                          <div class="add-btn">
+                                            
+                                            <a href="#" onclick="postSubscriber(true,'@ViewBag.UserId')" title="" data-ripple="">Subscribe</a>
+                                        </div>
+                                    }
+                                    else if (item.SubscriptionStatus == true)
+                                    {
+                                        <div class="add-btn">                                    
+
+
+                                            <a href="#" onclick="postSubscriber(false,'@ViewBag.UserId')" title="" data-ripple="">Unsubscribe</a>
+                                        </div>
+                                    }
+                                }
+
+                                </div>
+                            </div>
+                        </li>
+                                        }
+                                    }
+                    </ul>
+                    <div class="lodmore"><button class="btn-view btn-load-more"></button></div>
+                </div>
+                <div class="tab-pane fade" id="subscribedto">
+                    <ul class="nearby-contct">
+                   @foreach (var item in Model.Subcsriberslist)
+                   {
+                       if (item.ProfileUserId != null)
+                       {
+                    <li>
+                        <div class="nearly-pepls">
+                            <figure>
+                                <a href="@Url.Action("ProfilePage","OrganizerBasicDetails",new {UserId=item.ProfileUserId })" title=""><img src="@item.profilepicSubscribedto" alt=""></a>
+                            </figure>
+                            <div class="pepl-info">
+                                <h4><a href="@Url.Action("ProfilePage","OrganizerBasicDetails",new {UserId=item.ProfileUserId })" title="">@item.Subscribedtoname</a></h4>
+                                @if (item.usertype == "1")
+                                {
+                                    <span>Organizer</span>
+                                }
+                                @if (item.usertype == "2")
+                                {
+                                    <span>Participant</span>
+                                }
+                                @{
+                                    if (item.SubscriptionStatus == false)
+                                    {
+                                        <div class="add-btn">
+
+                                            <a href="#" onclick="postSubscriber(true,'@ViewBag.UserId')" title="" data-ripple="">Subscribe</a>
+                                        </div>
+                                    }
+                                    else if (item.SubscriptionStatus == true)
+                                    {
+                                        <div class="add-btn">
+
+
+                                            <a href="#" onclick="postSubscriber(false,'@ViewBag.UserId')" title="" data-ripple="">Unsubscribe</a>
+                                        </div>
+                                    }
+                                }
+
+                            </div>
+                        </div>
+                    </li>
+                                        }
+                                    }    
+                           
+
+                    </ul>
+                    <div class="lodmore"><button class="btn-view btn-load-more"></button></div>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+</div>
+

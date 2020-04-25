@@ -1,0 +1,107 @@
+﻿@model Conquerorhub.Models.ParticipantsDetailModel
+@{
+    ViewBag.Title = "PastEvents";
+    //Layout = "~/Views/Shared/_NewLayoutForOrganizer.cshtml";
+    Layout = "~/Views/Shared/_WinkuRegisteredParticipantLayout.cshtml";
+}
+@*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>*@
+<style>
+    .row1{
+    background-color:rgb(20,90,50);
+}
+</style>
+
+
+
+    <div class="container">
+        <div class="row">
+            <div id="primary" class="col-sm-12 col-md-12">
+               
+
+                @{ var data1 = new List<Conquerorhub.Models.ParticipationRegistrationModel>();
+                    var eventid = Model.aboutEventlist.Select(d => d).ToList();
+                    var x = Model.aboutEventlist.Count;
+                    foreach (var item in eventid)
+                    {           
+                           
+                                                      
+                                  
+                                    <div class="row col-sm-12">
+                                        @if (Model.Participantregistration.Count == 0)
+                                        {
+                                            <b class="jumbotron col-sm-12">NoParticipants</b>
+                                        }
+                                        else
+                                        {
+                                            for (int y = 0; y < Model.Participantregistration.Count; y++)
+
+                                            {
+                                                data1 = Model.Participantregistration.Where(e => e.EventId == item.EventId).Select(model => model).ToList();
+                                                if (data1.Count != 0)
+                                                {
+                                                    <div class="card col-sm-3 " style="padding:30px" height="30%">
+
+                                                        <div class="card-header">
+                                                            <h5>Name: @Model.Participantregistration[y].Name</h5>
+                                                            <h6>College/School: @Model.Participantregistration[y].CollegeorSchool</h6>
+                                                            <h6> Qualification: @Model.Participantregistration[y].Qualification</h6>
+
+                                                        </div>
+                                                        
+                                                        @if (Model.Participantregistration[y].Data != null)
+                                                        {
+
+                                                        <div class="card-body"><video id = "VideoPlayer" src='@Url.Action("DownloadFile", "Events", new { VideoID = Model.Participantregistration[y].VideoId, EventId = Model.Participantregistration[y].EventId })' controls="true" width="200" height="200" loop="true" /></div>
+                                                        }
+                                                       @if (Model.Participantregistration[y].Images != null)
+                                                        {
+                                                            <div class="card-body">
+                                                                <img class="img" src="@Model.Participantregistration.Where(model => model.VideoId == Model.Participantregistration[y].VideoId).FirstOrDefault().Images" style="width:100%;height:180px;" />
+                                                                </div>
+                                                        }
+                                                        
+                                                                <div class="card-footer">
+                                                                    @if (Model.voterslist != null)
+                                                                    {
+                                                                        if (Model.voterslist.Where(m => m.PostId == Model.Participantregistration[y].VideoId && m.userid == Model.Participantregistration[y].OrganizerId).Select(m => m.VoteStatus).FirstOrDefault() == false || Model.voterslist.Where(m => m.PostId == Model.Participantregistration[y].VideoId && m.userid == Model.Participantregistration[y].OrganizerId).Select(m => m.VoteStatus).FirstOrDefault() == null)
+                                                                        {
+                                                                            var demo = Model.voterslist.Where(m => m.PostId == Model.Participantregistration[y].VideoId && m.VoteStatus == true);
+                                                                            var demo1 = demo.Count();
+                                                                            ViewBag.Count = demo1;
+                                                                            <span> @ViewBag.Count </span>
+                                                                            <a href="#" class="add-butn" style="margin-top:360px;margin-right:150px"> Vote </a>
+                                                                        }
+                                                                     
+                                                                    }
+                                                                </div>
+                                                            </div>
+
+                                                        }
+
+                                            }
+
+                                        }
+
+                                    </div>
+
+                                    
+                            
+                                
+                           
+                
+
+
+
+                            }
+                        }
+
+
+                    
+</div>
+
+           
+        </div>
+    </div>

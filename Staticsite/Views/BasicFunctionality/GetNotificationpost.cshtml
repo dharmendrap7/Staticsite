@@ -1,0 +1,232 @@
+﻿@model Conquerorhub.Models.NotificationPostModel
+@{
+    ViewBag.Title = "GetNotificationpost";
+    Layout = "~/Views/Shared/_WinkuInnerPageLayout.cshtml";
+}
+
+@*@if (Model != null)
+{
+
+    <div class="card col-sm-6" style="margin:40px auto;">
+        <div class="card-header close" >X</div>
+
+
+            <div class="card-body">
+                <img src=@ViewBag.Image
+                      />
+
+            </div>
+            <div class="card-footer">
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <span>@ViewBag.Count</span>
+                            <img src="~/Content/Images/LikeButton.png" />
+                        </div>
+
+                    </div>
+                    <div class="col-sm-6">
+                        <span>@ViewBag.ShareCount</span>
+                        <a href="#" onclick="postshare('@ViewBag.Imageid','@ViewBag.UserId' )">Share</a>
+                    </div>
+
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+}
+else if (ViewBag.Videodata != null || ViewBag.ParticipantVideo != null)
+{
+
+    <div class="card">
+        <div class="card-header close">X </div>
+            <div class="card-body">
+                <video id="VideoPlayer" src='@Url.Action("DownloadFile1", "BasicFunctionality", new { VideoID = ViewBag.Videodata == null ? ViewBag.ParticipantVideo : ViewBag.Videodata })' controls="true" width="300" height="200" loop="true" />
+
+                <hr />
+            </div>
+            <div class="card-footer">
+
+
+
+                <div class="row col-sm-12">
+                    <div class="col-sm-4">
+                        <div class="row">
+
+                            <span>@ViewBag.Count</span>
+                            <img src="~/Content/Images/LikeButton.png" />
+
+                        </div>
+
+                    </div>
+                    <div class="col-sm-4">
+                        <span>@ViewBag.ShareCount</span>
+                        <a href="#" onclick="postshare('@ViewBag.Imageid','@ViewBag.UserId' )">Share</a>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+
+
+}
+else if (ViewBag.GalleryImage != null || ViewBag.ParticipantsImage != null)
+{
+    <div class="card" style="margin:20px auto;">
+        <div class="card-header close">X</div>
+        <div class="card-body">
+            <img src=@{var data = ViewBag.GalleryImage == null ? ViewBag.ParticipantsImage : ViewBag.GalleryImage;}
+                  />
+
+        </div>
+        <div class="card-footer">
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="row">
+                        <span>@ViewBag.Count</span>
+                        <img src="~/Content/Images/LikeButton.png" />
+                    </div>
+
+                </div>
+                <div class="col-sm-3">
+                    <span>@ViewBag.ShareCount</span>
+                    <a href="#" onclick="postshare('@ViewBag.Imageid','@ViewBag.UserId' )">Share</a>
+                </div>
+
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+                }
+                else if (ViewBag.ParticipantVideo != null || ViewBag.ParticipantsImage != null)
+                {
+        <div class="card">
+            <div class="card-header close"> X</div>
+            @if (ViewBag.ParticipantVideo != null)
+                        {
+
+
+                        <div class="card-body">
+                            <video id="VideoPlayer" src='@Url.Action("DownloadFile1", "BasicFunctionality", new { VideoID = ViewBag.Videodata == null ? ViewBag.ParticipantVideo : ViewBag.Videodata })' controls="true" width="300" height="200" loop="true" />
+
+                            <hr />
+                        </div>
+
+            }
+            else if (ViewBag.ParticipantsImage != null)
+            {
+
+
+                        <div class="card-body">
+                            <img src=@ViewBag.Image
+                                 style="width:50%;height:180px;" />
+
+                        </div>
+
+            }
+
+            <div class="card-footer">
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="row">
+                            <span>@ViewBag.Count</span>
+                            <img src="~/Content/Images/LikeButton.png" />
+                        </div>
+
+                    </div>
+                    <div class="col-sm-3">
+                        <span>@ViewBag.ShareCount</span>
+                        <a href="#" onclick="postshare('@ViewBag.Imageid','@ViewBag.UserId' )">Share</a>
+                    </div>
+
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+                }
+                }*@
+
+
+@if (Model != null)
+    {
+
+        <div class="card col-sm-6" style="margin:40px auto;">
+           
+            <div class="friend-info" id="postid_@Model.PostId">
+                @if (Model.Image != null)
+                {
+                    <div class="card-body">
+                        <img src='@Model.Image' />
+
+                    </div>
+                }
+                @if (Model.Video != null)
+                {
+                    <div class="card-body">
+                        <video id="VideoPlayer" src='@Url.Action("DownloadFile", "Participants", new { VideoID = Model.PostId })' controls="true" loop="true" />
+                    </div>
+
+                }
+                <div class="card-footer">
+
+                    <div class="we-video-info">
+                        <ul>
+                            <li>
+                                <input type="text" value="0" id="PostId" hidden />  <!-- Ch2-->
+                                <input type="text" id="pcid" hidden />  <!-- Ch3-->
+                                <input type="text" value="0" id="IsReplay" hidden />  <!-- Ch4-->
+                                <span class="comment" data-toggle="tooltip" title="Comments" id="@Model.PostId">
+                                    <!-- Ch5-->
+                                    <i class="fa fa-comments-o"></i>
+                                    <ins>@ViewBag.commentCount</ins>
+                                </span>
+                            </li>
+                            <li>
+                                <span class="like" data-toggle="tooltip" title="like">
+                                    <i class="ti-heart" onclick="postlike(true,'@Model.PostId','@Model.sourceID',this)"></i>
+
+                                    <ins id="Like_@Model.PostId">@ViewBag.LikeCount</ins>
+                                </span>
+                            </li>
+                            <li>
+                                <span class="dislike" data-toggle="tooltip" title="dislike">
+                                    <i class="ti-heart-broken" onclick="postlike(false,'@Model.PostId','@Model.sourceID',this)"></i>
+
+                                    <ins id="DisLike_@Model.PostId">@ViewBag.DislikeCount</ins>
+                                </span>
+                            </li>
+                            <li>
+                                <span data-toggle="tooltip" title="Share">
+
+                                    <ins id="shareId_@Model.PostId">@ViewBag.ShareCount</ins>
+                                    <i class="fa fa-share-alt" onclick="postshare('@Model.PostId','@Model.sourceID' )"></i>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+
+
+
+
+
+                </div>
+</div>
+            </div>
+           }

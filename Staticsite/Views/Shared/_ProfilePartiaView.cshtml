@@ -1,0 +1,346 @@
+﻿
+
+<style>
+    .dropbtn {
+       
+        color: #8c8b8b;
+        padding: 16px;
+        font-size: 14px;
+        border: none;
+        background-color:transparent;
+        font-weight:400
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+         background-color: #f1f1f1;
+        min-width: 160px;
+         box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+ 
+        
+        z-index: 1;
+    }
+
+        .dropdown-content a {
+            color: black;
+            
+            text-decoration: none;
+            display: block;
+        }
+
+            .dropdown-content a:hover {
+                background-color: #ddd;
+            }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    
+    
+</style>
+
+
+<section>
+    <form action="~/BasicFunctionality/MainPhotosofProfile" enctype="multipart/form-data" method="post">
+        <div class="feature-photo">
+            @if (ViewBag.bannerpic1 == null)
+            {
+                <figure>
+                    <img src="~/Content/WinkuTemplate/images/resources/timeline-1.jpg" />
+                </figure>
+            }
+            else
+            {
+                <figure><img src=@ViewBag.bannerpic1 /></figure>
+            }
+           @{ 
+
+               var x = Session["SubcriberList"] as List<Conquerorhub.Models.SubscribersModel>;
+
+               if (x.Select(a => a.SubscriptionStatus).FirstOrDefault() == false || x.Select(a => a.SubscriptionStatus).FirstOrDefault() == null)
+               {
+                    <div class="add-btn">
+                        <span id="true_@ViewBag.UserId">  @ViewBag.SubcriberCount Subscribers</span>
+
+@if (ViewBag.UserId != null)
+{
+                        <a href="#" onclick="postSubscriber(true,'@ViewBag.UserId',this)" title="" data-ripple="">Subscribe</a>
+}
+                    </div>
+               }
+               else if (x.Select(a => a.SubscriptionStatus).FirstOrDefault() == true)
+               {
+                    <div class="add-btn">
+                        <span id="false_@ViewBag.UserId">  @ViewBag.SubcriberCount Subscribers</span>
+
+@if (ViewBag.UserId != null)
+{
+                        <a href="#" onclick="postSubscriber(false,'@ViewBag.UserId',this)" title="" data-ripple="">Unsubscribe</a>
+}
+                    </div>
+                   }
+               }
+                
+            @if (ViewBag.UserId == null)
+            {
+                <div class="edit-phto">
+                    <i class="fa fa-camera-retro"></i>
+                    <label class="fileContainer" onclick="highlightbtn()">
+                        Edit Cover Photo
+                        <input type="file" name="bannerPic" id="banner" onchange="readURL(this);" />
+                    </label>
+                </div>
+            }
+
+            <div class="container-fluid">
+                <div class="row merged">
+                    <div class="col-lg-2 col-sm-3">
+                        <div class="user-avatar">
+                            @if (ViewBag.profilepic == null)
+                            {<figure>
+
+                                    <img src="~/Content/WinkuTemplate/images/resources/user-avatar.jpg" />
+                                    @if (ViewBag.UserId == null)
+                                    {
+                                        <div class="edit-phto">
+                                            <i class="fa fa-camera-retro"></i>
+                                            <label class="fileContainer" onclick="highlightbtn()">
+                                                Edit Display Photo
+                                                <input type="file" name="profilePic" />
+                                            </label>
+                                        </div>
+                                    }
+                                </figure>
+                            }
+                            else
+                            {
+                                <figure>
+                                    <img src=@ViewBag.profilepic />
+
+                                    @if (ViewBag.UserId == null)
+                                    {
+                                        <div class="edit-phto">
+                                            <i class="fa fa-camera-retro"></i>
+                                            <label class="fileContainer" onclick="highlightbtn()">
+                                                Edit Display Photo
+                                                <input type="file" name="profilePic" />
+                                            </label>
+                                        </div>
+                                    }
+                                </figure>
+                            }
+
+                        </div>
+                    </div>
+                    @if (ViewBag.UserType == 1)
+                    {
+                        <div class="col-lg-10 col-sm-9">
+                            <div class="timeline-info">
+                                <ul>
+                                    <li class="admin-name">
+                                        <h5>  @ViewBag.UserName</h5>
+                                        <span>Organizer</span>
+                                    </li>
+                                    <li>
+                                        <a class="" href="@Url.Action("ProfilePage", "OrganizerBasicDetails", new { UserId = ViewBag.UserId })" title="" data-ripple="">Time line</a>
+                                        <a class="" href="@Url.Action("About", "OrganizerBasicDetails", new { userid = ViewBag.UserId })" title="" data-ripple="">About</a>
+                                        <a class="" href="@Url.Action("EventsPage", "Events", new { Userid = ViewBag.UserId })" title="" data-ripple="">Events</a>
+                                        <a class="" href="@Url.Action("Sponsor", "OrganizerBasicDetails", new { userid = ViewBag.UserId })" title="" data-ripple="">Sponsor</a>
+                                        <a class="" href="@Url.Action("HallofFame", "Events", new { Userid = ViewBag.UserId })" title="" data-ripple="">Hall of Fame</a>
+                                        <a class="" href="@Url.Action("Subscribers", "OrganizerBasicDetails", new { UserId = ViewBag.UserId })" title="" data-ripple="">Subscribers</a>
+                                        @if (ViewBag.UserId != null)
+                                        {
+                                        <div class="dropdown">
+
+                                            <button class="dropbtn">More</button>
+                                            <div class="dropdown-content">
+                                                @if ((bool)System.Web.HttpContext.Current.Session["BlockStatus"] == false)
+                                                {
+                                                    <a href="#ex2" rel="modal:open" id="blockid">Block</a>
+                                                }
+                                                @if ((bool)System.Web.HttpContext.Current.Session["BlockStatus"] == true)
+                                                {
+                                                    <a href="#ex3" rel="modal:open" id="blockid">UnBlock</a>
+                                                }
+                                                <a href="#">Report</a>
+
+                                            </div>
+                                        </div>
+                                        }
+
+                                            <button hidden class="btnshow" type="submit">Submit</button>
+</li>
+                                </ul>
+                            </div>
+                        </div>
+                    }
+                    else if (ViewBag.UserType == 2)
+                    {
+                        <div class="col-lg-10 col-sm-9">
+                            <div class="timeline-info">
+                                <ul>
+                                    <li class="admin-name">
+                                        <h5>  @ViewBag.UserName</h5>
+                                        <span>Participant</span>
+                                    </li>
+                                    <li>
+                                        <a class="" href="@Url.Action("ProfilePage", "Participants", new { UserId = ViewBag.UserId })" title="" data-ripple="">Time line</a>
+                                        <a class="" href="@Url.Action("About", "Participants", new { userid = ViewBag.UserId })" title="" data-ripple="">About</a>
+                                        <a class="" href="@Url.Action("ParticipantPhotoGallery", "Participants",new { userid=ViewBag.UserId})" title="" data-ripple="">Photo Gallery</a>
+                                        <a class="" href="@Url.Action("ParticipantVideoGallery", "Participants", new { Userid = ViewBag.UserId })" title="" data-ripple="">Video Gallery</a>
+                                        <a class="" href="@Url.Action("Subscribers", "OrganizerBasicDetails", new { UserId = ViewBag.UserId })" title="" data-ripple="">Subscribers</a>
+                                        @if (ViewBag.UserId != null)
+                                        {
+                                            <div class="dropdown">
+
+                                                <button class="dropbtn">More</button>
+                                                <div class="dropdown-content">
+                                                    @if ((bool)System.Web.HttpContext.Current.Session["BlockStatus"] == false)
+                                                    {
+                                                        <a href="#ex2" rel="modal:open" id="blockid">Block</a>
+                                                    }
+                                                    @if ((bool)System.Web.HttpContext.Current.Session["BlockStatus"] == true)
+                                                    {
+                                                        <a href="#ex3" rel="modal:open" id="blockid">UnBlock</a>
+                                                    }
+                                                    <a href="#">Report</a>
+
+                                                </div>
+                                            </div>
+                                        }
+                                        <button hidden disabled id="submitbtn" class="btnshow" type="submit">Submit</button>
+
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+<div id="ex2" class="modal">
+    <p>Do you want to block this account??</p>
+    <div class="row">
+        <a href="#" onclick="postBlock(true,'@ViewBag.UserId')" class="btn btn-default">Yes</a>
+
+
+        <a href="#" rel="modal:close" class="btn btn-default">Close</a>
+
+    </div>
+</div>
+
+<div id="ex3" class="modal">
+    <p>Do you want to unblock this account??</p>
+    <div class="row">
+        <a href="#" onclick="postBlock(false,'@ViewBag.UserId')" class="btn btn-default">Yes</a>
+
+
+        <a href="#" rel="modal:close" class="btn btn-default">Close</a>
+
+    </div>
+</div>
+<script>
+function postBlock(x,id) {
+        debugger;
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("PostBlockAccount", "BasicFunctionality")",
+
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({
+            status: x,
+            blockedUser: id
+            }),
+            dataType: "json",
+            success: function (result) {
+              
+            },
+            error: function () {
+                alert("Success");
+                GetBlockUser(id);
+
+            }
+            });
+
+
+}
+
+    function GetBlockUser(id) {
+        debugger;
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetBlockUser", "BasicFunctionality")",
+
+            contentType: "application/json; charset=utf-8",
+        data:{ Id: id },
+        dataType: "json",
+        success: function (result) {
+            if (result == true) {
+
+              alert("User is blocked")
+            }
+            else if (result == false || result == null) {
+                alert("User unblocked")
+            }
+
+        },
+        error: function () { alert('A error'); }
+    });
+    }
+</script>
+<script>
+        function readURL(input) {
+            if (!window.File || !window.FileReader) {
+                alert("Please upgrade your browser");
+                return;
+            }
+
+            if (input.files && input.files[0]) {
+                $("#submitbtn").removeAttr("disabled");
+
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var img = new Image;
+                    img.onload = function () {
+                        if (img.width < 300 || img.width > 1000) {
+                            alert("Image width should be between 300px and 1000px; please resize the image and try again");
+                            $("#submitbtn").attr("disabled", "disabled");
+                        }
+                        else if (img.height < 200 || img.height > 300) {
+                            alert("Image width should be between 300px and 1000px; please resize the image and try again");
+                            $("#submitbtn").attr("disabled", "disabled");
+                        }
+                    };
+                
+                    img.src = reader.result;
+                };
+
+                // this goes off the MIME type but you can stick to the extensions if you want as that
+                // code already works for you
+                var imageType = /image.*/;
+
+                if (!input.files[0].type.match(imageType)) {
+                    alert("Only images can be uploaded");
+                    $("#submitbtn").attr("disabled", "disabled");
+                }
+                //else if (input.files[0].size > 1000000) {
+                //    alert("Only files less than 1MB can be uploaded");
+                //    $("#submitbtn").attr("disabled", "disabled");
+                //}
+                else {
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        }
+</script>

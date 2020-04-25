@@ -1,0 +1,254 @@
+﻿@model Conquerorhub.Models.GalleryViewModel
+@{
+    ViewBag.Title = "ParticipantPhotoGallery";
+
+    Layout = "~/Views/Shared/_winkuFormLayout.cshtml";
+}
+<style>
+    .show-read-more .more-text {
+        display: none;
+    }
+</style>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+
+<div class="col-lg-6">
+    <div class="central-meta">
+        <div class="new-postbox">
+            <figure>
+                <img src="~/Content/assets/images/resources/admin2.jpg" alt="">
+            </figure>
+            <div class="newpst-input">
+                @if (ViewBag.UserId == null)
+                {
+
+
+                    using (Html.BeginForm("ParticipantPhotoGallery", "Participants", FormMethod.Post, new { enctype = "multipart/form-data", Id = "frmAddImage" }))
+                    {
+                        @Html.HiddenFor(m => m.GalleryData.Id)
+                        <form method="post">
+                            @Html.TextAreaFor(m => m.GalleryData.Caption, new { rows = "2", placeholder = "Write Caption" })
+
+                            <div class="attachments">
+                                <ul>
+
+                                    <li>
+                                        <i class="fa fa-image"></i>
+                                        <label class="fileContainer">
+                                            @Html.TextBoxFor(m => m.GalleryData.UploadedPost, new { type = "file", id = " ImgUpload", onchange = "readURLGallery(this); ImgPre(this)" })
+
+                                        </label>
+                                    </li>
+                                    
+
+                                    <li>
+                                        <button type="submit"  id="submitbtn">Upload</button>
+                                    </li>
+                                </ul>
+                                <div class="row">
+                                    <p>
+                                        <img id="ImgPreview" height="100" width="100" hidden />
+                                    </p>
+
+                                </div>
+                            </div>
+                        </form>
+                    }
+                }
+            </div>
+        </div>
+    </div><!-- add post new box -->
+
+    
+    @if (Model.GalleryList.Count != 0)
+    {
+        var n = 0;
+        bool x = true;
+        Guid? id = Guid.Empty;
+
+        <div class="central-meta item">
+            <ul class="photos">
+                @foreach (var item in Model.GalleryList)
+                {
+                    if (item.Images != null)
+                    {
+                        n++;
+                    <li>
+@if (ViewBag.UserId == null)
+{
+                        <div class="close" onclick='Deleteparticipantsgallerypost("@item.PostId","@item.UserId")'>x</div>
+}
+                        <div class="friend-info" id="postid_@item.PostId">
+                            <a class="strip" href="@item.Images.FirstOrDefault()" title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
+                                <img class="img" src="@item.Images.FirstOrDefault()">
+                            </a>
+                            <div class="we-video-info">
+                                <ul>
+
+                                    <li>
+                                        <input type="hidden" id="detinationId" value="@item.UserId" />
+                                        <input type="text" value="0" id="PostId" hidden />  <!-- Ch2-->
+                                        <input type="text" id="pcid" hidden />  <!-- Ch3-->
+                                        <input type="text" value="0" id="IsReplay" hidden />  <!-- Ch4-->
+                                        <span class="comment" data-toggle="tooltip" title="Comments" id="@item.PostId">
+                                            <!-- Ch5-->
+                                            <i class="fa fa-comments-o"></i>
+                                            @{
+                                                var count = Model.commentData.Where(model => model.DestinationUserId == item.UserId && model.PostId == item.PostId).ToList().Count() != 0 ? Model.commentData.Where(model => model.DestinationUserId == item.UserId && model.PostId == item.PostId).ToList().Count() : 0;
+                                                ViewBag.commentCount = count;
+                                            }
+                                            <ins>@ViewBag.commentCount</ins>
+                                        </span>
+                                    </li>
+                                    <li>
+
+                                        <span class="like" data-toggle="tooltip" title="like">
+
+                                            <i class="ti-heart" onclick="postlike(true,'@item.PostId','@item.UserId',this)"></i>
+                                            @{var abc = Model.likesdata.Select(model => model.Imageid == item.PostId && model.DestinationUserId == item.UserId).ToList().Count() != 0 ? Model.likesdata.Where(model => model.Imageid == item.PostId && model.DestinationUserId == item.UserId && model.LikeStatus == true).Select(model => model.LikeStatus == true).Count() : 0;
+                                                ViewBag.Count = abc;
+                                            }
+                                            <ins id="Like_@item.PostId">@ViewBag.Count</ins>
+                                        </span>
+
+                                    </li>
+                                    <li>
+
+                                        <span class="dislike" data-toggle="tooltip" title="dislike">
+                                            <i class="ti-heart-broken" onclick="postlike(true,'@item.PostId','@item.UserId',this)"></i>
+                                            @{var abc1 = Model.likesdata.Select(model => model.Imageid == item.PostId && model.DestinationUserId == item.UserId).ToList().Count() != 0 ? Model.likesdata.Where(model => model.Imageid == item.PostId && model.DestinationUserId == item.UserId && model.LikeStatus == false).Select(model => model.LikeStatus == false).Count() : 0;
+                                                ViewBag.Count1 = abc1;
+                                            }
+                                            <ins id="DisLike_@item.PostId">@ViewBag.Count1</ins>
+                                        </span>
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <div class="description">
+
+                                <p class="show-read-more">@item.Caption</p>
+                            </div>
+                            </div>
+
+</li>
+
+                    }
+                }
+            </ul>
+            <div class="lodmore"><button class="btn-view btn-load-more"></button></div>
+        </div><!-- photos -->
+    }
+</div><!-- centerl meta -->
+<script>
+$(document).ready(function(){
+    debugger;
+    var maxLength = 20;
+    $(".show-read-more").each(function(){
+        var myStr = $(this).text();
+        if($.trim(myStr).length > maxLength){
+            var newStr = myStr.substring(0, maxLength);
+            var removedStr = myStr.substring(maxLength, $.trim(myStr).length);
+            $(this).empty().html(newStr);
+            $(this).append(' <a href="javascript:void(0);" class="read-more">read more...</a>');
+            $(this).append('<span class="more-text">' + removedStr + '</span>');
+        }
+    });
+    $(".read-more").click(function(){
+        $(this).siblings(".more-text").contents().unwrap();
+        $(this).remove();
+    });
+});
+</script>
+
+<script>
+        function Deleteparticipantsgallerypost(id,userid) {
+            debugger;
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeletePaticipantsGalleryPost", "BasicFunctionality")",
+
+                contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({
+                Postid: id,
+                Userid:userid
+            }),
+            dataType: "json",
+            success: function (result) {
+                if (result != null) {
+                    alert("Image deleted successfully")
+                }
+                else {
+                    alert("Image not deleted sucessfully")
+                };
+
+
+
+
+            },
+            error: function () { alert('A error'); }
+        });
+        }
+</script>
+
+<script>
+    function ImgPre(input) {
+        $("#ImgPreview").removeAttr("hidden");
+        if (input.files[0]) {
+            var uploadimg = new FileReader();
+            uploadimg.onload = function (displayimg) {
+                $("#ImgPreview").attr('src', displayimg.target.result);
+            }
+            uploadimg.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+
+
+
+<script>
+    function readURLGallery(input) {
+        debugger;
+            if (!window.File || !window.FileReader) {
+                alert("Please upgrade your browser");
+                return;
+            }
+
+            if (input.files && input.files[0]) {
+                $("#submitbtn").removeAttr("disabled");
+
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var img = new Image;
+                    img.onload = function () {
+                        if (img.width < 300 || img.width > 300) {
+                            alert("Image width should be between 300px and 300px; please resize the image and try again");
+                            $("#submitbtn").attr("disabled", "disabled");
+                        }
+                        else if (img.height < 200 || img.height > 300) {
+                            alert("Image width should be between 300px and 300px; please resize the image and try again");
+                            $("#submitbtn").attr("disabled", "disabled");
+                        }
+                    };
+
+                    img.src = reader.result;
+                };
+
+                // this goes off the MIME type but you can stick to the extensions if you want as that
+                // code already works for you
+                var imageType = /image.*/;
+
+                if (!input.files[0].type.match(imageType)) {
+                    alert("Only images can be uploaded");
+                    $("#submitbtn").attr("disabled", "disabled");
+                }
+                //else if (input.files[0].size > 1000000) {
+                //    alert("Only files less than 1MB can be uploaded");
+                //    $("#submitbtn").attr("disabled", "disabled");
+                //}
+                else {
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        }
+</script>

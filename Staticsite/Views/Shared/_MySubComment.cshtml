@@ -1,0 +1,28 @@
+﻿
+@model List<Conquerorhub.Models.SubCommentModel>
+
+
+
+<ul class="subul">
+    @if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            <li>
+                <div class="comet-avatar">
+                    <img src="~/Content/assets/images/resources/comet-2.jpg" alt="">
+                </div>
+                <div class="we-comment">
+                    <div class="coment-head">
+                        <h5><a href="time-line.html" title="">@item.AspNetUser.UserName</a></h5>
+                        <span>1 month ago @item.SubCommentDatetime</span>
+                        <a class="we-reply" id="@item.CommentId" onclick="ReplyTo(this);" href="javascript:void(0);" title="Reply"><i class="fa fa-reply"></i></a>
+                        <a class="we-reply" title="show Reply" id="@item.CommentId" onclick="ShowReply(this);" href="javascript:void(0);"><i class="fa fa-arrow-circle-down"></i></a>
+                    </div>
+                    <p>@item.SubCommentmsg</p>
+                </div>
+            </li>
+        }
+    }
+
+</ul>

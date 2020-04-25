@@ -1,0 +1,759 @@
+﻿@model Conquerorhub.Models.HomePageViewModel
+@{
+    ViewBag.Title = "ParicipantProfile";
+    Layout = "~/Views/Shared/_winkuFormLayout.cshtml";
+}
+@using Microsoft.AspNet.Identity;
+@using Conquerorhub.SDK.Services
+@{
+    var obj = new ApplicationMandatoryService();
+    if (ViewBag.UserId != null)
+    {
+        Guid? abc = ViewBag.UserId;
+
+        ViewBag.UserName = obj.Getuserlist("adsfff").Entity.FirstOrDefault(a => a.Id == abc.ToString()).UserName;
+        ViewBag.UserType = obj.Getuserlist("adsfff").Entity.FirstOrDefault(a => a.Id == abc.ToString()).Usertype;
+    }
+    else
+    {
+        var id = User.Identity.GetUserId();
+        ViewBag.UserName = obj.Getuserlist("adsfff").Entity.FirstOrDefault(a => a.Id == id).UserName;
+        ViewBag.UserType = obj.Getuserlist("adsfff").Entity.FirstOrDefault(a => a.Id == id).Usertype;
+    }
+
+}
+
+
+<div class="btn-load-more col-lg-6">
+    @if (Model.Sharedata.Count != 0)
+    {
+        if (Model.sponsorMultipleData.Count != 0)
+        {
+            foreach (var item in Model.sponsorMultipleData)
+            {
+
+
+                <div class="central-meta item">
+                    @if (ViewBag.UserId == null)
+                    {
+                        <div class="close" onclick='Deletesharepost("@item.ImageId","@item.UserId")'>x</div>
+                    }
+                    <div class="user-post">
+                        <div class="friend-info" id="postid_@item.Id">
+                            <!-- Ch1-->
+                            <figure>
+                                <a href="@Url.Action("ProfilePage", "OrganizerBasicDetails", new { UserId = item.UserId })" title="">  <img src=@item.profilepic alt=""></a>
+                            </figure>
+                            <div class="friend-name">
+                                <ins><a href="@Url.Action("ProfilePage", "OrganizerBasicDetails", new { UserId = item.UserId })" title="">@item.UserName</a></ins>
+                                <span>published: @item.DateandTime </span>
+                            </div>
+                            <div class="post-meta">
+                                <img src="@item.Image1" alt="" />
+
+                                <div class="we-video-info">
+                                    <ul>
+
+                                        <li>
+                                            <input type="hidden" id="detinationId" value="@item.UserId" />
+                                            <input type="text" value="0" id="PostId" hidden />  <!-- Ch2-->
+                                            <input type="text" id="pcid" hidden />  <!-- Ch3-->
+                                            <input type="text" value="0" id="IsReplay" hidden />  <!-- Ch4-->
+                                            <span class="comment" data-toggle="tooltip" title="Comments" id="@item.Id">
+                                                <!-- Ch5-->
+                                                <i class="fa fa-comments-o"></i>
+                                                @{
+                                                    if (Model.sponsorSingleData != null)
+                                                    {
+                                                        var count = Model.sponsorSingleData.commentList.Where(model => model.PostId == item.ImageId).ToList().Count() != 0 ? Model.sponsorSingleData.commentList.Where(model => model.PostId == item.ImageId).ToList().Count() : 0;
+                                                        ViewBag.commentCount = count;
+                                                    }
+                                                    else { ViewBag.commentCount = 0; }
+                                                }
+                                                <ins>@ViewBag.commentCount</ins>
+                                            </span>
+                                        </li>
+                                        <li>
+
+                                            <span class="like" data-toggle="tooltip" title="like">
+
+                                                <a href="#" onclick="postlike(true,'@item.ImageId','@item.UserId',this);"><i class="ti-heart"></i></a>
+                                                <ins id="Like_@item.ImageId">@Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.ImageId).Select(model => model.LikeStatus == true).Count()</ins>
+                                            </span>
+                                        </li>
+                                        <li>
+
+                                            <span class="dislike" data-toggle="tooltip" title="dislike">
+                                                <a href="#" onclick="postlike(false,'@item.ImageId','@item.UserId',this)"><i class="ti-heart-broken"></i></a>
+                                                <ins id="DisLike_@item.ImageId">@Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.ImageId).Select(model => model.LikeStatus == false).Count()</ins>
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span data-toggle="tooltip" title="Share">
+                                                @{ var xyz = Model.sponsorSingleData.sharelist.Select(model => model.PostId == item.ImageId && model.SourcePage == item.UserId).ToList().Count() != 0 ? Model.sponsorSingleData.sharelist.Where(model => model.PostId == item.ImageId && model.SourcePage == item.UserId).Select(model => model).Count() : 0;
+                                                    ViewBag.ShareCount = xyz;
+                                                }
+                                                <ins>@ViewBag.ShareCount</ins>
+                                                <i class="fa fa-share-alt" onclick="postshare('@item.ImageId','@item.UserId' )"></i>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="description">
+
+                                    <p>
+                                        World's most beautiful car in Curabitur <a href="#" title="">#test drive booking !</a> the most beatuiful car available in america and the saudia arabia, you can book your test drive by our official website
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!--Comment Area-->
+                    </div>
+                </div>
+                                                        }
+                                                    }
+                                                    if (Model.GalleryList.Count() != 0)
+                                                    {
+                                                        foreach (var item in Model.GalleryList)
+                                                        {
+                                                            <div class="central-meta item">
+                                                                @if (ViewBag.UserId == null)
+                                                                {
+                                                                    <div class="close" onclick='Deletesharepost("@item.PostId","@item.UserId")'>x</div>
+                                                                }
+                                                                <div class="user-post">
+                                                                    <div class="friend-info" id="postid_@item.PostId">
+                                                                        <figure>
+                                                                            <a href="@Url.Action("ProfilePage","OrganizerBasicDetails",new {UserId=item.UserId })" title="">  <img src="@item.Profilepic" alt=""></a>
+                                                                        </figure>
+                                                                        <div class="friend-name">
+                                                                            <ins><a href="@Url.Action("ProfilePage","OrganizerBasicDetails",new {UserId=item.UserId })" title="">@item.UserName</a></ins>
+                                                                            <span>published: @item.DateAndTime</span>
+                                                                        </div>
+                                                                        @if (item.Image != null)
+                        {
+                                                                            <div class="post-meta">
+                                                                                <img src="@item.Image" alt="">
+                                                                                <div class="description">
+
+                                                                                    <p>
+                                                                                        @item.Caption
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div class="we-video-info">
+                                                                                    <ul>
+                                                                                        @*<li>
+                                                                                                <span class="views" data-toggle="tooltip" title="views">
+                                                                                                    <i class="fa fa-eye"></i>
+                                                                                                    <ins>1.2k</ins>
+                                                                                                </span>
+                                                                                            </li>*@
+
+                                                                                        <li>
+                                                                                            <input type="hidden" id="detinationId" value="@item.UserId" />
+                                                                                            <input type="text" value="0" id="PostId" hidden />  <!-- Ch2-->
+                                                                                            <input type="text" id="pcid" hidden />  <!-- Ch3-->
+                                                                                            <input type="text" value="0" id="IsReplay" hidden />  <!-- Ch4-->
+                                                                                            <span class="comment" data-toggle="tooltip" title="Comments" id="@item.PostId">
+                                                                                                <!-- Ch5-->
+                                                                                                <i class="fa fa-comments-o"></i>
+
+                                                                                                @{
+                                                                                                    var count = Model.sponsorSingleData.commentList.Where(model => model.PostId == item.PostId).ToList().Count() != 0 ? Model.sponsorSingleData.commentList.Where(model => model.PostId == item.PostId).ToList().Count() : 0;
+                                                                                                    ViewBag.commentCount = count;
+                                                                                                }
+                                                                                                <ins>@ViewBag.commentCount</ins>
+                                                                                            </span>
+                                                                                        </li>
+
+                                                                                        <li>
+                                                                                            <span class="like" data-toggle="tooltip" title="like">
+                                                                                                <i class="ti-heart" onclick="postlike(true,'@item.PostId','@item.UserId')"></i><i class="ti-heart"></i>
+                                                                                                @{var abc = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.PostId && model.DestinationUserId == item.UserId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.PostId && model.DestinationUserId == item.UserId && model.LikeStatus == true).Select(model => model.LikeStatus == true).Count() : 0;
+                                                                                                    ViewBag.Count1 = abc;
+                                                                                                }
+                                                                                                <ins id="Like_@item.PostId">@ViewBag.Count1</ins>
+                                                                                            </span>
+                                                                                        </li>
+                                                                                        <li>
+                                                                                            <span class="dislike" data-toggle="tooltip" title="dislike">
+                                                                                                <i class="ti-heart-broken" onclick="postlike(false,'@item.PostId','@item.UserId')"></i>
+                                                                                                @{var abc1 = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.PostId && model.DestinationUserId == item.UserId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.PostId && model.DestinationUserId == item.UserId && model.LikeStatus == false).Select(model => model.LikeStatus == false).Count() : 0;
+                                                                                                    ViewBag.Count = abc1;
+                                                                                                }
+                                                                                                <ins id="DisLike_@item.PostId">@ViewBag.Count</ins>
+                                                                                            </span>
+                                                                                        </li>
+                                                                                        <li>
+                                                                                            <span data-toggle="tooltip" title="Share">
+                                                                                                @{ var xyz = Model.sponsorSingleData.sharelist.Select(model => model.PostId == item.PostId && model.SourcePage == item.UserId).ToList().Count() != 0 ? Model.sponsorSingleData.sharelist.Where(model => model.PostId == item.PostId && model.SourcePage == item.UserId).Select(model => model).Count() : 0;
+                                                                                                    ViewBag.ShareCount = xyz;
+                                                                                                }
+                                                                                                <ins>@ViewBag.ShareCount</ins>
+                                                                                                <i class="fa fa-share-alt" onclick="postshare('@item.PostId','@item.UserId' )"></i>
+                                                                                            </span>
+                                                                                        </li>
+                                                                                    </ul>
+                                                                                </div>
+
+                                                                            </div>
+                                                                                                    }
+                                                                        @if (item.VideoData != null)
+                        {
+                                                                            <div class="post-meta">
+                                                                                <video id="VideoPlayer" src='@Url.Action("DownloadFile", "Participants", new { VideoID = item.PostId })' controls="true" loop="true" />
+                                                                                <div class="description">
+
+                                                                                    <p>
+                                                                                        @item.Caption
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div class="we-video-info">
+                                                                                    <ul>
+
+                                                                                        <li>
+                                                                                            <input type="hidden" id="detinationId" value="@item.UserId" />
+                                                                                            <input type="text" value="0" id="PostId" hidden />  <!-- Ch2-->
+                                                                                            <input type="text" id="pcid" hidden />  <!-- Ch3-->
+                                                                                            <input type="text" value="0" id="IsReplay" hidden />  <!-- Ch4-->
+                                                                                            <span class="comment" data-toggle="tooltip" title="Comments" id="@item.PostId">
+                                                                                                <!-- Ch5-->
+                                                                                                @{
+                                                                                                    var count = Model.sponsorSingleData.commentList.Where(model => model.PostId == item.PostId).ToList().Count() != 0 ? Model.sponsorSingleData.commentList.Where(model => model.PostId == item.PostId).ToList().Count() : 0;
+                                                                                                    ViewBag.commentCount = count;
+                                                                                                }
+                                                                                                <ins>@ViewBag.commentCount</ins>
+                                                                                                <i class="fa fa-comments-o"></i>
+                                                                                                <ins></ins>
+                                                                                            </span>
+                                                                                        </li>
+
+                                                                                        <li>
+                                                                                            <span class="like" data-toggle="tooltip" title="like">
+                                                                                                <i class="ti-heart" onclick="postlike(true,'@item.PostId','@item.UserId',this)"></i>
+                                                                                                @{var abc = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.PostId && model.DestinationUserId == item.UserId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.PostId && model.DestinationUserId == item.UserId && model.LikeStatus == true).Select(model => model.LikeStatus == true).Count() : 0;
+                                                                                                    ViewBag.Count1 = abc;
+                                                                                                }
+                                                                                                <ins id="Like_@item.PostId">@ViewBag.Count1</ins>
+                                                                                            </span>
+                                                                                        </li>
+                                                                                        <li>
+                                                                                            <span class="dislike" data-toggle="tooltip" title="dislike">
+                                                                                                <i class="ti-heart-broken" onclick="postlike(false,'@item.PostId','@item.UserId',this)"></i>
+                                                                                                @{var abc1 = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.PostId && model.DestinationUserId == item.UserId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.PostId && model.DestinationUserId == item.UserId && model.LikeStatus == false).Select(model => model.LikeStatus == false).Count() : 0;
+                                                                                                    ViewBag.Count = abc1;
+                                                                                                }
+                                                                                                <ins id="DisLike_@item.PostId">@ViewBag.Count</ins>
+                                                                                            </span>
+                                                                                        </li>
+                                                                                        <li>
+                                                                                            <span data-toggle="tooltip" title="Share">
+                                                                                                @{ var xyz = Model.sponsorSingleData.sharelist.Select(model => model.PostId == item.PostId && model.SourcePage == item.UserId).ToList().Count() != 0 ? Model.sponsorSingleData.sharelist.Where(model => model.PostId == item.PostId && model.SourcePage == item.UserId).Select(model => model).Count() : 0;
+                                                                                                    ViewBag.ShareCount = xyz;
+                                                                                                }
+                                                                                                <ins>@ViewBag.ShareCount</ins>
+                                                                                                <i class="fa fa-share-alt" onclick="postshare('@item.PostId','@item.UserId' )"></i>
+                                                                                            </span>
+                                                                                        </li>
+                                                                                    </ul>
+                                                                                </div>
+
+                                                                            </div>
+                                                                                                    }
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                                                                        }
+
+                                                                                                    }
+                                                                                                    if (Model.Participantregistration.Count != 0)
+                                                                                                    {
+
+                                                                                                        foreach (var item in Model.Participantregistration)
+                                                                                                        {
+                                                                                                            <div class="central-meta item">
+                                                                                                                @if (ViewBag.UserId == null)
+                                                                                                                {
+                                                                                                                    <div class="close" onclick='Deletesharepost("@item.VideoId","@item.ParticipantId")'>x</div>
+                                                                                                                }
+                                                                                                                <div class="user-post">
+
+                                                                                                                    <div class="friend-info" id="postid_@item.VideoId">
+                                                                                                                        <figure>
+                                                                                                                            <a href="@Url.Action("ProfilePage","OrganizerBasicDetails",new {UserId=item.ParticipantId })" title=""><img src="@item.Profilepic" alt=""></a>
+                                                                                                                        </figure>
+                                                                                                                        <div class="friend-name">
+                                                                                                                            <ins><a href="@Url.Action("ProfilePage","OrganizerBasicDetails",new {UserId=item.ParticipantId })" title="">@item.UserName</a></ins> have uploaded below post
+                                                                                                                            <span>published: @item.DateandTime</span>
+                                                                                                                        </div>
+                                                                                                                        @if (item.Images != null)
+                                                                                                                        {
+                                                                                                                            <div class="post-meta">
+                                                                                                                                <img src="@item.Images" alt="">
+                                                                                                                                <div class="description">
+
+                                                                                                                                    <p>
+                                                                                                                                        If you want to vote this performance click <a href="@Url.Action("ShortlistedParticipants","Events",new { item.EventId, item.OrganizerId })"></a>
+
+
+                                                                                                                                    </p>
+                                                                                                                                </div>
+                                                                                                                                <div class="we-video-info">
+                                                                                                                                    <ul>
+                                                                                                                                        @*<li>
+                                                                                                                                                <span class="views" data-toggle="tooltip" title="views">
+                                                                                                                                                    <i class="fa fa-eye"></i>
+                                                                                                                                                    <ins>1.2k</ins>
+                                                                                                                                                </span>
+                                                                                                                                            </li>*@
+
+                                                                                                                                        <li>
+                                                                                                                                            <input type="hidden" id="detinationId" value="@item.ParticipantId" />
+                                                                                                                                            <input type="text" value="0" id="PostId" hidden />  <!-- Ch2-->
+                                                                                                                                            <input type="text" id="pcid" hidden />  <!-- Ch3-->
+                                                                                                                                            <input type="text" value="0" id="IsReplay" hidden />  <!-- Ch4-->
+                                                                                                                                            <span class="comment" data-toggle="tooltip" title="Comments" id="@item.VideoId">
+                                                                                                                                                <!-- Ch5-->
+                                                                                                                                                <i class="fa fa-comments-o"></i>
+                                                                                                                                                @{
+                                                                                                                                                    var count = Model.sponsorSingleData.commentList.Where(model => model.PostId == item.VideoId).ToList().Count() != 0 ? Model.sponsorSingleData.commentList.Where(model => model.PostId == item.VideoId).ToList().Count() : 0;
+                                                                                                                                                    ViewBag.commentCount = count;
+                                                                                                                                                }
+                                                                                                                                                <ins>@ViewBag.commentCount</ins>
+
+                                                                                                                                            </span>
+                                                                                                                                        </li>
+
+                                                                                                                                        <li>
+                                                                                                                                            <span class="like" data-toggle="tooltip" title="like">
+                                                                                                                                                <i class="ti-heart" onclick="postlike(true,'@item.VideoId','@item.ParticipantId',this)"></i>
+                                                                                                                                                @{var abc = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.VideoId && model.DestinationUserId == item.ParticipantId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.VideoId && model.DestinationUserId == item.ParticipantId && model.LikeStatus == true).Select(model => model.LikeStatus == true).Count() : 0;
+                                                                                                                                                    ViewBag.Count1 = abc;
+                                                                                                                                                }
+
+
+                                                                                                                                                <ins id="Like_@item.VideoId">@ViewBag.Count1</ins>
+                                                                                                                                            </span>
+                                                                                                                                        </li>
+                                                                                                                                        <li>
+                                                                                                                                            <span class="dislike" data-toggle="tooltip" title="dislike">
+                                                                                                                                                <i class="ti-heart-broken" onclick="postlike(false,'@item.VideoId','@item.ParticipantId',this)"></i>
+                                                                                                                                                @{var abc1 = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.VideoId && model.DestinationUserId == item.ParticipantId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.VideoId && model.DestinationUserId == item.ParticipantId && model.LikeStatus == false).Select(model => model.LikeStatus == false).Count() : 0;
+                                                                                                                                                    ViewBag.Count = abc1;
+                                                                                                                                                }
+                                                                                                                                                <ins id="DisLike_@item.VideoId">@ViewBag.Count</ins>
+                                                                                                                                            </span>
+                                                                                                                                        </li>
+                                                                                                                                        <li>
+                                                                                                                                            <span data-toggle="tooltip" title="Share">
+                                                                                                                                                @{ var xyz = Model.sponsorSingleData.sharelist.Select(model => model.PostId == item.VideoId && model.SourcePage == item.ParticipantId).ToList().Count() != 0 ? Model.sponsorSingleData.sharelist.Where(model => model.PostId == item.VideoId && model.SourcePage == item.ParticipantId).Select(model => model).Count() : 0;
+                                                                                                                                                    ViewBag.ShareCount = xyz;
+                                                                                                                                                }
+                                                                                                                                                <ins id="shareId_@item.VideoId">@ViewBag.ShareCount</ins>
+                                                                                                                                                <i class="fa fa-share-alt" onclick="postshare('@item.VideoId','@item.ParticipantId' )"></i>
+                                                                                                                                            </span>
+                                                                                                                                        </li>
+                                                                                                                                    </ul>
+                                                                                                                                </div>
+
+                                                                                                                            </div>
+                                                                                                                                                    }
+                                                                                                                        @if (item.Data != null)
+                                                                                                                        {
+                                                                                                                            <div class="post-meta">
+                                                                                                                                <div>
+                                                                                                                                <video id="VideoPlayer" src='@Url.Action("DownloadFile", "Participants", new { VideoID = item.VideoId })' controls="true" loop="true" />
+                                                                                                                                </div>
+                                                                                                                                    <div class="description">
+                                                                                                                        
+                                                                                                                                    <p>
+                                                                                                                                        If you want to vote this performance click <a href="@Url.Action("ShortlistedParticipants","Events",new { item.EventId, item.OrganizerId })"></a>
+
+
+                                                                                                                                    </p>
+                                                                                                                                </div>
+                                                                                                                                <div class="we-video-info">
+                                                                                                                                    <ul>
+
+                                                                                                                                        <li>
+                                                                                                                                            <input type="hidden" id="detinationId" value="@item.ParticipantId" />
+                                                                                                                                            <input type="text" value="0" id="PostId" hidden />  <!-- Ch2-->
+                                                                                                                                            <input type="text" id="pcid" hidden />  <!-- Ch3-->
+                                                                                                                                            <input type="text" value="0" id="IsReplay" hidden />  <!-- Ch4-->
+                                                                                                                                            <span class="comment" data-toggle="tooltip" title="Comments" id="@item.VideoId">
+                                                                                                                                                <!-- Ch5-->
+                                                                                                                                                <i class="fa fa-comments-o"></i>
+                                                                                                                                                @{
+                                                                                                                                                    var count = Model.sponsorSingleData.commentList.Where(model => model.PostId == item.VideoId).ToList().Count() != 0 ? Model.sponsorSingleData.commentList.Where(model => model.PostId == item.VideoId).ToList().Count() : 0;
+                                                                                                                                                    ViewBag.commentCount = count;
+                                                                                                                                                }
+                                                                                                                                                <ins>@ViewBag.commentCount</ins>
+                                                                                                                                            </span>
+                                                                                                                                        </li>
+                                                                                                                                        <li>
+                                                                                                                                            <span class="like" data-toggle="tooltip" title="like">
+                                                                                                                                                <i class="ti-heart" onclick="postlike(true,'@item.VideoId','@item.ParticipantId',this)"></i>
+                                                                                                                                                @{var abc = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.VideoId && model.DestinationUserId == item.ParticipantId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.VideoId && model.DestinationUserId == item.ParticipantId && model.LikeStatus == true).Select(model => model.LikeStatus == true).Count() : 0;
+                                                                                                                                                    ViewBag.Count1 = abc;
+                                                                                                                                                }
+
+
+                                                                                                                                                <ins id="Like_@item.VideoId">@ViewBag.Count1</ins>
+                                                                                                                                            </span>
+                                                                                                                                        </li>
+                                                                                                                                        <li>
+                                                                                                                                            <span class="dislike" data-toggle="tooltip" title="dislike">
+                                                                                                                                                <i class="ti-heart-broken" onclick="postlike(false,'@item.VideoId','@item.ParticipantId',this)"></i>
+                                                                                                                                                @{var abc1 = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.VideoId && model.DestinationUserId == item.ParticipantId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.VideoId && model.DestinationUserId == item.ParticipantId && model.LikeStatus == false).Select(model => model.LikeStatus == false).Count() : 0;
+                                                                                                                                                    ViewBag.Count = abc1;
+                                                                                                                                                }
+                                                                                                                                                <ins id="DisLike_@item.VideoId">@ViewBag.Count</ins>
+                                                                                                                                            </span>
+                                                                                                                                        </li>
+                                                                                                                                        <li>
+                                                                                                                                            <span data-toggle="tooltip" title="Share">
+                                                                                                                                                @{ var xyz = Model.sponsorSingleData.sharelist.Select(model => model.PostId == item.VideoId && model.SourcePage == item.ParticipantId).ToList().Count() != 0 ? Model.sponsorSingleData.sharelist.Where(model => model.PostId == item.VideoId && model.SourcePage == item.ParticipantId).Select(model => model).Count() : 0;
+                                                                                                                                                    ViewBag.ShareCount = xyz;
+                                                                                                                                                }
+                                                                                                                                                <ins id="shareId_@item.VideoId">@ViewBag.ShareCount</ins>
+                                                                                                                                                <i class="fa fa-share-alt" onclick="postshare('@item.VideoId','@item.ParticipantId' )"></i>
+                                                                                                                                            </span>
+                                                                                                                                        </li>
+                                                                                                                                    </ul>
+                                                                                                                                </div>
+
+                                                                                                                            </div>
+                                                                                                                                                    }
+
+                                                                                                                    </div>
+
+                                                                                                                </div>
+                                                                                                            </div>
+
+                                                                                                                                                        }
+                                                                                                                                                    }
+
+                                                                                                                                                    if (Model.homeList.Count() != 0)
+                                                                                                                                                    {
+                                                                                                                                                        foreach (var item in Model.homeList)
+                                                                                                                                                        {
+                                                                                                                                                            <div class="central-meta item">
+
+                                                                                                                                                                <div class="user-post">
+                                                                                                                                                                    @if (ViewBag.UserId == null)
+                                                                                                                                                                    {
+                                                                                                                                                                        <div class="close" onclick='DeleteHomePost("@item.Postid","@item.UserId")'>x</div>
+                                                                                                                                                                    }
+                                                                                                                                                                    <div class="friend-info" id="postid_@item.Postid">
+                                                                                                                                                                        <figure>
+                                                                                                                                                                            <a href="@Url.Action("ProfilePage","OrganizerBasicDetails",new {UserId=item.UserId })" title=""><img src="@item.Profilepic" alt=""></a>
+                                                                                                                                                                        </figure>
+                                                                                                                                                                        <div class="friend-name">
+                                                                                                                                                                            <ins><a href="@Url.Action("ProfilePage","OrganizerBasicDetails",new {UserId=item.UserId })" title="">@item.UserName</a></ins>
+                                                                                                                                                                            <span>published on @item.DateTime</span>
+                                                                                                                                                                        </div>
+                                                                                                                                                                        <div class="post-meta">
+                                                                                                                                                                            @if (item.Image2 != null)
+                        {
+                                                                                                                                                                                <img src="@item.Image2" alt="">
+                                                                                                                                                                            }
+                                                                                                                                                                            <div class="description">
+
+                                                                                                                                                                                <p>
+                                                                                                                                                                                    @item.PostText
+                                                                                                                                                                                </p>
+                                                                                                                                                                            </div>
+                                                                                                                                                                            <div class="we-video-info">
+                                                                                                                                                                                <ul>
+                                                                                                                                                                                    @*<li>
+                                                                                                                                                                                            <span class="views" data-toggle="tooltip" title="views">
+                                                                                                                                                                                                <i class="fa fa-eye"></i>
+                                                                                                                                                                                                <ins>1.2k</ins>
+                                                                                                                                                                                            </span>
+                                                                                                                                                                                        </li>*@
+                                                                                                                                                                                    <li>
+                                                                                                                                                                                        <input type="hidden" id="detinationId" value="@item.UserId" />
+                                                                                                                                                                                        <input type="hidden" id="detinationId" value="@item.UserId" />
+                                                                                                                                                                                        <input type="text" value="0" id="PostId" hidden />  <!-- Ch2-->
+                                                                                                                                                                                        <input type="text" id="pcid" hidden />  <!-- Ch3-->
+                                                                                                                                                                                        <input type="text" value="0" id="IsReplay" hidden />  <!-- Ch4-->
+                                                                                                                                                                                        <span class="comment" data-toggle="tooltip" title="Comments" id="@item.Postid">
+                                                                                                                                                                                            <!-- Ch5-->
+                                                                                                                                                                                            <i class="fa fa-comments-o"></i>
+                                                                                                                                                                                            @{
+                                                                                                                                                                                                var count = @Model.sponsorSingleData.commentList.Where(model => model.PostId == item.Postid).ToList().Count() != 0 ? @Model.sponsorSingleData.commentList.Where(model => model.PostId == item.Postid).ToList().Count() : 0;
+                                                                                                                                                                                                ViewBag.commentCount = count;
+                                                                                                                                                                                            }
+                                                                                                                                                                                            <ins>@ViewBag.commentCount</ins>
+                                                                                                                                                                                        </span>
+                                                                                                                                                                                    </li>
+                                                                                                                                                                                    <li>
+                                                                                                                                                                                        <span class="like" data-toggle="tooltip" title="like">
+                                                                                                                                                                                            <i class="ti-heart" onclick="postlike(true,'@item.Postid','@item.UserId',this)"></i>
+                                                                                                                                                                                            @{var abc = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.Postid && model.DestinationUserId == item.UserId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.Postid && model.DestinationUserId == item.UserId && model.LikeStatus == true).Select(model => model.LikeStatus == true).Count() : 0;
+                                                                                                                                                                                                ViewBag.Count = abc;
+                                                                                                                                                                                            }
+                                                                                                                                                                                            <ins id="Like_@item.Postid">@ViewBag.Count</ins>
+                                                                                                                                                                                        </span>
+                                                                                                                                                                                    </li>
+                                                                                                                                                                                    <li>
+                                                                                                                                                                                        <span class="dislike" data-toggle="tooltip" title="dislike">
+                                                                                                                                                                                            <i class="ti-heart" onclick="postlike(false,'@item.Postid','@item.UserId',this)"></i>
+                                                                                                                                                                                            @{var abc1 = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.Postid && model.DestinationUserId == item.UserId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.Postid && model.DestinationUserId == item.UserId && model.LikeStatus == false).Select(model => model.LikeStatus == false).Count() : 0;
+                                                                                                                                                                                                ViewBag.Count1 = abc1;
+                                                                                                                                                                                            }
+                                                                                                                                                                                            <ins id="DisLike_@item.Postid">@ViewBag.Count1</ins>
+                                                                                                                                                                                        </span>
+                                                                                                                                                                                    </li>
+                                                                                                                                                                                    <li>
+                                                                                                                                                                                        <span data-toggle="tooltip" title="Share">
+                                                                                                                                                                                            @{ var xyz = Model.sponsorSingleData.sharelist.Select(model => model.PostId == item.Postid && model.SourcePage == item.UserId).ToList().Count() != 0 ? Model.sponsorSingleData.sharelist.Where(model => model.PostId == item.Postid && model.SourcePage == item.UserId).Select(model => model).Count() : 0;
+                                                                                                                                                                                                ViewBag.ShareCount = xyz;
+                                                                                                                                                                                            }
+                                                                                                                                                                                            <ins id="shareId_@item.Postid">@ViewBag.ShareCount</ins>
+                                                                                                                                                                                            <i class="fa fa-share-alt" onclick="postshare('@item.Postid','@item.UserId' )"></i>
+                                                                                                                                                                                        </span>
+                                                                                                                                                                                    </li>
+                                                                                                                                                                                </ul>
+                                                                                                                                                                            </div>
+
+                                                                                                                                                                        </div>
+                                                                                                                                                                    </div>
+
+                                                                                                                                                                </div>
+                                                                                                                                                            </div>
+                                                                                                                                                                                                    }
+
+                                                                                                                                                                                                }
+                                                                                                                                                                                                if (Model.Imagevideolist.Count != 0)
+                                                                                                                                                                                                {
+
+                                                                                                                                                                                                    foreach (var item in Model.Imagevideolist)
+                                                                                                                                                                                                    {
+                                                                                                                                                                                                        <div class="central-meta item">
+                                                                                                                                                                                                            <div class="user-post">
+                                                                                                                                                                                                                @if (ViewBag.UserId == null)
+                                                                                                                                                                                                                {
+                                                                                                                                                                                                                    <div class="close" onclick='DeleteHomePost("@item.EventIdImageorVideo","@item.OrganizerId")'>x</div>
+                                                                                                                                                                                                                }
+                                                                                                                                                                                                                <div class="friend-info" id="postid_@item.EventIdImageorVideo">
+                                                                                                                                                                                                                    <figure>
+                                                                                                                                                                                                                        <a href="@Url.Action("ProfilePage","OrganizerBasicDetails",new {UserId=item.OrganizerId })" title=""><img src="@item.Profilepic" alt=""></a>
+                                                                                                                                                                                                                    </figure>
+                                                                                                                                                                                                                    <div class="friend-name">
+                                                                                                                                                                                                                        <ins><a href="@Url.Action("ProfilePage","OrganizerBasicDetails",new {UserId=item.OrganizerId })" title="">@item.UserName</a></ins> Event Organizedq
+
+
+
+
+
+                                                                                                                                                                                                                        <span>published:@item.Datetime</span>
+                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                    @if (item.Image != null)
+                                                                                                                                                                                                                    {
+                                                                                                                                                                                                                        <div class="post-meta">
+                                                                                                                                                                                                                            <img src="@item.Image" alt="">
+                                                                                                                                                                                                                            <div class="description">
+
+                                                                                                                                                                                                                                <p>
+                                                                                                                                                                                                                                    To know more about event <a href="@Url.Action("EventDetailsToParticipants", "Events",new { id=item.EventIdImageorVideo, Userid =item.OrganizerId})" class="btn btn-default"> Click Here</a>
+                                                                                                                                                                                                                                </p>
+                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                            <div class="we-video-info">
+                                                                                                                                                                                                                                <ul>
+                                                                                                                                                                                                                                    @*<li>
+                                                                                                                                                                                                                                            <span class="views" data-toggle="tooltip" title="views">
+                                                                                                                                                                                                                                                <i class="fa fa-eye"></i>
+                                                                                                                                                                                                                                                <ins>1.2k</ins>
+                                                                                                                                                                                                                                            </span>
+                                                                                                                                                                                                                                        </li>*@
+
+                                                                                                                                                                                                                                    <li>
+
+                                                                                                                                                                                                                                        <input type="hidden" id="detinationId" value="@item.OrganizerId" />
+                                                                                                                                                                                                                                        <input type="text" value="0" id="PostId" hidden />  <!-- Ch2-->
+                                                                                                                                                                                                                                        <input type="text" id="pcid" hidden />  <!-- Ch3-->
+                                                                                                                                                                                                                                        <input type="text" value="0" id="IsReplay" hidden />  <!-- Ch4-->
+                                                                                                                                                                                                                                        <span class="comment" data-toggle="tooltip" title="Comments" id="@item.EventIdImageorVideo">
+                                                                                                                                                                                                                                            <!-- Ch5-->
+                                                                                                                                                                                                                                            <i class="fa fa-comments-o"></i>
+                                                                                                                                                                                                                                            @{
+                                                                                                                                                                                                                                                var count = Model.sponsorSingleData.commentList.Where(model => model.PostId == item.EventIdImageorVideo).ToList().Count() != 0 ? Model.sponsorSingleData.commentList.Where(model => model.PostId == item.EventIdImageorVideo).ToList().Count() : 0;
+                                                                                                                                                                                                                                                ViewBag.commentCount = count;
+                                                                                                                                                                                                                                            }
+                                                                                                                                                                                                                                            <ins>@ViewBag.commentCount</ins>
+                                                                                                                                                                                                                                        </span>
+                                                                                                                                                                                                                                    </li>
+
+                                                                                                                                                                                                                                    <li>
+                                                                                                                                                                                                                                        <span class="like" data-toggle="tooltip" title="like">
+                                                                                                                                                                                                                                            <i class="ti-heart" onclick="postlike(true,'@item.EventIdImageorVideo','@item.OrganizerId',this)"></i>
+                                                                                                                                                                                                                                            @{var abc = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.EventIdImageorVideo && model.DestinationUserId == item.OrganizerId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.EventIdImageorVideo && model.DestinationUserId == item.OrganizerId && model.LikeStatus == true).Select(model => model.LikeStatus == true).Count() : 0;
+                                                                                                                                                                                                                                                ViewBag.Count1 = abc;
+                                                                                                                                                                                                                                            }
+
+
+                                                                                                                                                                                                                                            <ins id="Like_@item.EventIdImageorVideo">@ViewBag.Count1</ins>
+                                                                                                                                                                                                                                        </span>
+                                                                                                                                                                                                                                    </li>
+                                                                                                                                                                                                                                    <li>
+                                                                                                                                                                                                                                        <span class="dislike" data-toggle="tooltip" title="dislike">
+                                                                                                                                                                                                                                            <i class="ti-heart-broken" onclick="postlike(false,'@item.EventIdImageorVideo','@item.OrganizerId',this)"></i>
+                                                                                                                                                                                                                                            @{var abc1 = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.EventIdImageorVideo && model.DestinationUserId == item.OrganizerId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.EventIdImageorVideo && model.DestinationUserId == item.OrganizerId && model.LikeStatus == false).Select(model => model.LikeStatus == false).Count() : 0;
+                                                                                                                                                                                                                                                ViewBag.Count = abc1;
+                                                                                                                                                                                                                                            }
+                                                                                                                                                                                                                                            <ins id="DisLike_@item.EventIdImageorVideo">@ViewBag.Count</ins>
+                                                                                                                                                                                                                                        </span>
+                                                                                                                                                                                                                                    </li>
+                                                                                                                                                                                                                                    <li>
+                                                                                                                                                                                                                                        <span data-toggle="tooltip" title="Share">
+                                                                                                                                                                                                                                            @{ var xyz = Model.sponsorSingleData.sharelist.Select(model => model.PostId == item.EventIdImageorVideo && model.SourcePage == item.OrganizerId).ToList().Count() != 0 ? Model.sponsorSingleData.sharelist.Where(model => model.PostId == item.EventIdImageorVideo && model.SourcePage == item.OrganizerId).Select(model => model).Count() : 0;
+                                                                                                                                                                                                                                                ViewBag.ShareCount = xyz;
+                                                                                                                                                                                                                                            }
+                                                                                                                                                                                                                                            <ins id="shareId_@item.EventIdImageorVideo">@ViewBag.ShareCount</ins>
+                                                                                                                                                                                                                                            <i class="fa fa-share-alt" onclick="postshare('@item.EventIdImageorVideo','@item.OrganizerId' )"></i>
+                                                                                                                                                                                                                                        </span>
+                                                                                                                                                                                                                                    </li>
+                                                                                                                                                                                                                                </ul>
+                                                                                                                                                                                                                            </div>
+
+                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                }
+
+
+                                                                                                                                                                                                                </div>
+
+                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                        </div>
+
+                                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                                    }
+
+
+                                                                                                                                                                                                                                                }
+
+
+
+    @if (Model.EventRegistration.Count != 0)
+    {
+        foreach (var item in Model.EventRegistration)
+        {
+            <div class="central-meta item">
+                @*<div class="close" onclick='Deletesharepost("@item.Imagevideo.","@item.UserId")'>x</div>*@
+                <div class="user-post">
+                    <div class="friend-info" id="postid_@item.Imagevideo.EventIdImageorVideo">
+                        <figure>
+                            <a href="@Url.Action("ProfilePage", "OrganizerBasicDetails", new { UserId = item.Imagevideo.OrganizerId })" title="">  <img src="@item.Imagevideo.Profilepic" alt=""></a>
+                        </figure>
+                        <div class="friend-name">
+                            <ins><a href="@Url.Action("ProfilePage", "OrganizerBasicDetails", new { UserId = item.Imagevideo.OrganizerId })" title="">@item.Imagevideo.UserName</a></ins>
+                            <span>published:@item.Imagevideo.Datetime</span>
+                            <span>Event is organized</span>
+                        </div>
+
+                        <div class="post-meta">
+                            @if (item.Imagevideo.Image != null)
+                            {
+                                <img src="@item.Imagevideo.Image" alt="">
+                            }
+                            <div class="description">
+
+                                <p>
+                                    <a href="@Url.Action("EventDetailsToParticipants", "Events", new { id = item.Imagevideo.EventIdImageorVideo, UserId = item.Imagevideo.OrganizerId })" class="btn btn-default" type="button">Click here for more info</a>
+                                </p>
+                            </div>
+                            <div class="we-video-info">
+                                <ul>
+
+                                    <li>
+                                        <input type="hidden" id="detinationId" value="@item.Imagevideo.OrganizerId" />
+                                        <input type="text" value="0" id="PostId" hidden />  <!-- Ch2-->
+                                        <input type="text" id="pcid" hidden />  <!-- Ch3-->
+                                        <input type="text" value="0" id="IsReplay" hidden />  <!-- Ch4-->
+                                        <span class="comment" data-toggle="tooltip" title="Comments" id="@item.Imagevideo.EventIdImageorVideo">
+                                            <!-- Ch5-->
+                                            <i class="fa fa-comments-o"></i>
+                                            @{
+                                                var count = Model.sponsorSingleData.commentList.Where(model => model.PostId == item.Imagevideo.EventIdImageorVideo).ToList().Count() != 0 ? Model.sponsorSingleData.commentList.Where(model => model.PostId == item.Imagevideo.EventIdImageorVideo).ToList().Count() : 0;
+                                                ViewBag.commentCount = count;
+                                            }
+                                            <ins>@ViewBag.commentCount</ins>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="like" data-toggle="tooltip" title="like">
+                                            <i class="ti-heart" onclick="postlike(true,'@item.Imagevideo.EventIdImageorVideo','@item.Imagevideo.OrganizerId')"></i>
+                                            @{var abc = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.Imagevideo.EventIdImageorVideo && model.DestinationUserId == item.Imagevideo.OrganizerId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.Imagevideo.EventIdImageorVideo && model.DestinationUserId == item.Imagevideo.OrganizerId && model.LikeStatus == true).Select(model => model.LikeStatus == true).Count() : 0;
+                                                ViewBag.Count1 = abc;
+                                            }
+                                            <ins id="Like_@item.Imagevideo.EventIdImageorVideo">@ViewBag.Count1</ins>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="dislike" data-toggle="tooltip" title="dislike">
+                                            <i class="ti-heart-broken" onclick="postlike(false,'@item.Imagevideo.EventIdImageorVideo','@item.Imagevideo.OrganizerId')"></i>
+                                            @{var abc1 = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.Imagevideo.EventIdImageorVideo && model.DestinationUserId == item.Imagevideo.OrganizerId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.Imagevideo.EventIdImageorVideo && model.DestinationUserId == item.Imagevideo.OrganizerId && model.LikeStatus == false).Select(model => model.LikeStatus == false).Count() : 0;
+                                                ViewBag.Count = abc1;
+                                            }
+                                            <ins id="DisLike_@item.Imagevideo.EventIdImageorVideo">@ViewBag.Count</ins>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span data-toggle="tooltip" title="Share">
+                                            @{ var xyz = Model.sponsorSingleData.sharelist.Select(model => model.PostId == item.Imagevideo.EventIdImageorVideo && model.SourcePage == item.Imagevideo.OrganizerId).ToList().Count() != 0 ? Model.sponsorSingleData.sharelist.Where(model => model.PostId == item.Imagevideo.EventIdImageorVideo && model.SourcePage == item.Imagevideo.OrganizerId).Select(model => model).Count() : 0;
+                                                ViewBag.ShareCount = xyz;
+                                            }
+                                            <ins id="shareId_@item.Imagevideo.EventIdImageorVideo">@ViewBag.ShareCount</ins>
+                                            <i class="fa fa-share-alt" onclick="postshare('@item.Imagevideo.EventIdImageorVideo','@item.Imagevideo.OrganizerId' )"></i>
+                                        </span>
+                                    </li>
+                                </ul>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                    </div>
+
+
+
+                </div>
+            </div>
+                                                    }
+                                                }
+</div>
+<script>
+    function Deletesharepost(id, userid) {
+        debugger;
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("DeleteSharePost", "BasicFunctionality")",
+
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({
+                Postid: id,
+                Userid: userid
+            }),
+            dataType: "json",
+            success: function (result) {
+                if (result != null) {
+                    alert("Image deleted successfully")
+                }
+                else {
+                    alert("Image not deleted sucessfully")
+                };
+
+
+
+
+            },
+            error: function () { alert('A error'); }
+        });
+    }
+</script>

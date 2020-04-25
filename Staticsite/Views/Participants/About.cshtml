@@ -1,0 +1,76 @@
+﻿@model Conquerorhub.Models.ParticipantAboutModel
+@{
+    ViewBag.Title = "About";
+    Layout = "~/Views/Shared/_winkuFormLayout.cshtml";
+}
+
+<div class="col-lg-6">
+    <div class="central-meta">
+        <div class="about">
+            <div class="personal">
+                <h5 class="f-title"><i class="ti-info-alt"></i> Personal Info</h5>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                </p>
+            </div>
+            <div class="d-flex flex-row mt-2">
+                <ul class="nav nav-tabs nav-tabs--vertical nav-tabs--left">
+                    <li class="nav-item">
+                        <a href="#basic" class="nav-link active" data-toggle="tab">Basic Details</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#location" class="nav-link" data-toggle="tab">Contact Details</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#work" class="nav-link" data-toggle="tab">Education Information</a>
+                    </li>
+                    
+
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="basic">
+                        <ul class="basics">
+                            <li><label>Full Name</label>    <b style="margin-left:20px; color:blue">@Model.basicDetails.FullName</b> </li>
+                            <li><label>Date of birth</label>    <b style="margin-left:20px;color:blue">@Model.basicDetails.DateofBirth</b> </li>
+                            <li><label>Native Place</label>    <b style="margin-left:20px;color:blue">@Model.basicDetails.NativePlace</b> </li>
+                            <li><label>Lives at</label>    <b style="margin-left:20px;color:blue">@Model.basicDetails.LivesAt</b> </li>
+
+
+
+                        </ul>
+                    </div>
+                    <div class="tab-pane fade" id="location" role="tabpanel">
+                        <ul class="basics">
+                            <li>
+                                <label>Phone Number</label><b style="margin-left:20px;color:blue">
+                                    @Model.contactInformation.Phonenumber
+                                </b>
+                            </li>
+                            <li>
+                                <label>Email Id</label><b style="margin-left:20px;color:blue">
+                                    @Model.contactInformation.email
+                                </b>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                    <div class="tab-pane fade" id="work" role="tabpanel">
+
+                        <ul class="basics">
+                            <li><label>High School</label>    <b style="margin-left:20px;color:blue">@Model.EducationQualification.highschool</b> </li>
+                            <li><label>Pre University</label>    <b style="margin-left:20px;color:blue">@Model.EducationQualification.preuniversity</b> </li>
+                            <li><label>Post Graduation</label>    <b style="margin-left:20px;color:blue">@Model.EducationQualification.Pg</b> </li>
+                            <li><label>Doctorate</label>    <b style="margin-left:20px;color:blue">@Model.EducationQualification.Phd</b> </li>
+
+
+                        </ul>
+
+                    </div>
+                  
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

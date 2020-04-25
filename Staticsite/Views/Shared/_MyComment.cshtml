@@ -1,0 +1,351 @@
+﻿@model  List<Conquerorhub.Models.CommentModel>
+
+
+
+@*@if (Model != null)
+    {*@
+
+<div class="coment-area del">
+    <ul class="we-comet followers">
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                <li>
+                    <div class="comet-avatar">
+                        <img src="~/Content/assets/images/resources/comet-1.jpg" alt="">
+                    </div>
+                    <div class="we-comment">
+                        <div class="coment-head">
+                            <h5><a href="time-line.html" title="" id="re-name">@item.AspNetUser.UserName</a></h5>
+                            <span>1 year ago @item.CommentedDate</span>
+                            <a class="we-reply" onclick="ReplyTo(this);" href="javascript:void(0);" id="@item.Id" title="Reply">
+                                <i class="fa fa-reply"></i>
+                            </a>
+                            <a class="we-reply" title="show Reply" id="@item.Id" onclick="ShowReply(this);" href="javascript:void(0);"><i class="fa fa-arrow-circle-down"></i></a>
+
+                        </div>
+                        <p> @item.CommentMessage</p>
+                    </div>
+                    <!--SubCom-->
+
+                </li>
+
+            }
+        }
+
+        <li>
+            <a href="#" title="" class="showmore underline">more comments</a>
+        </li>
+
+    </ul>
+    <ul class="we-comet">
+        <li class="post-comment">
+            <div class="comet-avatar">
+                <img src="~/Content/assets/images/resources/comet-1.jpg" alt="">
+            </div>
+            <div class="post-comt-box">
+                <form method="post">
+                    <span class="replyto"></span>
+                    <textarea placeholder="Post your comment"></textarea>
+                    <div class="add-smiles">
+                        <span class="em em-expressionless" title="add icon"></span>
+                    </div>
+                    <div class="smiles-bunch">
+                        <i class="em em---1"></i>
+                        <i class="em em-smiley"></i>
+                        <i class="em em-anguished"></i>
+                        <i class="em em-laughing"></i>
+                        <i class="em em-angry"></i>
+                        <i class="em em-astonished"></i>
+                        <i class="em em-blush"></i>
+                        <i class="em em-disappointed"></i>
+                        <i class="em em-worried"></i>
+                        <i class="em em-kissing_heart"></i>
+                        <i class="em em-rage"></i>
+                        <i class="em em-stuck_out_tongue"></i>
+                    </div>
+                    <button type="submit"></button>
+                </form>
+            </div>
+        </li>
+    </ul>
+</div>
+
+
+
+@*<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>*@
+@*<script src="~/Content/WinkuTemplate/js/CommentJs.js"></script>*@
+<script type="text/javascript">
+
+    @*var name = "";
+    var apendParent=""
+    function ReplyTo(el) {
+        debugger;
+        alert($('#IsReplay').val())
+        $('#IsReplay').val('')
+        $('#IsReplay').val(1)
+        var cmtId = $(el).attr("id");
+         name = ($(el).parent()).children().children().text();
+        $('#pcid').val('');
+        $('#pcid').val(cmtId);
+        $(".replyto").html('');
+        $(".replyto").text('Reply to: '+name);
+        alert($('#pcid').val())
+        apendParent = ($(el).parent()).parent();
+
+    }
+
+    function ShowReply(el) {
+        debugger;
+        var cmtId = $(el).attr("id");
+        name = "";
+         name = ($(el).parent()).children().children().text();
+
+        alert($('#pcid').val())
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetSubComments", "BasicFunctionality")',
+            data: { ComID: cmtId},
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (response) {
+                debugger;
+
+                $(".replyto").html();
+
+                ($(el).parent()).parent().nextAll('.subul').remove();
+                ($(el).parent()).parent().after(response);
+
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+    /** Post a Comment **/
+    jQuery(".post-comt-box textarea").on("keydown", function (event) {
+
+        if (event.keyCode == 13) {
+            debugger;
+            var comment = jQuery(this).val();
+            var pcid = $('#pcid').val();
+            var IsReplay = $('#IsReplay').val();
+            var URL = "";
+            if (IsReplay == 1) { URL = '@Url.Action("AddSubComment", "BasicFunctionality")' }
+            else {URL='@Url.Action("AddComment", "BasicFunctionality")'}
+            alert($('#pcid').val());
+            alert(comment);
+            $.ajax({
+                type: "POST",
+            url: URL,
+                data: { commentMsg: comment, postorcmtId: $('#pcid').val() },
+           // contentType: "application/json; charset=utf-8", not use
+          //  dataType: "json",   not use
+                success: function (response) {
+                    debugger;
+                    jQuery(this).val('');
+                    if (response._result == true && IsReplay != 1) {
+                        debugger;
+
+                        var parent = jQuery(".showmore").parent("li");
+                        alert(JSON.stringify(parent));
+
+                        var comment_HTML = '	<li><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div>'
+                            + '<div class="we-comment" > <div class="coment-head"><h5><a href="time-line.html" title="">' + response.Name  + '</a></h5><span>1 year ago</span>'
+                            + '<a class="we-reply" href = "#" title = "Reply" > <i class="fa fa-reply"></i></a ></div > <p>' + comment + '</p></div ></li > ';
+
+                        var cmd_html='<li><div class="comet-avatar"><img src="~/Content/assets/images/resources/comet-2.jpg" alt=""> </div>'
+                +'<div class="we-comment"><div class="coment-head">'
+                        +'<h5><a href="time-line.html" title="">'
+						+ response.Name+'</a></h5>'
+                        +'<span>1 month ago'+ response.CDate+'</span>'
+                            + '<a class="we-reply" id="' + response.CId+'" onclick="ReplyTo(this);" href="javascript:void(0);" title="Reply">'
+					  +'<i class="fa fa-reply"></i></a>'
+                       +'<a class="we-reply" title="show Reply" id="'+ response.CId+'" onclick="ShowReply(this);" href="javascript:void(0);">'
+					   +'<i class="fa fa-arrow-circle-down"></i></a></div><p>'
+                            + comment+'</p></div> </li>'
+                        $(cmd_html).insertBefore(parent);
+                        jQuery(this).val('');
+                        var postid = $('#PostId').val();
+                        alert(postid);
+                        $('#pcid').val(postid);
+                        $('.post-comt-box textarea').val('');
+                    }
+                    else if (response._result == true && IsReplay == 1) {
+                        debugger;
+                        var cmd_html = '';
+                        var comment_HTML = '	<li><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div>'
+                            + '<div class="we-comment" > <div class="coment-head"><h5><a href="time-line.html" title="">' + name + '</a></h5><span>1 year ago</span>'
+                            + '<a class="we-reply" href = "#" title = "Reply" > <i class="fa fa-reply"></i></a ></div > <p>' + comment + '</p></div ></li > ';
+                        if (apendParent.siblings('.subul').length > 0) {
+                            alert("ul present..")
+                            cmd_html = '<li><div class="comet-avatar"><img src="~/Content/assets/images/resources/comet-2.jpg" alt=""> </div>'
+                                + '<div class="we-comment"><div class="coment-head">'
+                                + '<h5><a href="time-line.html" title="">'
+                                + response.Name + '</a></h5>'
+                                + '<span>1 month ago' + response.CDate + '</span>'
+                                + '<a class="we-reply" id="' + response.CId + '" onclick="ReplyTo(this);" href="javascript:void(0);" title="Reply">'
+                                + '<i class="fa fa-reply"></i></a>'
+                                + '<a class="we-reply" title="show Reply" id="' + response.CId + '" onclick="ShowReply(this);" href="javascript:void(0);">'
+                                + '<i class="fa fa-arrow-circle-down"></i></a></div><p>'
+                                + comment + '</p></div> </li>'
+                            apendParent.siblings('.subul').append(cmd_html);
+                        }
+                        else {
+                            alert("no ul...")
+                            cmd_html = '<ul class="subul"><li><div class="comet-avatar"><img src="~/Content/assets/images/resources/comet-2.jpg" alt=""> </div>'
+                                + '<div class="we-comment"><div class="coment-head">'
+                                + '<h5><a href="time-line.html" title="">'
+                                + response.Name + '</a></h5>'
+                                + '<span>1 month ago' + response.CDate + '</span>'
+                                + '<a class="we-reply" id="' + response.CId + '" onclick="ReplyTo(this);" href="javascript:void(0);" title="Reply">'
+                                + '<i class="fa fa-reply"></i></a>'
+                                + '<a class="we-reply" title="show Reply" id="' + response.CId + '" onclick="ShowReply(this);" href="javascript:void(0);">'
+                                + '<i class="fa fa-arrow-circle-down"></i></a></div><p>'
+                                + comment + '</p></div> </li></ul>'
+                            $(cmd_html).insertAfter(apendParent);
+                        }
+
+                        var postid = $('#PostId').val();
+                        alert(postid);
+                        $('#pcid').val(postid);
+                        $('.post-comt-box textarea').val('');
+                        $('#IsReplay').val('')
+                        $('#IsReplay').val(0);
+                        $(".replyto").html('');
+                    }
+                    else if (response._result == false) {
+                        alert("Error");
+                    }
+
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+
+        }
+    });*@
+
+    /** Post a Comment **/
+
+    //------------Comment js end
+     /** Post a Comment **/
+    jQuery(".post-comt-box textarea").on("keydown", function (event) {
+
+        if (event.keyCode == 13) {
+            debugger;
+            var comment = jQuery(this).val();
+            var pcid = $('#pcid').val();
+            var IsReplay = $('#IsReplay').val();
+            var URL = "";
+            if (IsReplay == 1) { URL = '@Url.Action("AddSubComment", "BasicFunctionality")' }
+            else {URL='@Url.Action("AddComment", "BasicFunctionality")'}
+            alert($('#pcid').val());
+            alert("Destination ID"+$('#detinationId').val()); 
+            alert(comment);
+            $.ajax({
+                type: "POST",
+                url: URL,
+                data: { commentMsg: comment, postorcmtId: $('#pcid').val(), destinationId: $('#detinationId').val() },
+               // data: { commentMsg: comment, postorcmtId: $('#pcid').val() },
+           // contentType: "application/json; charset=utf-8", not use
+          //  dataType: "json",   not use
+                success: function (response) {
+                    debugger;
+                    jQuery(this).val('');
+                    if (response._result == true && IsReplay != 1) {
+                        debugger;
+
+                        var parent = jQuery(".showmore").parent("li");
+                        alert(JSON.stringify(parent));
+
+                        var comment_HTML = '	<li><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div>'
+                            + '<div class="we-comment" > <div class="coment-head"><h5><a href="time-line.html" title="">' + response.Name  + '</a></h5><span>1 year ago</span>'
+                            + '<a class="we-reply" href = "#" title = "Reply" > <i class="fa fa-reply"></i></a ></div > <p>' + comment + '</p></div ></li > ';
+
+                        var cmd_html='<li><div class="comet-avatar"><img src="~/Content/assets/images/resources/comet-2.jpg" alt=""> </div>'
+                +'<div class="we-comment"><div class="coment-head">'
+                        +'<h5><a href="time-line.html" title="">'
+						+ response.Name+'</a></h5>'
+                        +'<span>1 month ago'+ response.CDate+'</span>'
+                            + '<a class="we-reply" id="' + response.CId+'" onclick="ReplyTo(this);" href="javascript:void(0);" title="Reply">'
+					  +'<i class="fa fa-reply"></i></a>'
+                       +'<a class="we-reply" title="show Reply" id="'+ response.CId+'" onclick="ShowReply(this);" href="javascript:void(0);">'
+					   +'<i class="fa fa-arrow-circle-down"></i></a></div><p>'
+                            + comment+'</p></div> </li>'
+                        $(cmd_html).insertBefore(parent);
+                        jQuery(this).val('');
+                        var postid = $('#PostId').val();
+                        alert(postid);
+                        $('#pcid').val(postid);
+                        $('.post-comt-box textarea').val('');
+                    }
+                    else if (response._result == true && IsReplay == 1) {
+                        debugger;
+                        var cmd_html = '';
+                        var comment_HTML = '	<li><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div>'
+                            + '<div class="we-comment" > <div class="coment-head"><h5><a href="time-line.html" title="">' + name + '</a></h5><span>1 year ago</span>'
+                            + '<a class="we-reply" href = "#" title = "Reply" > <i class="fa fa-reply"></i></a ></div > <p>' + comment + '</p></div ></li > ';
+                        if (apendParent.siblings('.subul').length > 0) {
+                            alert("ul present..")
+                            cmd_html = '<li><div class="comet-avatar"><img src="~/Content/assets/images/resources/comet-2.jpg" alt=""> </div>'
+                                + '<div class="we-comment"><div class="coment-head">'
+                                + '<h5><a href="time-line.html" title="">'
+                                + response.Name + '</a></h5>'
+                                + '<span>1 month ago' + response.CDate + '</span>'
+                                + '<a class="we-reply" id="' + response.CId + '" onclick="ReplyTo(this);" href="javascript:void(0);" title="Reply">'
+                                + '<i class="fa fa-reply"></i></a>'
+                                + '<a class="we-reply" title="show Reply" id="' + response.CId + '" onclick="ShowReply(this);" href="javascript:void(0);">'
+                                + '<i class="fa fa-arrow-circle-down"></i></a></div><p>'
+                                + comment + '</p></div> </li>'
+                            apendParent.siblings('.subul').append(cmd_html);
+                        }
+                        else {
+                            alert("no ul...")
+                            cmd_html = '<ul class="subul"><li><div class="comet-avatar"><img src="~/Content/assets/images/resources/comet-2.jpg" alt=""> </div>'
+                                + '<div class="we-comment"><div class="coment-head">'
+                                + '<h5><a href="time-line.html" title="">'
+                                + response.Name + '</a></h5>'
+                                + '<span>1 month ago' + response.CDate + '</span>'
+                                + '<a class="we-reply" id="' + response.CId + '" onclick="ReplyTo(this);" href="javascript:void(0);" title="Reply">'
+                                + '<i class="fa fa-reply"></i></a>'
+                                + '<a class="we-reply" title="show Reply" id="' + response.CId + '" onclick="ShowReply(this);" href="javascript:void(0);">'
+                                + '<i class="fa fa-arrow-circle-down"></i></a></div><p>'
+                                + comment + '</p></div> </li></ul>'
+                            $(cmd_html).insertAfter(apendParent);
+                        }
+
+                        var postid = $('#PostId').val();
+                        alert(postid);
+                        $('#pcid').val(postid);
+                        $('.post-comt-box textarea').val('');
+                        $('#IsReplay').val('')
+                        $('#IsReplay').val(0);
+                        $(".replyto").html('');
+                    }
+                    else if (response._result == false) {
+                        alert("Error");
+                    }
+
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+
+        }
+    });
+    //-----------------------
+  
+</script>

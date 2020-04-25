@@ -1,0 +1,120 @@
+﻿@model Conquerorhub.Models.ParticipantsDetailModel
+@{
+    ViewBag.Title = "HallofFame";
+    //Layout = "~/Views/Shared/_NewLayoutForOrganizer.cshtml";
+    Layout = "~/Views/Shared/_winkuFormLayout.cshtml";
+}
+
+@if (Model.aboutEventlist.Count != 0 && Model.Participantregistration.Count != 0)
+{
+    if (Model.aboutEventlist.Count > Model.Participantregistration.Count)
+    {
+        for (int i = 0; i < Model.aboutEventlist.Count(); i++)
+
+        {
+            <div class="card col-sm-9" height="90%">
+                <div class="card-header"><label style="float:left">Event Name:@Model.aboutEventlist[i].EventName</label><label style="float:right">Event Organizer:@Model.aboutEventlist[i].NameofOrganizer</label></div>
+                <div class="card-body">
+                    <div class="card col-sm-3" height="30%">
+
+                        <div class="card-header">
+                            <h5>Name: @Model.Participantregistration[i].Name</h5>
+                            <h6>College/School: @Model.Participantregistration[i].CollegeorSchool</h6>
+                            <h6> Qualification: @Model.Participantregistration[i].Qualification</h6>
+
+                        </div>
+
+                        <div class="card-body"><video id="VideoPlayer" src='@Url.Action("DownloadFile", "Events", new { VideoID = Model.Participantregistration[i].VideoId, EventId = Model.Participantregistration[i].EventId })' controls="true" width="200" height="200" loop="true" /></div>
+                        <div class="card-footer">
+                            @if (Model.voterslist != null)
+                            {
+                                if (Model.voterslist.Where(m => m.PostId == Model.Participantregistration[i].VideoId && m.userid == Model.Participantregistration[i].OrganizerId).Select(m => m.VoteStatus).FirstOrDefault() == false || Model.voterslist.Where(m => m.PostId == Model.Participantregistration[i].VideoId && m.userid == Model.Participantregistration[i].OrganizerId).Select(m => m.VoteStatus).FirstOrDefault() == null)
+                                {
+                                    var demo = Model.voterslist.Where(m => m.PostId == Model.Participantregistration[i].VideoId && m.VoteStatus == true);
+                                    var demo1 = demo.Count();
+                                    ViewBag.Count = demo1;
+                            <span>@ViewBag.Count</span>
+                            <a href="#" onclick="postlike1(true,'@Model.Participantregistration[i].VideoId','@Model.Participantregistration[i].EventId');GetLike1('@Model.Participantregistration[i].VideoId')">Vote</a>
+                                }
+                                else if (Model.voterslist.Where(m => m.PostId == Model.Participantregistration[i].VideoId && m.userid == Model.Participantregistration[i].OrganizerId).Select(m => m.VoteStatus).FirstOrDefault() == true)
+                                {
+                                    var demo = Model.voterslist.Where(m => m.PostId == Model.Participantregistration[i].VideoId && m.VoteStatus == true);
+                                    var demo1 = demo.Count();
+                                    ViewBag.Count = demo1;
+                            <span>@ViewBag.Count </span>
+                            <a href="#">Vote</a>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <label style="float:left">To know more about event click </label><a href="@Url.Action("EventDetailsToParticipants", "Events", new { id = Model.aboutEventlist[i].EventId, Userid = ViewBag.UserId })">here</a>
+
+
+
+
+                </div>
+            </div>
+        }
+    }
+
+    else
+    {
+        for (int i = 0; i < Model.Participantregistration.Count(); i++)
+
+        {
+            <div class="card col-sm-9" height="90%">
+                <div class="card-header"><label style="float:left"> Event Name:@Model.aboutEventlist[i].EventName</label><label style="float:right"> Event Organizer:@Model.aboutEventlist[i].NameofOrganizer</label></div>
+                <div class="card-body">
+                    <div class="card col-sm-3" height="30%">
+
+                        <div class="card-header">
+                            <h5>Name: @Model.Participantregistration[i].Name</h5>
+                            <h6>College/School: @Model.Participantregistration[i].CollegeorSchool</h6>
+                            <h6> Qualification: @Model.Participantregistration[i].Qualification</h6>
+
+                        </div>
+
+                        <div class="card-body"><video id="VideoPlayer" src='@Url.Action("DownloadFile", "Events", new { VideoID =Model.Participantregistration[i].VideoId, EventId =Model.Participantregistration[i].EventId})' controls="true" width="200" height="200" loop="true" /></div>
+                        <div class="card-footer">
+                            @if (Model.voterslist != null)
+                            {
+                                if (Model.voterslist.Where(m => m.PostId == Model.Participantregistration[i].VideoId && m.userid == Model.Participantregistration[i].OrganizerId).Select(m => m.VoteStatus).FirstOrDefault() == false || Model.voterslist.Where(m => m.PostId == Model.Participantregistration[i].VideoId && m.userid == Model.Participantregistration[i].OrganizerId).Select(m => m.VoteStatus).FirstOrDefault() == null)
+                                {
+                                    var demo = Model.voterslist.Where(m => m.PostId == Model.Participantregistration[i].VideoId && m.VoteStatus == true);
+                                    var demo1 = demo.Count();
+                                    ViewBag.Count = demo1;
+                                    <span> @ViewBag.Count </span>
+                                    <a href = "#" onclick = "postlike1(true,'@Model.Participantregistration[i].VideoId','@Model.Participantregistration[i].EventId');GetLike1('@Model.Participantregistration[i].VideoId')" > Vote </a >
+                                }
+                                else if (Model.voterslist.Where(m => m.PostId == Model.Participantregistration[i].VideoId && m.userid == Model.Participantregistration[i].OrganizerId).Select(m => m.VoteStatus).FirstOrDefault() == true)
+                                {
+                                    var demo = Model.voterslist.Where(m => m.PostId == Model.Participantregistration[i].VideoId && m.VoteStatus == true);
+                                    var demo1 = demo.Count();
+                                    ViewBag.Count = demo1;
+                                    <span> @ViewBag.Count </span >
+                                    <a href = "#" > Vote </a >
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <label style="float:left"> To know more about event click</label><a href="@Url.Action("EventDetailsToParticipants","Events" ,new {id=Model.aboutEventlist[i].EventId, Userid = ViewBag.UserId })">here</a>
+
+
+
+
+                </div>
+            </div>
+        }
+    }
+}
+else
+{
+    <div class="jumbotron col-sm-6">
+     <h1>There are no winners</h1> 
+    </div>
+}
+

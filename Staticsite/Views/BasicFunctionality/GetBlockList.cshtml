@@ -1,0 +1,69 @@
+﻿@model Conquerorhub.Models.BlockViewModel
+@{
+    ViewBag.Title = "GetBlockList";
+    Layout = "~/Views/Shared/_winkuFormLayout.cshtml";
+}
+
+<div class="col-lg-6">
+    <div class="central-meta">
+        <div class="frnds">
+            <ul class="nav nav-tabs">
+                <li class="nav-item"><a class="active" href="#subscribers" data-toggle="tab">Blocked Users</a> @*<span>@Model==null?null:@Model.blockModelList==null?null:@Model.blockModelList.Count()</span>*@</li>
+               
+
+
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane active fade show " id="subscribers">
+                    <ul class="nearby-contct">
+                        @if (Model!=null)
+                        {
+                            if (Model.blockModelList.Count != 0)
+                            {
+                                for (int i = 0; i < Model.blockModelList.Count(); i++)
+                                {
+
+                                <li>
+                                    <div class="nearly-pepls">
+                                        <figure>
+                                            <a href="#" title=""><img src="@Model.ProfilePic[i]" alt=""></a>
+                                        </figure>
+                                        <div class="pepl-info">
+                                            <h4><a href="#" title="">@Model.BlockedUserName[i]</a></h4>
+                                            @if (Model.usertype[i] == "1")
+                                            {
+                                                <span>Organizer</span>
+                                            }
+                                            @if (Model.usertype[i] == "2")
+                                            {
+                                                <span>Participant</span>
+                                            }
+                                            @{
+                                                if (Model.blockModelList[i].Status == true)
+                                                {
+                                                    <div class="add-btn">
+
+                                                        <a href="#" onclick="postBlock(false,'@Model.blockModelList[i].BlockedUser')" title="" data-ripple="">Unblock</a>
+                                                    </div>
+                                                }
+
+                                            }
+
+                                        </div>
+                                    </div>
+                                </li>
+                                                        }
+                                                    }
+                                                }
+
+                    </ul>
+                    <div class="lodmore"><button class="btn-view btn-load-more"></button></div>
+                </div>
+              
+
+            </div>
+        </div>
+    </div>
+</div>
+

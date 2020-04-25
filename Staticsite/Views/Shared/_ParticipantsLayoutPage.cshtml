@@ -1,0 +1,509 @@
+﻿
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+
+<!-- my_profile_view_account15:59:34 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon -->
+    <link href="images/header/fav.png" rel="shortcut icon" type="image/x-icon" />
+
+    <title>ConquerorHub    </title>
+
+    <!-- Bootstrap core CSS-->
+
+    <link href="~/Content/NewTemplate/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/NewTemplate/css/style.css" rel="stylesheet" />
+    <link href="~/Content/NewTemplate/css/responsive.css" rel="stylesheet" />
+    <link href="~/Content/NewTemplate/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <link href="~/Content/NewTemplate/css/portfolio.css" rel="stylesheet" />
+    <link href="~/Content/NewTemplate/css/owlslider.css" rel="stylesheet" />
+    <link href="~/Content/NewTemplate/css/sb-admin.css" rel="stylesheet" />
+    <link href="~/Content/NewTemplate/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/NewTemplate/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.1017/styles/kendo.common.min.css">
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.1017/styles/kendo.rtl.min.css">
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.1017/styles/kendo.default.min.css">
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.1017/styles/kendo.mobile.all.min.css">
+
+    @Styles.Render("~/Content/kendo/css")
+
+
+    <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2018.3.1017/js/angular.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2018.3.1017/js/jszip.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2018.3.1017/js/kendo.all.min.js"></script>
+    <style>
+        .dropdown-header {
+            border-width: 0 0 1px 0;
+            text-transform: uppercase;
+        }
+
+            .dropdown-header > span {
+                display: inline-block;
+                padding: 10px;
+            }
+
+                .dropdown-header > span:first-child {
+                    width: 50px;
+                }
+
+        .k-list-container > .k-footer {
+            padding: 10px;
+        }
+
+        #data1-list .k-item {
+            line-height: 1em;
+            min-width: 300px;
+        }
+
+        /* Material Theme padding adjustment*/
+
+        .k-material #data1-list .k-item,
+        .k-material #data1-list .k-item.k-state-hover,
+        .k-materialblack #data1-list .k-item,
+        .k-materialblack #data1-list .k-item.k-state-hover {
+            padding-left: 5px;
+            border-left: 0;
+        }
+
+        #data1-list .k-item > span {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            display: inline-block;
+            vertical-align: top;
+            margin: 20px 10px 10px 5px;
+        }
+
+            #data1-list .k-item > span:first-child {
+                -moz-box-shadow: inset 0 0 30px rgba(0,0,0,.3);
+                -webkit-box-shadow: inset 0 0 30px rgba(0,0,0,.3);
+                box-shadow: inset 0 0 30px rgba(0,0,0,.3);
+                margin: 10px;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                background-size: 100%;
+                background-repeat: no-repeat;
+            }
+
+        #data1-list h3 {
+            font-size: 1.2em;
+            font-weight: normal;
+            margin: 0 0 1px 0;
+            padding: 0;
+        }
+
+        #data1-list p {
+            margin: 0;
+            padding: 0;
+            font-size: .8em;
+        }
+        .center-cropped {
+  width: 100px;
+  height: 100px;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+    </style>
+
+
+
+</head>
+<body id="page-top">
+
+    <nav class="navbar navbar-expand-md navbar-light fixed-top sticky-top nav-menu">
+
+        <div class="col-md-2 col-xs-12 p-left  p-right">
+
+            @*<button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>*@
+            <div class="logo">
+                <a href="#">
+                   ConquerorHub
+                </a>
+            </div>
+        </div>
+        <!-- Navbar -->
+        <div class="col-md-5 col-xs-12 p-left  p-right">
+            <div class="k-content">
+                @(Html.Kendo().ComboBox()
+.Name("data1")
+.DataTextField("UserName")
+.DataValueField("Id")
+.HtmlAttributes(new { style = "width: 100%;" })
+.DataSource(source =>
+{
+    source.Read(read =>
+    {
+        read.Action("Searchbox", "Events");
+    });
+})
+.Filter("startswith")
+.Height(1000).Template("<a href='/BasicFunctionality/Redirecttoaction?userid=#=data.Id#'>#=data.UserName#</a>")
+
+
+
+                )
+
+            </div>
+
+        </div>
+        <div class="col-md-5 col-xs-12 p-left p-right">
+            
+            <div class="home">
+                <ul>
+                    <li>
+                        <a href="index-2.html">
+                            <img src="~/Content/NewTemplate/images/header/home.png" />
+
+                            <span>1</span>
+                        </a>
+                    </li>
+
+                    <li class="popup" onclick="myFunctionicon()">
+                        <img src="~/Content/NewTemplate/images/header/notification.png" />
+
+
+                        <span>2</span>
+                        <div class="popuptext" id="icon">
+                            <div class="notfication-details">
+                                <div class="noty-user-img">
+                                    <img src="images/resources/ny-img1.png" alt="">
+                                </div>
+                                <div class="notification-info">
+                                    <h3><a href="message.html">Jassica William</a> Comment on your project.</h3>
+                                    <p>2 min ago</p>
+                                </div><!--notification-info -->
+                            </div>
+                            <div class="notfication-details">
+                                <div class="noty-user-img">
+                                    <img src="images/resources/ny-img1.png" alt="">
+                                </div>
+                                <div class="notification-info">
+                                    <h3><a href="message.html">Jassica William</a> Comment on your project.</h3>
+                                    <p>2 min ago</p>
+                                </div><!--notification-info -->
+                            </div>
+                            <div class="notfication-details">
+                                <div class="noty-user-img">
+                                    <img src="images/resources/ny-img1.png" alt="">
+                                </div>
+                                <div class="notification-info">
+                                    <h3><a href="message.html">Jassica William</a> Comment on your project.</h3>
+                                    <p>2 min ago</p>
+                                </div><!--notification-info -->
+                            </div>
+                        </div>
+
+                    </li>
+
+                </ul>
+            </div>
+            <!--#Home-->
+            <div class="login popup" onclick="signin()">
+
+                <img src="images/header/u-icon.png" title="" alt="">
+                John Deo
+                <div class="popuptext1" id="signin">
+                  
+                    <div class="notfication-details">
+                        <div class="notification-info">
+                            @Html.ActionLink("Sign Off", "LogOff", "Account")
+
+
+
+                        </div><!--notification-info -->
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </nav>
+    <div id="wrapper">
+        <!-- Sidebar -->
+       @using Staticsite.Controllers
+       
+        @{ 
+            Guid? x = ViewBag.UserId;
+
+
+            var data = new BasicFunctionalityController();
+            var data1 = data.MainPhotosofProfile(x).Values;
+            if (data1.Count != 0)
+            {
+                var d = data1.First();
+                var r = data1.Last();
+
+
+                ViewBag.bannerpic1 = r;
+                ViewBag.profilepic = d;
+            }
+        }
+
+        <div id="content-wrapper">
+            <div class="container-fluid">
+                <!-- Banner -->
+                <div class="dashboard">
+                    <div class="advertisment-banner1 col-md-12" >
+                        <img src=@ViewBag.bannerpic1 alt="Upload Banner Pic">
+
+
+                    </div>
+                    <div class="main-page">
+                        <div class="dash-profile">
+                            <img src=@ViewBag.profilepic alt="Upload Profile Pic" >
+
+
+                        </div>
+                        <div class="prompr">
+                          
+                            <div class="dashname">
+                                John Doe
+
+                            </div>
+                            <div class="likeds">
+                                <div class="likeright">
+                                   @{Html.RenderPartial("_MainPhotosofProfile");}
+                                </div>
+                            </div>
+                           
+                          
+
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                    </div>
+                </div>
+
+                <!-- Banner Area-->
+                <div class="settingmenu">
+                    <div class="navbar navbar-expand-md navbar-light">
+                        <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav">
+                            <span class="navbar-toggler-icon "></span>
+                        </button>
+                        <div class="collapse navbar-collapse  visible-title" id="navbarNav">
+                            <ul class="navbar-nav ">
+                                <li>
+
+                                    @Html.ActionLink("Home", "ParticipantHome", "Participants", new { userid = ViewBag.UserId }, null)
+
+                                </li>
+
+                                
+                                    <li>@Html.ActionLink("About", "ParticipantAbout", "Participants", new { userid = ViewBag.UserId }, null)</li>
+                                                             
+                                
+                                
+                                <li>
+                                    <div class="popup" onclick="Gallery()">
+                                        <b>Gallery</b>
+                                        <div class="popuptext1" id="gallery">
+                                            <div class="notfication-details">
+                                                <div class="notification-info">
+                                                    @Html.ActionLink("Photo Gallery", "ParticipantPhotoGallery", "Participants")
+
+                                                </div>
+                                            </div>
+                                            <div class="notfication-details">
+                                                <div class="notification-info">
+                                                    @Html.ActionLink("Video Gallery", "ParticipantVideoGallery", "Participants")
+                                                </div>
+                                            </div>                        
+                                            
+                                        </div>
+                                    </div>
+                                    
+
+                                </li>
+                                @{Html.RenderAction("GetSubscribersList", "BasicFunctionality", new { Id = ViewBag.UserId }); }
+                                @*@{Html.RenderPartial("_SubscribePartialPage"); }*@
+                                @*<li>
+
+                                                                            @if (ViewBag.Subscribers != null)
+                                                                            {
+                                                                                var x = ViewBag.Subscribers as List<Conquerorhub.Models.SubscribersModel>;
+                                                                                var y = x.Select(m => m.ProfileUserId).FirstOrDefault();
+                                                                                if (x.Select(a => a.SubscriptionStatus).FirstOrDefault() == false || x.Select(a => a.SubscriptionStatus).FirstOrDefault() == null)
+                                                                                {  <span>@ViewBag.SubscribersCount</span>
+
+                                                                                <a href="#" onclick="postlike(true,'@y');GetLike('@y')" type="button" class="likeright" style="margin-left:899px">Subscribe</a>
+
+                                                                                }
+                                                                                else if (x.Select(a => a.SubscriptionStatus).FirstOrDefault() == true)
+                                                                                {
+                                                                                    <span>@ViewBag.SubscribersCount</span>
+                                                                                    <a href="#" onclick="postlike(false,'@y');GetLike('@y')" type="button" class="likeright" style="margin-left:899px">Subscribe</a>
+                                                                                }
+                                                                            }
+
+
+
+                                    </li>*@
+                            </ul>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                @*<div class="clearfix"></div>*@
+                <!--#Spiner-->
+                @*<div class="spinner">
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                    </div>*@
+
+
+
+                @RenderBody();
+
+
+                <!--#Spiner-->
+                <!-- Sticky Footer -->
+                <footer class="sticky-footer col-md-12">
+                    <div class="container my-auto">
+                        <div class="copyright text-center my-auto">
+
+                            <div class="footer-info">
+                                <a href="#">About </a> |
+                                <a href="#">Faq’s </a> |
+                                <a href="#">Privacy</a>
+                                <a href="#"> Advertise</a>  |
+                                <a href="#">Term & Conditions </a>
+                                <a href="#">Sitemap  </a>|
+                                <a href="#">Tags  </a>|
+                                <a href="#">Blog</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </footer>
+
+            </div>
+            <!-- /.content-wrapper -->
+        </div>
+    </div>
+    <!-- /#wrapper -->
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Bootstrap core JavaScript-->
+    @* <script src="~/Content/NewTemplate/vendor/jquery/jquery.min.js"></script>*@
+    @*<script src="~/Content/NewTemplate/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>*@
+    @*<script src="~/Content/NewTemplate/vendor/jquery-easing/jquery.easing.min.js"></script>*@
+
+
+    <script src="~/Content/NewTemplate/js/you-listing.js"></script>
+    @*<script src="~/Content/NewTemplate/vendor/chart.js/Chart.min.js"></script>
+        <script src="~/Content/NewTemplate/vendor/datatables/jquery.dataTables.js"></script>
+        <script src="~/Content/NewTemplate/vendor/datatables/dataTables.bootstrap4.js"></script>
+        <script src="~/Content/NewTemplate/js/sb-admin.min.js"></script>
+
+        <script src="~/Content/NewTemplate/js/you-listing.js"></script>
+        <script src="~/Content/NewTemplate/js/menurght.js"></script>
+
+        <script src="~/Content/NewTemplate/js/slick.min.js"></script>
+        <script src="~/Content/NewTemplate/assets/vendors/jquery.min.js"></script>
+        <script src="~/Content/NewTemplate/assets/owlcarousel/owl.carousel.js"></script>
+
+        <script src="~/Content/NewTemplate/assets/vendors/highlight.js"></script>
+        <script src="~/Content/NewTemplate/assets/js/app.js"></script>*@
+    <script>
+        function Events1() {
+            debugger;
+            var popup = document.getElementById("Events1");
+            popup.classList.toggle("show")
+        }
+    </script>
+
+</body>
+
+
+
+
+
+<!-- my_profile_view_account15:59:34 GMT -->
+</html>
+<script>
+
+    function  GetLike(id) {
+        debugger;
+
+
+
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetSubscribersList", "BasicFunctionality")",
+
+            contentType: "application/json; charset=utf-8",
+            data:{ Id: id },
+        dataType: "json",
+        success: function (result) {
+            location.reload(true);
+            alert('Success');
+        },
+        error: function () { alert('A error'); }
+    });
+
+
+    }
+
+
+    function postlike(x, id) {
+        debugger;
+
+
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("SaveSubscribers", "BasicFunctionality")",
+
+            contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({
+            status: x,
+            UserId: id
+        }),
+        dataType: "json",
+        success: function (result) {
+
+            alert('Success');
+
+        },
+        error: function () { alert('A error'); }
+    });
+
+
+    }
+
+</script>
+<script>
+        function Gallery() {
+            debugger;
+            var popup = document.getElementById("gallery");
+            popup.classList.toggle("show")
+        }
+
+        function Photos() {
+            debugger;
+            var popup = document.getElementById("photo");
+            popup.classList.toggle("show")
+
+}
+</script>
+

@@ -1,0 +1,92 @@
+﻿@model Conquerorhub.Models.OrganizerAboutusModels
+@{
+    ViewBag.Title = "About";
+    Layout = "~/Views/Shared/_winkuFormLayout.cshtml";
+}
+
+<div class="col-lg-6">
+    <div class="central-meta">
+        <div class="about">
+            <div class="personal">
+                <h5 class="f-title"><i class="ti-info-alt"></i> Personal Info</h5>
+               
+            </div>
+            <div class="d-flex flex-row mt-2">
+                <ul class="nav nav-tabs nav-tabs--vertical nav-tabs--left">
+                    <li class="nav-item">
+                        <a href="#basic" class="nav-link active" data-toggle="tab">Organization Basic Details</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#location" class="nav-link" data-toggle="tab">Address</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#work" class="nav-link" data-toggle="tab">Contact number</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#interest" class="nav-link" data-toggle="tab">Vision and Mission</a>
+                    </li>
+                    
+                </ul>
+                @if (Model != null)
+                {
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="basic">
+                        <ul class="basics">
+                            <li><label>Name of the Organization</label>    <b style="margin-left:20px; color:blue">@Model.NameOfOrganization</b> </li>
+                            <li><label>Incorporated in the year</label>    <b style="margin-left:20px;color:blue">@Model.StartedInTheYear</b> </li>
+                            <li><label>CEO</label>    <b style="margin-left:20px;color:blue">CEO</b> </li>
+                            
+
+
+                        </ul>
+                    </div>
+                    <div class="tab-pane fade" id="location" role="tabpanel">
+                        <ul class="basics">
+                            <li>
+                                <label>Country</label><b style="margin-left:20px;color:blue">
+                                    @Model.Address.Country
+                                </b>
+                            </li>
+                            <li>
+                                <label>State</label><b style="margin-left:20px;color:blue">
+                                    @Model.Address.State
+                                </b>
+                            </li>
+                            <li>
+                                <label>City</label><b style="margin-left:20px;color:blue">@Model.Address.City</b>
+                            </li>
+                            <li>
+                                <label>Street Address</label><b style="margin-left:20px;color:blue">@Model.Address.ProperAddress</b>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-pane fade" id="work" role="tabpanel">
+
+                        <ul class="basics">
+                            <li><label>Contact Number</label>    <b style="margin-left:20px;color:blue">@Model.ContactNumber</b> </li>
+                            <li><label>Email Address</label>    <b style="margin-left:20px;color:blue">Email</b> </li>
+                            <li><label>Fax</label>    <b style="margin-left:20px;color:blue">Fax</b> </li>
+                            
+
+                        </ul>
+
+                    </div>
+                    <div class="tab-pane fade" id="interest" role="tabpanel">
+
+                        <ul class="basics">
+                            <li><label>Vision</label>    <b style="margin-left:20px;color:blue">@Model.VisionofTheOrganization</b> </li>
+                            <li><label>Mision</label>    <b style="margin-left:20px;color:blue">@Model.MissionOfTheOrganization</b> </li>
+                           
+
+                        </ul>
+
+                    </div>
+                    
+                </div>
+                }
+                
+            </div>
+        </div>
+    </div>
+</div>
+

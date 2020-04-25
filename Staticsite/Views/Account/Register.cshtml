@@ -1,0 +1,252 @@
+﻿@*@model Staticsite.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Create a new account.</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Register" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}*@
+@using Staticsite.Models
+@model Staticsite.Models.RegisterViewModel
+
+
+
+@{
+    ViewBag.Title = "Log in";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html class="no-js " lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Responsive Bootstrap 4 and web Application ui kit.">
+
+    <meta name="viewport" content="width=device-width" />
+    <title> ConquerorHub || Login</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <link href="~/Content/CSSfiles/main.css" rel="stylesheet" />
+    <link href="~/Content/CSSfiles/color_skins.css" rel="stylesheet" />
+    <link href="~/Content/CSSfiles/bootstrap.min.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+    @*<link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">*@
+
+    <!-- Custom Css -->
+    @*<link rel="stylesheet" href="assets/css/main.css">
+        <link rel="stylesheet" href="assets/css/color_skins.css">*@
+
+
+    <style>
+        .navbar1 {
+            background: linear-gradient(135deg,  rgba(217,30,24,.9) 0%,rgba(255,102,0,.9) 100%);
+        }
+    </style>
+
+</head>
+<body class="theme-blue">
+    @using (Html.BeginForm("Register", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="authentication sidebar-collapse">
+            <!-- Navbar -->
+            <nav class="navbar1 navbar-expand-lg fixed-top navbar-transparent">
+                <div class="container">
+                    <div class="navbar-translate n_logo">
+                        <a class="navbar-brand" href="javascript:void(0);" title="" target="_blank" style="color:white">ConquerorHub</a>
+
+                    </div>
+                    <div class="navbar-collapse">
+                        <ul class="navbar-nav">
+                            @*<li class="nav-item"><a class="nav-link" href="index-2.html">Home</a></li>
+                                <li class="nav-item"><a class="nav-link" href="javascript:void(0);">Search Result</a></li>*@
+                            @*<li class="nav-item">
+                                    <a class="nav-link" title="Follow us on Twitter" href="javascript:void(0);" target="_blank">
+                                        <i class="zmdi zmdi-twitter"></i>
+                                        <span class="d-lg-none d-xl-none m-l-10">Twitter</span>
+                                    </a>
+                                </li>*@
+                            <li class="nav-item">
+                                <a class="nav-link btn btn-white btn-round" href="@Url.Action("Register","Account")">AboutUs</a>
+                                @*<a class="nav-link" title="Like us on Facebook" href="javascript:void(0);" target="_blank">
+                                        <i class="zmdi zmdi-facebook"></i>
+                                        <span class="d-lg-none d-xl-none m-l-10">AboutUs</span>
+                                    </a>*@
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link btn btn-white btn-round" href="@Url.Action("Register","Account")">Contact Us</a>
+                                @*<a class="nav-link" title="Follow us on Instagram" href="javascript:void(0);" target="_blank">
+                                        <i class="zmdi zmdi-instagram"></i>
+                                        <span class="d-lg-none d-xl-none m-l-10">Contact</span>
+                                    </a>*@
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link btn btn-white btn-round" href="@Url.Action("Login","Account")">SIGN IN</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!-- End Navbar -->
+            <div class="page-header">
+                <div class="container">
+                    <div class="col-md-12 content-center">
+                        <div class="card-plain" style="background:linear-gradient(135deg,  rgba(217,30,24,.9) 0%,rgba(255,102,0,.9) 100%)">
+                            <form method="post" role="form" id="form_login">
+                                <div class="header">
+                                    <div class="logo-container expandUp">
+
+                                        <img src="~/Content/Images/308898-P8DOWJ-781 copy.png" />
+                                    </div>
+                                    <h5>Sign Up</h5>
+                                </div>
+                                <div class="content">
+                                    <div class="content">
+                                        <div class="input-group" id="Email">
+                                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder = "User Name" })
+
+                                            @*<span class="input-group-addon"><i class="zmdi zmdi-email" style="margin-right:10px"></i></span>*@
+
+                                        </div>
+                                        <div>
+                                            @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                                        </div>
+                                        <br />
+
+                                        <div class="input-group" id="Email">
+                                             @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
+
+                                            @*<span class="input-group-addon"><i class="zmdi zmdi-email" style="margin-right:10px"></i></span>*@
+                                            
+                                        </div>
+                                        <div>
+                                             @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                        </div>
+                                        <br />
+
+                                        <div class="input-group" id="Password">
+                                             @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password", style = "color:black" })
+
+                                            @*<span class="input-group-addon"><i class="zmdi zmdi-lock" style="margin-right:10px"></i></span>*@
+                                        
+                                        </div>
+                                        <div>
+                                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                        </div>
+                                        <br />
+                                        <div class="input-group" id="Password">
+                                             @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Password" ,style="color:black" })
+
+                                            @*<span class="input-group-addon"><i class="zmdi zmdi-lock" style="margin-right:10px"></i></span>*@
+                                          
+                                        </div>
+                                        <div>
+                                            @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+                                        </div>
+                                        <br />
+
+                                        <div class="input-group" id="Email">
+                                         @Html.DropDownList("UserType", new SelectList(Enum.GetValues(typeof(UserType))), "Select UserType", new { @class = "btn btn-white btn-round", style = "width:100% ;padding:12px" })
+                                            @*<span class="input-group-addon"><i class="zmdi zmdi-face" style="margin-right:10px"></i></span>*@
+
+                                        </div>
+                                        <div>
+                                            @Html.ValidationMessageFor(m => m.UserType, "", new { @class = "text-danger" })
+                                        </div>
+                                        @*<select class="btn btn-white btn-round" style="width:100%">
+                                            <option value="volvo">Volvo</option>
+                                            <option value="saab">Saab</option>
+                                            <option value="mercedes">Mercedes</option>
+                                            <option value="audi">Audi</option>
+                                        </select>*@
+                                    </div>
+                                    <div>
+                                        @* @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })*@
+                                        <br />
+
+
+                                    </div>
+                                </div>
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="footer">
+                                    <input type="submit" class="btn btn-white btn-round btn-lg btn-block " value="SIGN UP" OnClick="display(this)" />
+                                    <a href="@Url.Action("Index", "Dashboard")"></a>
+                                    <h5><a href="forgot-password.html" class="link">Forgot Password?</a></h5>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+                <footer class="footer" style="background:linear-gradient(135deg,  rgba(217,30,24,.9) 0%,rgba(255,102,0,.9) 100%)">
+                    <div class="container">
+
+                        <div class="copyright">
+                            &copy;
+                            <p style="float:left;color:white">Copyright &copy; 2019 - All Rights Reserved - <a href="#">ConquerorHub</a></p>
+                            <p style="float:right; color:white">Designed by ConquerorHub</p>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+      <script>
+
+      </script>
+<script src ="~/Scripts/bootstrap.min.js" ></script >
+
+            @*<script src="assets/bundles/libscripts.bundle.js"></script>
+                <script src="assets/bundles/vendorscripts.bundle.js"></script>
+                <script src="assets/js/pages/authentication/page.js"></script>*@
+            @*<script src="~/assets/bundles/libscripts.bundle.js"></script>
+            <script src="~/assets/bundles/vendorscripts.bundle.js"></script>
+            <script src="~/assets/js/pages/authentication/page.js"></script>*@
+    }
+</body>
+<!-- Mirrored from thememakker.com/wrap-theme/square/dark/sign-in.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 16 Mar 2018 08:19:53 GMT -->
+</html>
+

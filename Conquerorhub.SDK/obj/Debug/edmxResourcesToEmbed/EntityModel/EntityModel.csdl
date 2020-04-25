@@ -1,0 +1,882 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ConquerorHubModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="C__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+    <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetRole">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="AspNetUserClaim">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="AspNetUserLogin">
+    <Key>
+      <PropertyRef Name="LoginProvider" />
+      <PropertyRef Name="ProviderKey" />
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="AspNetUser">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+    <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+    <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Usertype" Type="Int32" />
+    <Property Name="UserActive" Type="Boolean" />
+    <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+    <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+    <NavigationProperty Name="CH_BlockTable" Relationship="Self.FK_CH_BlockTable_CH_BlockTable" FromRole="AspNetUsers" ToRole="CH_BlockTable" />
+    <NavigationProperty Name="CH_CommentTable" Relationship="Self.FK_CH_CommentTable_AspNetUsers1" FromRole="AspNetUsers" ToRole="CH_CommentTable" />
+    <NavigationProperty Name="CH_EventRegistrationFromOrganizer" Relationship="Self.FK_CH_EventRegistrationFromOrganizer_AspNetUsers" FromRole="AspNetUsers" ToRole="CH_EventRegistrationFromOrganizer" />
+    <NavigationProperty Name="CH_EventRegistrationFromOrganizer1" Relationship="Self.FK_CH_EventRegistrationFromOrganizer_AspNetUsers1" FromRole="AspNetUsers" ToRole="CH_EventRegistrationFromOrganizer" />
+    <NavigationProperty Name="CH_HomePageData" Relationship="Self.FK_CH_HomePageData_AspNetUsers" FromRole="AspNetUsers" ToRole="CH_HomePageData" />
+    <NavigationProperty Name="CH_LastLogin" Relationship="Self.FK_CH_LastLogin_AspNetUsers" FromRole="AspNetUsers" ToRole="CH_LastLogin" />
+    <NavigationProperty Name="CH_Likes" Relationship="Self.FK_CH_Likes_AspNetUsers" FromRole="AspNetUsers" ToRole="CH_Likes" />
+    <NavigationProperty Name="CH_MainPhotos" Relationship="Self.FK_CH_MainPhotos_AspNetUsers" FromRole="AspNetUsers" ToRole="CH_MainPhotos" />
+    <NavigationProperty Name="CH_OrganiztionAboutUs" Relationship="Self.FK_CH_OrganiztionAboutUs_AspNetUsers" FromRole="AspNetUsers" ToRole="CH_OrganiztionAboutUs" />
+    <NavigationProperty Name="CH_ParticipantRegistration" Relationship="Self.FK_CH_ParticipantRegistration_AspNetUsers1" FromRole="AspNetUsers" ToRole="CH_ParticipantRegistration" />
+    <NavigationProperty Name="CH_ParticipantRegistration1" Relationship="Self.FK_CH_ParticipantRegistration_CH_EventRegistrationFromOrganizer" FromRole="AspNetUsers" ToRole="CH_ParticipantRegistration" />
+    <NavigationProperty Name="CH_ParticipantsAbout" Relationship="Self.FK_CH_ParticipantsAbout_AspNetUsers" FromRole="AspNetUsers" ToRole="CH_ParticipantsAbout" />
+    <NavigationProperty Name="CH_ParticipantsGallery" Relationship="Self.FK_CH_ParticipantsGallery_AspNetUsers" FromRole="AspNetUsers" ToRole="CH_ParticipantsGallery" />
+    <NavigationProperty Name="CH_ShareTable" Relationship="Self.FK_CH_ShareTable_AspNetUsers" FromRole="AspNetUsers" ToRole="CH_ShareTable" />
+    <NavigationProperty Name="CH_ShareTable1" Relationship="Self.FK_CH_ShareTable_AspNetUsers1" FromRole="AspNetUsers" ToRole="CH_ShareTable" />
+    <NavigationProperty Name="CH_SubComment" Relationship="Self.FK_CH_SubComment_AspNetUsers" FromRole="AspNetUsers" ToRole="CH_SubComment" />
+    <NavigationProperty Name="CH_SubComment1" Relationship="Self.FK_CH_SubComment_AspNetUsers1" FromRole="AspNetUsers" ToRole="CH_SubComment" />
+    <NavigationProperty Name="CH_SubscriptionTable" Relationship="Self.FK_CH_SubscriptionTable_AspNetUsers" FromRole="AspNetUsers" ToRole="CH_SubscriptionTable" />
+    <NavigationProperty Name="CH_SubscriptionTable1" Relationship="Self.FK_CH_SubscriptionTable_AspNetUsers1" FromRole="AspNetUsers" ToRole="CH_SubscriptionTable" />
+    <NavigationProperty Name="CH_VoteTable" Relationship="Self.FK_CH_VoteTable_AspNetUsers" FromRole="AspNetUsers" ToRole="CH_VoteTable" />
+    <NavigationProperty Name="OTP_VerificationTable" Relationship="Self.FK_OTP_VerificationTable_AspNetUsers" FromRole="AspNetUsers" ToRole="OTP_VerificationTable" />
+    <NavigationProperty Name="SessionTokens" Relationship="Self.FK_SessionToken_AspNetUsers" FromRole="AspNetUsers" ToRole="SessionToken" />
+    <NavigationProperty Name="Sponsors" Relationship="Self.FK_Sponsors_Sponsors" FromRole="AspNetUsers" ToRole="Sponsors" />
+    <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+  </EntityType>
+  <EntityType Name="CH_BlockTable">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BlockingUser" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="BlockedUser" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="Boolean" />
+    <Property Name="DateTime" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_CH_BlockTable_CH_BlockTable" FromRole="CH_BlockTable" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="CH_CommentTable">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Guid" Nullable="false" />
+    <Property Name="DestinationUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="SourceUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PostId" Type="Guid" Nullable="false" />
+    <Property Name="CommentMessage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CommentedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_CH_CommentTable_AspNetUsers1" FromRole="CH_CommentTable" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="CH_CulturalVideos">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="ContentType" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Data" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="CH_EventRegistrationFromOrganizer">
+    <Key>
+      <PropertyRef Name="EventId" />
+    </Key>
+    <Property Name="EventId" Type="Guid" Nullable="false" />
+    <Property Name="OrganizerId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="NameofOrganizer" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="EventName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="modeofevent" Type="Int32" />
+    <Property Name="TypeOfEvent" Type="Int32" />
+    <Property Name="SubTypeOfEvent" Type="Int32" Nullable="false" />
+    <Property Name="ImageorVideoforEvent" Type="Int32" />
+    <Property Name="StreamOfParticipants" Type="Int32" />
+    <Property Name="AgeGroup" Type="Int32" />
+    <Property Name="MaxnumofTeam" Type="Int32" />
+    <Property Name="numofParticipantsinteam" Type="Int32" />
+    <Property Name="StartofEventRegistration" Type="DateTime" Precision="3" />
+    <Property Name="EndOfEventRegistration" Type="DateTime" Precision="3" />
+    <Property Name="StartofVideoUpload" Type="DateTime" Precision="3" />
+    <Property Name="EndOfVideoUpload" Type="DateTime" Precision="3" />
+    <Property Name="StartOfValuationfromvoters" Type="DateTime" Precision="3" />
+    <Property Name="EndofValuationFromVoters" Type="DateTime" Precision="3" />
+    <Property Name="ResultDate" Type="DateTime" Precision="3" />
+    <Property Name="FirstPrize" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="SecondPrize" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ThirdPrize" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="EventImage" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="EventVideo" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="EventStatus" Type="Int32" />
+    <Property Name="Eventdisplayonhomepage" Type="Boolean" />
+    <Property Name="Eventfee" Type="Int32" />
+    <Property Name="PaymentStatus" Type="Boolean" />
+    <Property Name="CurrentDateandTime" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_CH_EventRegistrationFromOrganizer_AspNetUsers" FromRole="CH_EventRegistrationFromOrganizer" ToRole="AspNetUsers" />
+    <NavigationProperty Name="AspNetUser1" Relationship="Self.FK_CH_EventRegistrationFromOrganizer_AspNetUsers1" FromRole="CH_EventRegistrationFromOrganizer" ToRole="AspNetUsers" />
+    <NavigationProperty Name="CH_VoteTable" Relationship="Self.FK_CH_VoteTable_CH_EventRegistrationFromOrganizer" FromRole="CH_EventRegistrationFromOrganizer" ToRole="CH_VoteTable" />
+    <NavigationProperty Name="OTP_VerificationTable" Relationship="Self.FK_OTP_VerificationTable_CH_EventRegistrationFromOrganizer" FromRole="CH_EventRegistrationFromOrganizer" ToRole="OTP_VerificationTable" />
+  </EntityType>
+  <EntityType Name="CH_HomePageData">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Guid" Nullable="false" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Postid" Type="Guid" />
+    <Property Name="PostText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Video" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="DateTime" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_CH_HomePageData_AspNetUsers" FromRole="CH_HomePageData" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="CH_Judges">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Expertise" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Year_of_Experience" Type="Int32" />
+    <Property Name="Invited" Type="Boolean" />
+    <Property Name="Fee_per_Hour" Type="Int32" />
+    <Property Name="Requested" Type="Boolean" />
+    <Property Name="RequestedDateTime" Type="DateTime" Precision="3" />
+    <Property Name="InvitedDateTime" Type="DateTime" Precision="3" />
+    <Property Name="AcceptedDateTime" Type="DateTime" Precision="3" />
+    <Property Name="Totalnumberofhours" Type="Int32" />
+  </EntityType>
+  <EntityType Name="CH_LastLogin">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="SessionToken" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDateandTime" Type="DateTime" Precision="3" />
+    <Property Name="ExpiryDateTime" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_CH_LastLogin_AspNetUsers" FromRole="CH_LastLogin" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="CH_Likes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Guid" Nullable="false" />
+    <Property Name="LikeStatus" Type="Boolean" />
+    <Property Name="Imageid" Type="Guid" />
+    <Property Name="SourceUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="DestinationUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="DateandTime" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_CH_Likes_AspNetUsers" FromRole="CH_Likes" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="CH_MainPhotos">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Guid" Nullable="false" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="PhotosId" Type="Guid" />
+    <Property Name="BannerPicData" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="ProfilePicData" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Datetime" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_CH_MainPhotos_AspNetUsers" FromRole="CH_MainPhotos" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="CH_OrganiztionAboutUs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Guid" Nullable="false" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="NameOfOrganization" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="StartedInTheYear" Type="DateTime" Precision="3" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ContactNumber" Type="Int64" />
+    <Property Name="VisionofTheOrganization" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="MissionOfTheOrganization" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Selfdesctiption" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Datetime" Type="DateTime" Precision="3" />
+    <Property Name="EmailId" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="Fax" Type="Int64" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_CH_OrganiztionAboutUs_AspNetUsers" FromRole="CH_OrganiztionAboutUs" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="CH_ParticipantRegistration">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Guid" Nullable="false" />
+    <Property Name="EventId" Type="Guid" />
+    <Property Name="OrganizerId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="ParticipantId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="CollegeorSchool" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Qualification" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DateOfBirthh" Type="DateTime" Precision="3" />
+    <Property Name="ContactNumber" Type="Int64" />
+    <Property Name="About_Self" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Modeofcompitetion" Type="Int32" />
+    <Property Name="RegistrationStatus" Type="Int32" />
+    <Property Name="ParticipantStatus" Type="Int32" />
+    <Property Name="ContentType" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Data" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="ParticipantsPostId" Type="Guid" />
+    <Property Name="EventStatus" Type="Int32" />
+    <Property Name="FileName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DateandTime" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_CH_ParticipantRegistration_AspNetUsers1" FromRole="CH_ParticipantRegistration" ToRole="AspNetUsers" />
+    <NavigationProperty Name="AspNetUser1" Relationship="Self.FK_CH_ParticipantRegistration_CH_EventRegistrationFromOrganizer" FromRole="CH_ParticipantRegistration" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="CH_ParticipantsAbout">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Guid" Nullable="false" />
+    <Property Name="Userid" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="BasicDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ContactDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="EducationDetails" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="DateandTime" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_CH_ParticipantsAbout_AspNetUsers" FromRole="CH_ParticipantsAbout" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="CH_ParticipantsGallery">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Guid" Nullable="false" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="PostId" Type="Guid" />
+    <Property Name="ImageData" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Caption" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="VideoData" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="DateAndTime" Type="DateTime" Precision="3" />
+    <Property Name="ContentType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="FileName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_CH_ParticipantsGallery_AspNetUsers" FromRole="CH_ParticipantsGallery" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="CH_ShareTable">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Guid" Nullable="false" />
+    <Property Name="PostId" Type="Guid" />
+    <Property Name="DestPostid" Type="Guid" />
+    <Property Name="SourcePage" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="DestinationPage" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="ShareCount" Type="Int32" />
+    <Property Name="DateTime" Type="DateTime" Precision="3" />
+    <Property Name="ContentType" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_CH_ShareTable_AspNetUsers" FromRole="CH_ShareTable" ToRole="AspNetUsers" />
+    <NavigationProperty Name="AspNetUser1" Relationship="Self.FK_CH_ShareTable_AspNetUsers1" FromRole="CH_ShareTable" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="CH_SubComment">
+    <Key>
+      <PropertyRef Name="SubCommentId" />
+    </Key>
+    <Property Name="SubCommentId" Type="Guid" Nullable="false" />
+    <Property Name="DestinationUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="SourceUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PostId" Type="Guid" />
+    <Property Name="CommentId" Type="Guid" Nullable="false" />
+    <Property Name="SubCommentDatetime" Type="DateTime" Precision="3" />
+    <Property Name="SubCommentmsg" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_CH_SubComment_AspNetUsers" FromRole="CH_SubComment" ToRole="AspNetUsers" />
+    <NavigationProperty Name="AspNetUser1" Relationship="Self.FK_CH_SubComment_AspNetUsers1" FromRole="CH_SubComment" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="CH_SubscriptionTable">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Guid" Nullable="false" />
+    <Property Name="SubscriberUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="ProfileUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="SubscriptionStatus" Type="Boolean" />
+    <Property Name="Datetime" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_CH_SubscriptionTable_AspNetUsers" FromRole="CH_SubscriptionTable" ToRole="AspNetUsers" />
+    <NavigationProperty Name="AspNetUser1" Relationship="Self.FK_CH_SubscriptionTable_AspNetUsers1" FromRole="CH_SubscriptionTable" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="CH_VoteTable">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Guid" Nullable="false" />
+    <Property Name="PostId" Type="Guid" />
+    <Property Name="userid" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="VoteStatus" Type="Boolean" />
+    <Property Name="EventId" Type="Guid" />
+    <Property Name="DateTime" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_CH_VoteTable_AspNetUsers" FromRole="CH_VoteTable" ToRole="AspNetUsers" />
+    <NavigationProperty Name="CH_EventRegistrationFromOrganizer" Relationship="Self.FK_CH_VoteTable_CH_EventRegistrationFromOrganizer" FromRole="CH_VoteTable" ToRole="CH_EventRegistrationFromOrganizer" />
+    <NavigationProperty Name="CH_VoteTable1" Relationship="Self.FK_CH_VoteTable_CH_VoteTable" FromRole="CH_VoteTable" ToRole="CH_VoteTable1" />
+    <NavigationProperty Name="CH_VoteTable2" Relationship="Self.FK_CH_VoteTable_CH_VoteTable" FromRole="CH_VoteTable1" ToRole="CH_VoteTable" />
+  </EntityType>
+  <EntityType Name="OTP_VerificationTable">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Guid" Nullable="false" />
+    <Property Name="EventId" Type="Guid" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="OTP" Type="Int32" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_OTP_VerificationTable_AspNetUsers" FromRole="OTP_VerificationTable" ToRole="AspNetUsers" />
+    <NavigationProperty Name="CH_EventRegistrationFromOrganizer" Relationship="Self.FK_OTP_VerificationTable_CH_EventRegistrationFromOrganizer" FromRole="OTP_VerificationTable" ToRole="CH_EventRegistrationFromOrganizer" />
+  </EntityType>
+  <EntityType Name="SessionToken">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="SessionToken1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CreatedDateandTime" Type="DateTime" Precision="3" />
+    <Property Name="ExpiryDateandTime" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_SessionToken_AspNetUsers" FromRole="SessionToken" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="Sponsor">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Guid" Nullable="false" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Caption" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Like" Type="Int32" />
+    <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Private" Type="Boolean" />
+    <Property Name="Public" Type="Boolean" />
+    <Property Name="DateandTime" Type="DateTime" Precision="3" />
+    <Property Name="ImageId" Type="Guid" />
+    <NavigationProperty Name="AspNetUser" Relationship="Self.FK_Sponsors_Sponsors" FromRole="Sponsors" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="CH_EventSubType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EventReferenceId" Type="Int32" />
+    <Property Name="EventSubType" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserClaims" Type="Self.AspNetUserClaim" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserClaims">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserLogins" Type="Self.AspNetUserLogin" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserLogins">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CH_BlockTable_CH_BlockTable">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+    <End Role="CH_BlockTable" Type="Self.CH_BlockTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CH_BlockTable">
+        <PropertyRef Name="BlockedUser" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CH_CommentTable_AspNetUsers1">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+    <End Role="CH_CommentTable" Type="Self.CH_CommentTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CH_CommentTable">
+        <PropertyRef Name="SourceUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CH_EventRegistrationFromOrganizer_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+    <End Role="CH_EventRegistrationFromOrganizer" Type="Self.CH_EventRegistrationFromOrganizer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CH_EventRegistrationFromOrganizer">
+        <PropertyRef Name="OrganizerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CH_EventRegistrationFromOrganizer_AspNetUsers1">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+    <End Role="CH_EventRegistrationFromOrganizer" Type="Self.CH_EventRegistrationFromOrganizer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CH_EventRegistrationFromOrganizer">
+        <PropertyRef Name="OrganizerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CH_HomePageData_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+    <End Role="CH_HomePageData" Type="Self.CH_HomePageData" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CH_HomePageData">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CH_LastLogin_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+    <End Role="CH_LastLogin" Type="Self.CH_LastLogin" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CH_LastLogin">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CH_Likes_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+    <End Role="CH_Likes" Type="Self.CH_Likes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CH_Likes">
+        <PropertyRef Name="DestinationUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CH_MainPhotos_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+    <End Role="CH_MainPhotos" Type="Self.CH_MainPhotos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CH_MainPhotos">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CH_OrganiztionAboutUs_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+    <End Role="CH_OrganiztionAboutUs" Type="Self.CH_OrganiztionAboutUs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CH_OrganiztionAboutUs">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CH_ParticipantRegistration_AspNetUsers1">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+    <End Role="CH_ParticipantRegistration" Type="Self.CH_ParticipantRegistration" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CH_ParticipantRegistration">
+        <PropertyRef Name="ParticipantId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CH_ParticipantRegistration_CH_EventRegistrationFromOrganizer">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+    <End Role="CH_ParticipantRegistration" Type="Self.CH_ParticipantRegistration" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CH_ParticipantRegistration">
+        <PropertyRef Name="OrganizerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CH_ParticipantsAbout_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+    <End Role="CH_ParticipantsAbout" Type="Self.CH_ParticipantsAbout" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CH_ParticipantsAbout">
+        <PropertyRef Name="Userid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CH_ParticipantsGallery_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+    <End Role="CH_ParticipantsGallery" Type="Self.CH_ParticipantsGallery" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CH_ParticipantsGallery">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CH_ShareTable_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+    <End Role="CH_ShareTable" Type="Self.CH_ShareTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CH_ShareTable">
+        <PropertyRef Name="SourcePage" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CH_ShareTable_AspNetUsers1">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+    <End Role="CH_ShareTable" Type="Self.CH_ShareTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CH_ShareTable">
+        <PropertyRef Name="DestinationPage" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CH_SubComment_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+    <End Role="CH_SubComment" Type="Self.CH_SubComment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CH_SubComment">
+        <PropertyRef Name="DestinationUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CH_SubComment_AspNetUsers1">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1" />
+    <End Role="CH_SubComment" Type="Self.CH_SubComment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CH_SubComment">
+        <PropertyRef Name="SourceUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CH_SubscriptionTable_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+    <End Role="CH_SubscriptionTable" Type="Self.CH_SubscriptionTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CH_SubscriptionTable">
+        <PropertyRef Name="SubscriberUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CH_SubscriptionTable_AspNetUsers1">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+    <End Role="CH_SubscriptionTable" Type="Self.CH_SubscriptionTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CH_SubscriptionTable">
+        <PropertyRef Name="ProfileUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CH_VoteTable_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+    <End Role="CH_VoteTable" Type="Self.CH_VoteTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CH_VoteTable">
+        <PropertyRef Name="userid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OTP_VerificationTable_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+    <End Role="OTP_VerificationTable" Type="Self.OTP_VerificationTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OTP_VerificationTable">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SessionToken_AspNetUsers">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+    <End Role="SessionToken" Type="Self.SessionToken" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SessionToken">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Sponsors_Sponsors">
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+    <End Role="Sponsors" Type="Self.Sponsor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Sponsors">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CH_VoteTable_CH_EventRegistrationFromOrganizer">
+    <End Role="CH_EventRegistrationFromOrganizer" Type="Self.CH_EventRegistrationFromOrganizer" Multiplicity="0..1" />
+    <End Role="CH_VoteTable" Type="Self.CH_VoteTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CH_EventRegistrationFromOrganizer">
+        <PropertyRef Name="EventId" />
+      </Principal>
+      <Dependent Role="CH_VoteTable">
+        <PropertyRef Name="EventId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OTP_VerificationTable_CH_EventRegistrationFromOrganizer">
+    <End Role="CH_EventRegistrationFromOrganizer" Type="Self.CH_EventRegistrationFromOrganizer" Multiplicity="0..1" />
+    <End Role="OTP_VerificationTable" Type="Self.OTP_VerificationTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CH_EventRegistrationFromOrganizer">
+        <PropertyRef Name="EventId" />
+      </Principal>
+      <Dependent Role="OTP_VerificationTable">
+        <PropertyRef Name="EventId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CH_VoteTable_CH_VoteTable">
+    <End Role="CH_VoteTable" Type="Self.CH_VoteTable" Multiplicity="1" />
+    <End Role="CH_VoteTable1" Type="Self.CH_VoteTable" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="CH_VoteTable">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CH_VoteTable1">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUserRoles">
+    <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
+    <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="ConquerorHubEntities3" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+    <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
+    <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
+    <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
+    <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
+    <EntitySet Name="CH_BlockTable" EntityType="Self.CH_BlockTable" />
+    <EntitySet Name="CH_CommentTable" EntityType="Self.CH_CommentTable" />
+    <EntitySet Name="CH_CulturalVideos" EntityType="Self.CH_CulturalVideos" />
+    <EntitySet Name="CH_EventRegistrationFromOrganizer" EntityType="Self.CH_EventRegistrationFromOrganizer" />
+    <EntitySet Name="CH_HomePageData" EntityType="Self.CH_HomePageData" />
+    <EntitySet Name="CH_Judges" EntityType="Self.CH_Judges" />
+    <EntitySet Name="CH_LastLogin" EntityType="Self.CH_LastLogin" />
+    <EntitySet Name="CH_Likes" EntityType="Self.CH_Likes" />
+    <EntitySet Name="CH_MainPhotos" EntityType="Self.CH_MainPhotos" />
+    <EntitySet Name="CH_OrganiztionAboutUs" EntityType="Self.CH_OrganiztionAboutUs" />
+    <EntitySet Name="CH_ParticipantRegistration" EntityType="Self.CH_ParticipantRegistration" />
+    <EntitySet Name="CH_ParticipantsAbout" EntityType="Self.CH_ParticipantsAbout" />
+    <EntitySet Name="CH_ParticipantsGallery" EntityType="Self.CH_ParticipantsGallery" />
+    <EntitySet Name="CH_ShareTable" EntityType="Self.CH_ShareTable" />
+    <EntitySet Name="CH_SubComment" EntityType="Self.CH_SubComment" />
+    <EntitySet Name="CH_SubscriptionTable" EntityType="Self.CH_SubscriptionTable" />
+    <EntitySet Name="CH_VoteTable" EntityType="Self.CH_VoteTable" />
+    <EntitySet Name="OTP_VerificationTable" EntityType="Self.OTP_VerificationTable" />
+    <EntitySet Name="SessionTokens" EntityType="Self.SessionToken" />
+    <EntitySet Name="Sponsors" EntityType="Self.Sponsor" />
+    <EntitySet Name="CH_EventSubType" EntityType="Self.CH_EventSubType" />
+    <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CH_BlockTable_CH_BlockTable" Association="Self.FK_CH_BlockTable_CH_BlockTable">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="CH_BlockTable" EntitySet="CH_BlockTable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CH_CommentTable_AspNetUsers1" Association="Self.FK_CH_CommentTable_AspNetUsers1">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="CH_CommentTable" EntitySet="CH_CommentTable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CH_EventRegistrationFromOrganizer_AspNetUsers" Association="Self.FK_CH_EventRegistrationFromOrganizer_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="CH_EventRegistrationFromOrganizer" EntitySet="CH_EventRegistrationFromOrganizer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CH_EventRegistrationFromOrganizer_AspNetUsers1" Association="Self.FK_CH_EventRegistrationFromOrganizer_AspNetUsers1">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="CH_EventRegistrationFromOrganizer" EntitySet="CH_EventRegistrationFromOrganizer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CH_HomePageData_AspNetUsers" Association="Self.FK_CH_HomePageData_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="CH_HomePageData" EntitySet="CH_HomePageData" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CH_LastLogin_AspNetUsers" Association="Self.FK_CH_LastLogin_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="CH_LastLogin" EntitySet="CH_LastLogin" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CH_Likes_AspNetUsers" Association="Self.FK_CH_Likes_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="CH_Likes" EntitySet="CH_Likes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CH_MainPhotos_AspNetUsers" Association="Self.FK_CH_MainPhotos_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="CH_MainPhotos" EntitySet="CH_MainPhotos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CH_OrganiztionAboutUs_AspNetUsers" Association="Self.FK_CH_OrganiztionAboutUs_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="CH_OrganiztionAboutUs" EntitySet="CH_OrganiztionAboutUs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CH_ParticipantRegistration_AspNetUsers1" Association="Self.FK_CH_ParticipantRegistration_AspNetUsers1">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="CH_ParticipantRegistration" EntitySet="CH_ParticipantRegistration" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CH_ParticipantRegistration_CH_EventRegistrationFromOrganizer" Association="Self.FK_CH_ParticipantRegistration_CH_EventRegistrationFromOrganizer">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="CH_ParticipantRegistration" EntitySet="CH_ParticipantRegistration" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CH_ParticipantsAbout_AspNetUsers" Association="Self.FK_CH_ParticipantsAbout_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="CH_ParticipantsAbout" EntitySet="CH_ParticipantsAbout" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CH_ParticipantsGallery_AspNetUsers" Association="Self.FK_CH_ParticipantsGallery_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="CH_ParticipantsGallery" EntitySet="CH_ParticipantsGallery" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CH_ShareTable_AspNetUsers" Association="Self.FK_CH_ShareTable_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="CH_ShareTable" EntitySet="CH_ShareTable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CH_ShareTable_AspNetUsers1" Association="Self.FK_CH_ShareTable_AspNetUsers1">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="CH_ShareTable" EntitySet="CH_ShareTable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CH_SubComment_AspNetUsers" Association="Self.FK_CH_SubComment_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="CH_SubComment" EntitySet="CH_SubComment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CH_SubComment_AspNetUsers1" Association="Self.FK_CH_SubComment_AspNetUsers1">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="CH_SubComment" EntitySet="CH_SubComment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CH_SubscriptionTable_AspNetUsers" Association="Self.FK_CH_SubscriptionTable_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="CH_SubscriptionTable" EntitySet="CH_SubscriptionTable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CH_SubscriptionTable_AspNetUsers1" Association="Self.FK_CH_SubscriptionTable_AspNetUsers1">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="CH_SubscriptionTable" EntitySet="CH_SubscriptionTable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CH_VoteTable_AspNetUsers" Association="Self.FK_CH_VoteTable_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="CH_VoteTable" EntitySet="CH_VoteTable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OTP_VerificationTable_AspNetUsers" Association="Self.FK_OTP_VerificationTable_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="OTP_VerificationTable" EntitySet="OTP_VerificationTable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SessionToken_AspNetUsers" Association="Self.FK_SessionToken_AspNetUsers">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="SessionToken" EntitySet="SessionTokens" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Sponsors_Sponsors" Association="Self.FK_Sponsors_Sponsors">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="Sponsors" EntitySet="Sponsors" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CH_VoteTable_CH_EventRegistrationFromOrganizer" Association="Self.FK_CH_VoteTable_CH_EventRegistrationFromOrganizer">
+      <End Role="CH_EventRegistrationFromOrganizer" EntitySet="CH_EventRegistrationFromOrganizer" />
+      <End Role="CH_VoteTable" EntitySet="CH_VoteTable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OTP_VerificationTable_CH_EventRegistrationFromOrganizer" Association="Self.FK_OTP_VerificationTable_CH_EventRegistrationFromOrganizer">
+      <End Role="CH_EventRegistrationFromOrganizer" EntitySet="CH_EventRegistrationFromOrganizer" />
+      <End Role="OTP_VerificationTable" EntitySet="OTP_VerificationTable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CH_VoteTable_CH_VoteTable" Association="Self.FK_CH_VoteTable_CH_VoteTable">
+      <End Role="CH_VoteTable" EntitySet="CH_VoteTable" />
+      <End Role="CH_VoteTable1" EntitySet="CH_VoteTable" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
+      <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

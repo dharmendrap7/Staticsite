@@ -1,0 +1,93 @@
+﻿@model Conquerorhub.Models.ParticipationRegistrationModel
+@{
+    ViewBag.Title = "Uploadvideo";
+    Layout = "~/Views/Shared/_winkuFormLayout.cshtml";
+}
+
+
+
+<div class="col-lg-6">
+    <div class="central-meta">
+        <div class="editing-info">
+            <h5 class="f-title"><i class="ti-info-alt"></i> Upload your Performance</h5>
+            @if (TempData["msg"] != null)
+            {
+            <div class="alert alert-success">
+                @TempData["msg"]
+            </div>
+            }
+@if (TempData["msg"] == null)
+{
+    using (Html.BeginForm("SaveOngoingEventParticipant", "Events", FormMethod.Post, new { enctype = "multipart/form-data", Id = "frmAddvideo" }))
+    {
+                @Html.HiddenFor(m => m.EventId);
+                @Html.HiddenFor(m => m.OrganizerId);
+                <form method="post">
+                    <div class="form-group half" style="margin-top:100px">
+                       
+                        <div class="edit-phto" style="margin-bottom: -104px;margin-left: -140px">
+                            <i class="fa fa-camera-retro"></i>
+                            @if ((int?)ViewBag.ImageorVideo == 1)
+                            {
+                            <label class="fileContainer" style="font-size:15px">
+                                Click here to upload Image
+
+                                @Html.TextBoxFor(m => m.PostedFile, new { type = "file", id = " ImgUpload", onchange = "ImgPre(this)" })
+                                
+                                @Html.ValidationMessageFor(model => model.PostedFile, " ", new { @class = "text-danger" })
+                                </label>
+                            }
+                            else if ((int?)ViewBag.ImageorVideo == 2)
+                            {
+                                <label class="fileContainer" style="font-size:15px">
+                                    Click here to upload Video
+
+                                    @Html.TextBoxFor(m => m.PostedFile, new { type = "file", name = "file[]", @class = "file_multi_video" })
+
+                                    @Html.ValidationMessageFor(model => model.PostedFile, " ", new { @class = "text-danger" })
+                                </label>
+                            }
+                            
+</div>
+                        <div class="row">
+                            <p>
+                                <img id="ImgPreview" height="100" width="100" hidden />
+                            </p>
+                            <p>
+                                <video width="150" height="150" controls hidden id="VidPreview">
+                                    <source src="" id="video_here">
+
+                                </video>
+                            </p>
+                        </div>
+                        </div>
+                            <div class="submit-btns">
+                                <button type="button" class="mtr-btn"><span>Cancel</span></button>
+                                <button type="submit" class="mtr-btn"><span>Submit</span></button>
+                            </div>
+                </form>
+            }
+            }
+        </div>
+    </div>
+</div>
+            
+
+<script>
+    function ImgPre(input) {
+        $("#ImgPreview").removeAttr("hidden");
+        if (input.files[0]) {
+            var uploadimg = new FileReader();
+            uploadimg.onload = function (displayimg) {
+                $("#ImgPreview").attr('src', displayimg.target.result);
+            }
+            uploadimg.readAsDataURL(input.files[0]);
+        }
+    }
+    $(document).on("change", ".file_multi_video", function (evt) {
+        $("#VidPreview").removeAttr("hidden");
+        var $source = $('#video_here');
+        $source[0].src = URL.createObjectURL(this.files[0]);
+        $source.parent()[0].load();
+    });
+</script>

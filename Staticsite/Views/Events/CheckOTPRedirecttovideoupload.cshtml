@@ -1,0 +1,40 @@
+﻿@model Conquerorhub.Models.OTPVerificationModel
+@{
+    ViewBag.Title = "CheckOTPRedirecttovideoupload";
+    Layout = "~/Views/Shared/_winkuFormLayout.cshtml";
+}
+
+      
+      
+
+
+
+<div class="col-lg-6">
+    <div class="central-meta">
+        <div class="editing-info">
+            <h5 class="f-title"><i class="ti-info-alt"></i> OTP Verification Page</h5>
+          @using (Html.BeginForm("CheckOTPRedirecttovideoupload", "Events", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+          {
+                @Html.HiddenFor(m => m.OrganizerId);
+                @Html.HiddenFor(m => m.EventId);
+                <form method="post">                
+                                                 
+                                                 
+                    <div class="form-group half">
+                        @Html.TextAreaFor(m => m.OTP, new { id = "selfdescription" })
+                        <label class="control-label" for="input">Enter your otp sent to your email</label><i class="mtrl-select"></i>
+                        @Html.ValidationMessageFor(model => model.OTP, " ", new { @class = "text-danger" })
+                    </div>
+                    <div class="submit-btns">
+                        <button type="button" class="mtr-btn"><span>Cancel</span></button>
+                        <button type="submit" class="mtr-btn"><span>Submit</span></button>
+                    </div>
+                </form>
+            }
+
+        </div>
+    </div>
+</div>
+
+
+  

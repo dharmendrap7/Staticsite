@@ -1,0 +1,655 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>myticket</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+    <link href="~/Content/ThemeForestFiles/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/ThemeForestFiles/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/ThemeForestFiles/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="~/Content/ThemeForestFiles/css/bootstrap-slider.min.css">
+    <link rel="stylesheet" href="~/Content/ThemeForestFiles/css/jquery.scrolling-tabs.min.css">
+    <link rel="stylesheet" href="~/Content/ThemeForestFiles/css/bootstrap-checkbox.css">
+    <link rel="stylesheet" href="~/Content/ThemeForestFiles/css/flexslider.css">
+    <link rel="stylesheet" href="~/Content/ThemeForestFiles/css/featherlight.min.css">
+    <link rel="stylesheet" href="~/Content/ThemeForestFiles/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Content/ThemeForestFiles/css/bootstrap.offcanvas.min.css">
+    <link rel="stylesheet" href="~/Content/ThemeForestFiles/css/core.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet">
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>*@
+
+    <script src="~/Content/scripts/jquery.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    @*<script src="~/Content/ThemeForestFiles/js/jquery-3.2.0.min.js"></script>*@
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link href="~/Content/AutocompleteFiles/StyleAuto.css" rel="stylesheet" />
+    <link href="~/Content/Notification.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="~/Content/ThemeForestFiles/css/style.css">
+    <link rel="stylesheet" href="~/Content/ThemeForestFiles/css/responsive.css">
+
+</head>
+
+@using Microsoft.AspNet.Identity;
+@using Conquerorhub.SDK.Services
+@{
+    var obj = new ApplicationMandatoryService();
+    if (ViewBag.UserId != null)
+    {
+        Guid? abc = ViewBag.UserId;
+
+        ViewBag.UserName = obj.Getuserlist("adsfff").Entity.FirstOrDefault(a => a.Id == abc.ToString()).UserName;
+    }
+    else
+    {
+        var id = User.Identity.GetUserId();
+        ViewBag.UserName = obj.Getuserlist("adsfff").Entity.FirstOrDefault(a => a.Id == id).UserName;
+        ;
+    }
+
+}
+
+
+
+<body>
+    
+    <header id="masthead" class="site-header">
+
+        <div class="main-header main-header-bg">
+            <div class="container">
+                <div class="row">
+                    <div class="site-branding col-md-4">
+                        <h1 class="site-title"><a href="#" title="myticket" rel="home"><img src="images/logo.png" alt="logo"></a></h1>
+
+                        
+                        <h1 style="margin-left:-250px;color:white">Participant:</h1>
+
+                        <h1 style="margin-left:-60px;margin-top:-50px;color:white">@ViewBag.UserName</h1>
+
+
+                    </div>
+                    <div class="col-md-5 col-xs-12 p-left  p-right">
+                        <form action="/OrganizerBasicDetails/Home1" method="post">
+                            <div class="autocomplete" style="width:300px;">
+                                <input id="myInput" type="text" name="MyInput">
+                            </div>
+                            <input type="submit" class="glyphicon glyphicon-search">
+                        </form>
+
+
+                        <div class="col-md-4">
+                            <nav id="site-navigation" class="navbar">
+                                <!-- toggle get grouped for better mobile display -->
+                                <div class="navbar-header">
+                                    <div class="mobile-cart"><a href="#">0</a></div>
+                                    <button type="button" class="navbar-toggle offcanvas-toggle pull-right" data-toggle="offcanvas" data-target="#js-bootstrap-offcanvas">
+                                        <span class="sr-only">Toggle navigation</span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
+                                </div>
+
+                                <div class="navbar-offcanvas navbar-offcanvas-touch navbar-offcanvas-right" id="js-bootstrap-offcanvas">
+                                    <button type="button" class="offcanvas-toggle closecanvas" data-toggle="offcanvas" data-target="#js-bootstrap-offcanvas">
+                                        <i class="fa fa-times fa-2x" aria-hidden="true"></i>
+                                    </button>
+
+                                    <ul class="nav navbar-nav navbar-right">
+
+
+                                        @Html.ActionLink("Home", "ParticipantHome", "Participants",null, new { userid ="" })
+                                        @*<li>@Html.ActionLink("Notification", "AboutUs", "OrganizerBasicDetails", new { userid = ViewBag.UserId }, null)</li>*@
+                                        <li>
+                                            <span class="noti glyphicon glyphicon-globe"><span class="count"> </span></span>
+                                            <div class="noti-content">
+                                                <div class="noti-top-arrow"></div>
+                                                <ul id="notiContent"></ul>
+                                            </div>
+                                        </li>
+
+
+                                        <li class="dropdown">
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+
+                                                <span class="caret"></span>
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li>@Html.ActionLink("Sign Off", "LogOff", "Account", null, new { style = "color:black" })</li>
+                                                <li>@Html.ActionLink("Deactivate Account", "ProfileDeactivate", "Account", null, new { style = "color:black" })</li>
+
+                                            </ul>
+                                        </li>
+
+
+
+                                    </ul>
+                                </div>
+                            </nav><!-- #site-navigation -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="section-artist-featured-header">
+            <div class="container">
+                <div class="section-content">
+
+                </div>
+            </div>
+        </section>
+        <div class="main-header main-header-bg">
+            <div class="container">
+                <div class="row">
+
+
+                    <div class="col-md-9">
+                        <nav id="site-navigation" class="navbar">
+                            <!-- toggle get grouped for better mobile display -->
+
+
+                            <div class="navbar-offcanvas navbar-offcanvas-touch navbar-offcanvas-right" id="js-bootstrap-offcanvas">
+
+
+                                <ul class="nav navbar-nav navbar-left">
+
+                                   <li>@Html.ActionLink("Home", "ParticipantHome", "Participants", new { userid = ViewBag.UserId }, null)</li>
+                                    <li>@Html.ActionLink("About", "ParticipantAbout", "Participants", new { userid = ViewBag.UserId }, null)</li>
+                                    <li class="dropdown">
+                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                            Gallery
+                                            <span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li>@Html.ActionLink("Photo Gallery", "ParticipantPhotoGallery", "Participants",null,new { userid = ViewBag.UserId,style = "color:black"  })</li>
+                                            <li>@Html.ActionLink("Video Gallery", "ParticipantVideoGallery", "Participants",null,new { Userid = ViewBag.UserId , style = "color:black" })</li>
+                                           
+                                        </ul>
+                                    </li>
+                                    
+                                   
+                                    @*@{Html.RenderPartial("_SubscribePartialPage"); }*@
+                                    <li>
+
+                                        @if (ViewBag.Subscribers != null)
+                                        {
+                                            var x = ViewBag.Subscribers as List<Conquerorhub.Models.SubscribersModel>;
+                                            var y = x.Select(m => m.ProfileUserId).FirstOrDefault();
+                                            if (x.Select(a => a.SubscriptionStatus).FirstOrDefault() == false || x.Select(a => a.SubscriptionStatus).FirstOrDefault() == null)
+                                            {  <span class="viewbagshare">@ViewBag.ShareCount</span>
+                                            <span class="shareclass"></span>
+
+                                            <button onclick="postSubscriber(true,'@y');GetSubscriber('@y')" class="btn btn-default" style="margin-left:899px">Subscribe</button>
+
+                                            }
+                                            else if (x.Select(a => a.SubscriptionStatus).FirstOrDefault() == true)
+                                            {
+                                                <span class="viewbagshare">@ViewBag.ShareCount</span>
+                                                <span class="shareclass"></span>
+                                                                                        <button onclick="postSubscriber(false,'@y');GetSubscriber('@y')" class="btn btn-default" style="margin-left:899px">Subscribe</button>
+                                            }
+                                        }
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </nav><!-- #site-navigation -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </header><!-- #masthead -->
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+    </div>
+
+    <footer id="colophon" class="site-footer">
+        <div class="top-footer">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-md-8">
+                        <a href="#"><img src="images/logo.png" alt="logo"></a>
+                    </div>
+                    <div class="col-md-4">
+
+                        <p>&copy; 2019 ConquerorHub.com. ALL RIGHTS RESEVED</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="main-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="footer-1 col-md-9">
+                        <div class="about clearfix">
+                            <h3>About</h3>
+                            <ul>
+                                <li><a href="#">Our Company</a></li>
+                                <li><a href="#">Careers</a></li>
+                                <li><a href="#">Advertising</a></li>
+                                <li><a href="#">Press Room</a></li>
+                                <li><a href="#">Trademarks</a></li>
+                                <li><a href="#">Terms of Service</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="support clearfix">
+                            <h3>Support and Contact</h3>
+                            <ul>
+                                <li><a href="#">Customer Support Contacts</a></li>
+                                <li><a href="#">Feedback</a></li>
+                                <li><a href="#">Help</a></li>
+                                <li><a href="#">Sitemap</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="social clearfix">
+                            <h3>Stay Connected</h3>
+                            <ul>
+                                <li class="facebook">
+                                    <a href="#">
+                                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                                        Facebook
+                                    </a>
+                                </li>
+                                <li class="twitter">
+                                    <a href="#">
+                                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                                        Twitter
+                                    </a>
+                                </li>
+                                <li class="linkedin">
+                                    <a href="#">
+                                        <i class="fa fa-linkedin-square" aria-hidden="true"></i>
+                                        LinkedIn
+                                    </a>
+                                </li>
+                                <li class="google">
+                                    <a href="#">
+                                        <i class="fa fa-google-plus-square" aria-hidden="true"></i>
+                                        Google+
+                                    </a>
+                                </li>
+                                <li class="rss">
+                                    <a href="#">
+                                        <i class="fa fa-rss-square" aria-hidden="true"></i>
+                                        RSS
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="footer-2 col-md-3">
+                        <div class="footer-dashboard">
+                            <h3>MyTicket Dashboard</h3>
+                            <ul>
+                                <li><a href="#">Professional</a></li>
+                                <li><a href="#">Subscriber Login</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </footer><!-- #colophon -->
+
+
+
+
+
+    <script type="text/javascript">
+
+                                                var arr = null;
+                                                $(function () {
+                                                    $.ajax({
+                                                        url: "/Events/Searchbox",
+                                                        type: "GET",
+                                                        dataType: "json",
+                                                        contentType: "application/json",
+                                                       // data: { term: request.term },
+                                                        success: function (data) {
+                                                            debugger;
+                                                           // arr = data;
+                                                            autocomplete(document.getElementById("myInput"), data);
+                                                        },
+
+                                                    });
+                                                });
+
+                                                function autocomplete(inp, arr) {
+                                                    debugger;
+                                                    var currentFocus;
+                                                    inp.addEventListener("input", function (e) {
+                                                        debugger;
+                                                        var a, b, i, val = this.value;
+                                                        closeAllLists();
+                                                        if (!val) { return false; }
+                                                        currentFocus = -1;
+                                                        a = document.createElement("DIV");
+                                                        a.setAttribute("id", this.id + "autocomplete-list");
+                                                        a.setAttribute("class", "autocomplete-items");
+                                                        this.parentNode.appendChild(a);
+                                                        for (i = 0; i < arr.length; i++) {
+                                                            if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                                                                b = document.createElement("DIV");
+                                                                b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                                                                b.innerHTML += arr[i].substr(val.length);
+                                                                b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                                                                b.addEventListener("click", function (e) {
+                                                                    inp.value = this.getElementsByTagName("input")[0].value;
+                                                                    closeAllLists();
+                                                                });
+                                                                a.appendChild(b);
+                                                            }
+                                                        }
+                                                    });
+                                                    /*execute a function presses a key on the keyboard:*/
+                                                    inp.addEventListener("keydown", function (e) {
+                                                        var x = document.getElementById(this.id + "autocomplete-list");
+                                                        if (x) x = x.getElementsByTagName("div");
+                                                        if (e.keyCode == 40) {
+                                                            /*If the arrow DOWN key is pressed,
+                                                            increase the currentFocus variable:*/
+                                                            currentFocus++;
+                                                            /*and and make the current item more visible:*/
+                                                            addActive(x);
+                                                        } else if (e.keyCode == 38) { //up
+                                                            /*If the arrow UP key is pressed,
+                                                            decrease the currentFocus variable:*/
+                                                            currentFocus--;
+                                                            /*and and make the current item more visible:*/
+                                                            addActive(x);
+                                                        } else if (e.keyCode == 13) {
+                                                            /*If the ENTER key is pressed, prevent the form from being submitted,*/
+                                                            e.preventDefault();
+                                                            if (currentFocus > -1) {
+                                                                /*and simulate a click on the "active" item:*/
+                                                                if (x) x[currentFocus].click();
+                                                            }
+                                                        }
+                                                    });
+                                                    function addActive(x) {
+                                                        /*a function to classify an item as "active":*/
+                                                        if (!x) return false;
+                                                        /*start by removing the "active" class on all items:*/
+                                                        removeActive(x);
+                                                        if (currentFocus >= x.length) currentFocus = 0;
+                                                        if (currentFocus < 0) currentFocus = (x.length - 1);
+                                                        /*add class "autocomplete-active":*/
+                                                        x[currentFocus].classList.add("autocomplete-active");
+                                                    }
+                                                    function removeActive(x) {
+                                                        /*a function to remove the "active" class from all autocomplete items:*/
+                                                        for (var i = 0; i < x.length; i++) {
+                                                            x[i].classList.remove("autocomplete-active");
+                                                        }
+                                                    }
+                                                    function closeAllLists(elmnt) {
+                                                        /*close all autocomplete lists in the document,
+                                                        except the one passed as an argument:*/
+                                                        var x = document.getElementsByClassName("autocomplete-items");
+                                                        for (var i = 0; i < x.length; i++) {
+                                                            if (elmnt != x[i] && elmnt != inp) {
+                                                                x[i].parentNode.removeChild(x[i]);
+                                                            }
+                                                        }
+                                                    }
+                                                    /*execute a function when someone clicks in the document:*/
+                                                    document.addEventListener("click", function (e) {
+                                                        closeAllLists(e.target);
+                                                    });
+                                                }
+
+
+
+
+    </script>
+    <script type="text/javascript">
+
+                                                    $(function () {
+                                                        // Click on notification icon for show notification
+                                                        $('span.noti').click(function (e) {
+                                                            debugger;
+                                                            e.stopPropagation();
+                                                            $('span.noti').css("color", "lightgreen");
+                                                            $('span.count').hide();
+                                                            $('.noti-content').show();
+                                                            var count = 0;
+                                                            count = parseInt($('span.count').html()) || 0;
+                                                            count++;
+                                                            // only load notification if not already loaded
+                                                            if (count > 0) {
+                                                                updateNotification();
+                                                            }
+
+                                                            $('span.count', this).html(' ');
+                                                        })
+                                                        // hide notifications
+                                                        $('html').click(function () {
+                                                            $('.noti-content').hide();
+                                                        })
+                                                        // update notification
+                                                        function updateNotification() {
+                                                            debugger;
+                                                            $('#notiContent').empty();
+                                                            $('#notiContent').append($('<li>Loading...</li>'));
+                                                            $.ajax({
+                                                                url: "/BasicFunctionality/GetNotifications",
+                                                                type: "GET",
+                                                                dataType: "json",
+                                                                contentType: "application/json",
+                                                                // data: { term: request.term },
+                                                                success: function (data) {
+                                                                    debugger;
+
+
+                                                                    $('#notiContent').empty();
+                                                                    if (data.length == 0) {
+                                                                        $('#notiContent').append($('<li>Currently You Have No New Notifications.</li>'));
+                                                                    }
+
+                                                                    $.each(data.Item1, function (index, list) {
+                                                                        debugger;
+                                                                        var data1 = JSON.stringify(list.aboutEvent);
+                                                                        var stringify = JSON.parse(data1);
+                                                                        var link = "http://localhost:56621/Events/EventDetailsToParticipants?id=" + stringify['EventId'] + "&Userid=" +@ViewBag.UserId + "";
+                                                                    $('#notiContent').append($('<li> <a href='+link +'>The user , '+ stringify['NameofOrganizer'] + 'have Organized the event </a></li>'));
+
+                                                                    });
+                                                                    $.each(data.Item2, function (index, list) {
+                                                                        debugger;
+                                                                        var data1 = JSON.stringify(list);
+                                                                        var stringify = JSON.parse(data1);
+                                                                        var link = "http://localhost:56621/BasicFunctionality/GetNotificationpost?postid=" + stringify['Imageid'] + "";
+
+                                                                        $('#notiContent').append($('<li><a href=' + link + '>The user ,' + stringify['NameofOrganizer'] + ' have liked the post>/a></li>'));
+
+                                                                    });
+                                                                    $.each(data.Item3, function (index, list) {
+                                                                        debugger;
+                                                                        var data1 = JSON.stringify(list);
+                                                                        var stringify = JSON.parse(data1);
+
+
+
+                                                                        var link = "http://localhost:56621/BasicFunctionality/GetNotificationpost?postid=" + stringify['PostId'] + "";
+                                                                            $('#notiContent').append($('<li><a href=' + link + '>The user ,' + stringify['PostId'] + ' have shared the post>/a></li>'));
+
+                                                                    });
+
+
+
+                                                                   // autocomplete(document.getElementById("myInput"), data);
+                                                                },
+                                                                error: function (error) {
+                                                                    alert(error);
+                                                                }
+                                                            });
+
+                                                        }
+                                                        // update notification count
+                                                        function updateNotificationCount() {
+                                                            debugger;
+                                                            $('span.count').show();
+                                                            var count = 0;
+                                                            count = parseInt($('span.count').html()) || 0;
+                                                            count++;
+                                                            $('span.noti').css("color", "white");
+                                                            $('span.count').css({ "background-color": "red", "color": "white" });
+                                                            $('span.count').html(count);
+
+                                                        }
+                                                        // signalr js code for start hub and send receive notification
+
+                                                        var notificationHub = $.connection.notificationHub;
+                                                        $.connection.hub.start().done(function () {
+                                                            console.log('Notification hub started');
+                                                        });
+                                                        //$.connection.hub.start().done(function () {
+                                                        //    console.log('Notification hub started');
+                                                        //});
+                                                        //signalr method for push server message to client
+                                                        notificationHub.client.notify = function (message) {
+                                                            debugger;
+                                                            if (message && message.toLowerCase() == "added") {
+                                                                updateNotificationCount();
+                                                            }
+                                                        }
+                                                    })
+    </script>
+    
+    <script>
+          function postshare(id,Userid) {
+        debugger;
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("SaveShare","BasicFunctionality")",
+
+            contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({
+            id: id,
+            sourceid:Userid
+        }),
+        dataType: "json",
+        success: function (result) {
+            alert('Success');
+            GetShare(id)
+
+        },
+        error: function () { alert('A error'); }
+    });
+    }
+    function  GetShare(id) {
+        debugger;
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetShareList", "BasicFunctionality")",
+
+            contentType: "application/json; charset=utf-8",
+        data:{ Id: id },
+        dataType: "json",
+        success: function (result) {
+            $(".shareclass").append(result.ShareCount);
+            $(".viewbagshare").hide();
+            alert('Success');
+        },
+        error: function () { alert('A error'); }
+    });
+    }
+    function  GetLike(id ,userid) {
+        debugger;
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetLLikesList", "BasicFunctionality")",
+
+            contentType: "application/json; charset=utf-8",
+            data:{ Id: id },
+        dataType: "json",
+        success: function (result) {
+            $(".viewbagcount").hide();
+            $(".likecount").append(result.truestatus);
+            window.location.reload();
+
+            alert('Success from get');
+        },
+        error: function () { alert('A error'); }
+    });
+    }
+
+
+    function postlike(x, id,userid) {
+        debugger;
+
+
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("SaveLikes","BasicFunctionality")",
+
+            contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({
+            status: x,
+            id: id,
+            userid: userid
+        }),
+        dataType: "json",
+        success: function (result) {
+
+            alert('Success from post');
+            GetLike(id,userid)
+
+        },
+        error: function () { alert('A error'); }
+        });
+    }
+    </script>
+    @*<script src="~/Content/ThemeForestFiles/js/jquery-3.2.0.min.js"></script>*@
+    <script src="~/Content/ThemeForestFiles/js/bootstrap-slider.min.js"></script>
+    <script src="~/Content/ThemeForestFiles/js/bootstrap-select.min.js"></script>
+    <script src="~/Content/ThemeForestFiles/js/jquery.scrolling-tabs.min.js"></script>
+    <script src="~/Content/ThemeForestFiles/js/jquery.countdown.min.js"></script>
+    <script src="~/Content/ThemeForestFiles/js/jquery.flexslider-min.js"></script>
+    <script src="~/Content/ThemeForestFiles/js/jquery.imagemapster.min.js"></script>
+    <script src="~/Content/ThemeForestFiles/js/tooltip.js"></script>
+    @*<script src="~/Content/ThemeForestFiles/js/bootstrap.min.js"></script>*@
+    <script src="~/Content/ThemeForestFiles/js/featherlight.min.js"></script>
+    <script src="~/Content/ThemeForestFiles/js/featherlight.gallery.min.js"></script>
+    <script src="~/Content/ThemeForestFiles/js/bootstrap.offcanvas.min.js"></script>
+    <script src="~/Content/ThemeForestFiles/js/main.js"></script>
+
+
+
+
+
+
+
+
+
+</body>
+
+
+</html>

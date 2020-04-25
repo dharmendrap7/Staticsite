@@ -1,0 +1,159 @@
+﻿@model Conquerorhub.Models.ParticipantAboutModel
+@{
+    ViewBag.Title = "ParticipantAbout";
+    Layout = "~/Views/Shared/_winkuFormLayout.cshtml";
+}
+
+<div class="col-lg-9">
+    <div class="inbox-sec">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="inbox-navigation">
+                    <div class="inbox-panel-head">
+
+                        <h1><i>Panticipant basic details</i></h1>
+                        <p>Here you can fill your basic detail where others can see it</p>
+
+
+                    </div><!-- Inbox Panel Head -->
+                    <div class="flaged d-flex flex-row mt-2">
+                        <ul class="nav nav-tabs nav-tabs--vertical nav-tabs--left">
+                            <li class="nav-item">
+
+                                <a href="#Event" class="nav-link active" data-toggle="tab"><i class="fa fa-paper-plane-o"></i>Basics Information</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#Participants" class="nav-link" data-toggle="tab">Contact Details</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#Dates" class="nav-link" data-toggle="tab">Education Information</a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-8 col-sm-7">
+                <div class="central-meta" style="height:100%">
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="Event">
+                            <div class="editing-info">
+                                <h5 class="f-title"><i class="ti-info-alt"></i> Fill your basic info</h5>
+                               
+                                @using (Html.BeginForm("ParticipantAbout", "Participants", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                {
+                                    <form method="post">
+                                        <div class="form-group half">
+                                            @Html.TextBoxFor(m => m.basicDetails.FullName, new { id = "nameoforganization" })
+                                            <label class="control-label" for="input">Full Name</label><i class="mtrl-select"></i>
+                                            <br />
+                                            @Html.ValidationMessageFor(m => m.basicDetails.FullName, null, new { style = "color:red" })
+                                        </div>
+                                        <div class="form-group half">
+                                            @Html.TextBoxFor(m => m.basicDetails.DateofBirth, "{0:yyyy-MM-dd}", new { @type = "date" })
+                                            <label class="control-label" for="input">Date of Birth</label><i class="mtrl-select"></i>
+                                            <br />
+                                            @Html.ValidationMessageFor(m => m.basicDetails.DateofBirth, null, new { style = "color:red" })
+                                        </div>
+                                        <div class="form-group half">
+                                            @Html.TextBoxFor(m => m.basicDetails.NativePlace, new { id = "nameoforganization"})
+                                            <label class="control-label" for="input">Native Place</label><i class="mtrl-select"></i>
+                                            <br />
+                                            @Html.ValidationMessageFor(m => m.basicDetails.NativePlace, null, new { style = "color:red" })
+                                        </div>
+                                        <div class="form-group half">
+                                            @Html.TextBoxFor(m => m.basicDetails.LivesAt, new { id = "nameoforganization" })
+                                            <label class="control-label" for="input">Lives at</label><i class="mtrl-select"></i>
+<br />
+@Html.ValidationMessageFor(m => m.basicDetails.LivesAt, null, new { style = "color:red" })
+                                        </div>
+
+                                        
+                                        <div class="submit-btns">
+                                            <button type="button" class="mtr-btn"><span>Cancel</span></button>
+                                            <button type="submit" class="mtr-btn"><span>Update</span></button>
+                                        </div>
+                                    </form>
+                                }
+                            </div>
+                           
+                        </div>
+                        <div class="tab-pane fade" id="Participants" role="tabpanel">
+                            <div class="editing-info">
+                                <h5 class="f-title"><i class="ti-info-alt"></i> Contact Details</h5>
+                              @using (Html.BeginForm("ParticipantAbout", "Participants", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                              {
+                                    <form method="post">
+                                        <div class="form-group half">
+                                            @Html.TextBoxFor(m => m.contactInformation.Phonenumber, new { id = "nameoforganization" })
+                                            <label class="control-label" for="input">Phone Number</label><i class="mtrl-select"></i>
+                                            <br />
+                                            @Html.ValidationMessageFor(m => m.contactInformation.Phonenumber, null, new { style = "color:red" })
+                                        </div>
+                                        <div class="form-group half">
+                                            @Html.TextBoxFor(m => m.contactInformation.email, new { id = "nameoforganization"})
+                                            <label class="control-label" for="input">Email</label><i class="mtrl-select"></i>
+                                            <br />
+                                            @Html.ValidationMessageFor(m => m.contactInformation.email, null, new { style = "color:red" })
+                                        </div>
+                                        
+                                        <div class="submit-btns">
+                                            <button type="button" class="mtr-btn"><span>Cancel</span></button>
+                                            <button type="submit" class="mtr-btn"><span>Update</span></button>
+                                        </div>
+                                    </form>
+                                }
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="Dates" role="tabpanel">
+                            <div class="editing-info">
+                                <h5 class="f-title"><i class="ti-info-alt"></i>Education Qualification</h5>
+                               @using (Html.BeginForm("ParticipantAbout", "Participants", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                               {
+
+                                    <form method="post">
+                                        <div class="form-group half">
+                                            @Html.TextBoxFor(m => m.EducationQualification.highschool)
+                                            <label class="control-label" for="input">High School</label><i class="mtrl-select"></i>
+                                            <br />
+                                            @Html.ValidationMessageFor(m => m.EducationQualification.highschool, null, new { style = "color:red" })
+                                        </div>
+                                        <div class="form-group half">
+                                            @Html.TextBoxFor(m => m.EducationQualification.preuniversity)
+                                            <label class="control-label" for="input">Pre University</label><i class="mtrl-select"></i>
+                                            <br />
+                                            @Html.ValidationMessageFor(m => m.EducationQualification.preuniversity, null, new { style = "color:red" })
+                                        </div>
+
+
+                                        <div class="form-group half">
+                                            @Html.TextBoxFor(m => m.EducationQualification.Pg)
+                                            <label class="control-label" for="input">Post Graduation</label><i class="mtrl-select"></i>
+                                            <br />
+                                            @Html.ValidationMessageFor(m => m.EducationQualification.Pg, null, new { style = "color:red" })
+                                        </div>
+                                        <div class="form-group half">
+                                            @Html.TextBoxFor(m => m.EducationQualification.Phd)
+                                            <label class="control-label" for="input">Doctorate</label><i class="mtrl-select"></i>
+                                            <br />
+                                            @Html.ValidationMessageFor(m => m.EducationQualification.Phd, null, new { style = "color:red" })
+                                        </div>
+                                        
+                                        <div class="submit-btns">
+                                            <button type="button" class="mtr-btn"><span>Cancel</span></button>
+                                            <button type="submit" class="mtr-btn"><span>Update</span></button>
+                                        </div>
+                                    </form>
+                                }
+                            </div>
+                        </div>
+                     
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>

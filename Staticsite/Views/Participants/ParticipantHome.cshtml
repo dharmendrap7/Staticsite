@@ -1,0 +1,1005 @@
+﻿@model  Conquerorhub.Models.CH_HomeViewModel
+@{
+    ViewBag.Title = "InnerPage";
+
+    Layout = "~/Views/Shared/_WinkuInnerPageLayout.cshtml";
+}
+
+
+
+
+
+
+<div class="col-lg-6">
+    <div class="central-meta">
+        <div class="new-postbox">
+            <figure>
+                <img src="~/Content/assets/images/resources/admin2.jpg" alt="">
+            </figure>
+            <div class="newpst-input">
+                @using (Html.BeginForm("Home", "OrganizerBasicDetails", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data", role = "form" }))
+                {
+
+                    @Html.TextAreaFor(m => m.homeSingledata.PostText, new { placeholder = "write something", rows = 2 })
+                    <div class="attachments">
+                        <ul>
+
+                            <li>
+                                <i class="fa fa-image"></i>
+                                <label class="fileContainer">
+                                    @Html.TextBoxFor(m => m.homeSingledata.Image1, new { type = "file", id = " ImgUpload", onchange = "ImgPre(this)" })
+                                </label>
+                            </li>
+                            <li>
+                                <i class="fa fa-video-camera"></i>
+                                <label class="fileContainer">
+                                    @Html.TextBoxFor(m => m.homeSingledata.Video1, new { type = "file", name = "file[]", @class = "file_multi_video" })
+                                </label>
+                            </li>
+                            @*<li>
+                                    <i class="fa fa-camera"></i>
+                                    <label class="fileContainer">
+                                        <input type="file">
+                                    </label>
+                                </li>*@
+                            <li>
+                                <button type="submit">Post</button>
+                            </li>
+                        </ul>
+                        <div class="row">
+                            <p>
+                                <img id="ImgPreview" height="100" width="100" hidden />
+                            </p>
+                            <p>
+                                <video width="150" height="150" controls hidden id="VidPreview">
+                                    <source src="" id="video_here">
+
+                                </video>
+                            </p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div><!-- add post new box -->
+    </div>
+    <div class="loadMore">
+        @if (Model.homeList.Count != 0)
+        {
+            foreach (var item in Model.homeList)
+            {
+                <div class="central-meta item">
+                    <div class="user-post">
+                        <div class="close" onclick='DeleteHomePost("@item.Postid","@item.UserId")'>x</div>
+                        <div class="friend-info" id="postid_@item.Postid">
+                            <figure>
+                                <a href="@Url.Action("ProfilePage","OrganizerBasicDetails",new {UserId=item.UserId })" title=""><img src="@item.Profilepic" alt=""></a>
+                            </figure>
+                            <div class="friend-name">
+                                <ins><a href="@Url.Action("ProfilePage","OrganizerBasicDetails",new {UserId=item.UserId })" title="">@item.UserName</a></ins>
+                                <span>published on @item.DateTime</span>
+                            </div>
+                            <div class="post-meta">
+                                @if (item.Image2 != null)
+                                {
+                                    <img src="@item.Image2" alt="">
+                                }
+                                <div class="description">
+
+                                    <p>
+                                        @item.PostText
+                                    </p>
+                                </div>
+                                <div class="we-video-info">
+                                    <ul>
+                                        @*<li>
+                                                <span class="views" data-toggle="tooltip" title="views">
+                                                    <i class="fa fa-eye"></i>
+                                                    <ins>1.2k</ins>
+                                                </span>
+                                            </li>*@
+                                        <li>
+                                            <input type="hidden" id="detinationId" value="@item.UserId" />
+                                            <input type="text" value="0" id="PostId" hidden />  <!-- Ch2-->
+                                            <input type="text" id="pcid" hidden />  <!-- Ch3-->
+                                            <input type="text" value="0" id="IsReplay" hidden />  <!-- Ch4-->
+                                            <span class="comment" data-toggle="tooltip" title="Comments" id="@item.Postid">
+                                                <!-- Ch5-->
+                                                <i class="fa fa-comments-o"></i>
+                                                @{
+                                                    var count = Model.sponsorSingleData.commentList.Where(model => model.DestinationUserId == item.UserId && model.PostId == item.Postid).ToList().Count() != 0 ? Model.sponsorSingleData.commentList.Where(model => model.DestinationUserId == item.UserId && model.PostId == item.Postid).ToList().Count() : 0;
+                                                    ViewBag.commentCount = count;
+                                                }
+                                                <ins>@ViewBag.commentCount</ins>
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="like" data-toggle="tooltip" title="like">
+                                                <i class="ti-heart" onclick="postlike(true,'@item.Postid','@item.UserId',this)"></i>
+                                                @{var abc = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.Postid && model.DestinationUserId == item.UserId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.Postid && model.DestinationUserId == item.UserId && model.LikeStatus == true).Select(model => model.LikeStatus == true).Count() : 0;
+                                                    ViewBag.Count = abc;
+                                                }
+                                                <ins id="Like_@item.Postid">@ViewBag.Count</ins>
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="dislike" data-toggle="tooltip" title="dislike">
+                                                <i class="ti-heart" onclick="postlike(false,'@item.Postid','@item.UserId',this)"></i>
+                                                @{var abc1 = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.Postid && model.DestinationUserId == item.UserId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.Postid && model.DestinationUserId == item.UserId && model.LikeStatus == false).Select(model => model.LikeStatus == false).Count() : 0;
+                                                    ViewBag.Count1 = abc1;
+                                                }
+                                                <ins id="DisLike_@item.Postid">@ViewBag.Count1</ins>
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span data-toggle="tooltip" title="Share">
+                                                @{ var xyz = Model.sponsorSingleData.sharelist.Select(model => model.PostId == item.Postid && model.SourcePage == item.UserId).ToList().Count() != 0 ? Model.sponsorSingleData.sharelist.Where(model => model.PostId == item.Postid).Select(model => model).Count() : 0;
+                                                    ViewBag.ShareCount = xyz;
+                                                }
+                                                <ins id="shareId_@item.Postid">@ViewBag.ShareCount</ins>
+                                                <i class="fa fa-share-alt" onclick="postshare('@item.Postid','@item.UserId' )"></i>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                                                        }
+                                                    }
+        @if (Model.ImageVideolist.Count != 0)
+        {
+            foreach (var item in Model.ImageVideolist)
+            {
+                <div class="central-meta item">
+                    <div class="user-post">
+
+                        <div class="friend-info" id="postid_@item.EventIdImageorVideo">
+                            <figure>
+                                <a href="@Url.Action("ProfilePage","OrganizerBasicDetails",new {UserId=item.OrganizerId })" title=""><img src="@item.Profilepic" alt=""></a>
+                            </figure>
+                            <div class="friend-name">
+                                <ins><a href="@Url.Action("ProfilePage","OrganizerBasicDetails",new {UserId=item.OrganizerId })" title="">@item.UserName</a></ins>
+                                <span>published: @item.Datetime</span>
+                            </div>
+                            <div class="post-meta">
+                                @if (item.Image != null)
+                                {
+                                    <img src="@item.Image" alt="">
+                                }
+                                <div class="description">
+
+                                    <p>
+                                        To know more about event <a href="@Url.Action("EventDetailsToParticipants", "Events",new { id=item.EventIdImageorVideo, Userid =item.OrganizerId})" class="btn btn-default"> Click Here</a>
+                                    </p>
+                                </div>
+                                <div class="we-video-info">
+                                    <ul>
+                                        @*<li>
+                                                <span class="views" data-toggle="tooltip" title="views">
+                                                    <i class="fa fa-eye"></i>
+                                                    <ins>1.2k</ins>
+                                                </span>
+                                            </li>*@
+                                        <li>
+                                            <input type="hidden" id="detinationId" value="@item.OrganizerId" />
+                                            <input type="text" value="0" id="PostId" hidden />  <!-- Ch2-->
+                                            <input type="text" id="pcid" hidden />  <!-- Ch3-->
+                                            <input type="text" value="0" id="IsReplay" hidden />  <!-- Ch4-->
+                                            <span class="comment" data-toggle="tooltip" title="Comments" id="@item.EventIdImageorVideo">
+                                                <!-- Ch5-->
+                                                <i class="fa fa-comments-o"></i>
+                                                @{
+                                                    var count = Model.sponsorSingleData.commentList.Where(model => model.DestinationUserId == item.OrganizerId && model.PostId == item.EventIdImageorVideo).ToList().Count() != 0 ? Model.sponsorSingleData.commentList.Where(model => model.DestinationUserId == item.OrganizerId && model.PostId == item.EventIdImageorVideo).ToList().Count() : 0;
+                                                    ViewBag.commentCount = count;
+                                                }
+                                                <ins>@ViewBag.commentCount</ins>
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="like" data-toggle="tooltip" title="like">
+                                                <i class="ti-heart" onclick="postlike(true,'@item.EventIdImageorVideo','@item.OrganizerId',this)"></i>
+                                                @{var abc = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.EventIdImageorVideo).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.EventIdImageorVideo && model.LikeStatus == true).Select(model => model.LikeStatus == true).Count() : 0;
+                                                    ViewBag.Count = abc;
+                                                }
+                                                <ins id="Like_@item.EventIdImageorVideo">@ViewBag.Count</ins>
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="dislike" data-toggle="tooltip" title="dislike">
+                                                <i class="ti-heart-broken" onclick="postlike(false,'@item.EventIdImageorVideo','@item.OrganizerId',this)"></i>
+                                                @{var abc1 = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.EventIdImageorVideo).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.EventIdImageorVideo && model.LikeStatus == false).Select(model => model.LikeStatus == false).Count() : 0;
+                                                    ViewBag.Count1 = abc1;
+                                                }
+                                                <ins id="DisLike_@item.EventIdImageorVideo">@ViewBag.Count1</ins>
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span data-toggle="tooltip" title="Share">
+                                                @{ var xyz = Model.sponsorSingleData.sharelist.Select(model => model.PostId == item.EventIdImageorVideo && model.SourcePage == item.OrganizerId).ToList().Count() != 0 ? Model.sponsorSingleData.sharelist.Where(model => model.PostId == item.EventIdImageorVideo && model.SourcePage == item.OrganizerId).Select(model => model).Count() : 0;
+                                                    ViewBag.ShareCount = xyz;
+                                                }
+                                                <ins id="shareId_@item.EventIdImageorVideo">@ViewBag.ShareCount</ins>
+                                                <i class="fa fa-share-alt" onclick="postshare('@item.EventIdImageorVideo','@item.OrganizerId' )"></i>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                                                        }
+                                                    }
+        @if (Model.GalleryList.Count != 0)
+        {
+            foreach (var item in Model.GalleryList)
+            {
+                <div class="central-meta item">
+                    <div class="user-post">
+
+                        <div class="friend-info" id="postid_@item.PostId">
+                            <figure>
+                                <a href="@Url.Action("ProfilePage","OrganizerBasicDetails",new {UserId=item.UserId })" title="">  <img src="@item.Profilepic" alt=""></a>
+                            </figure>
+                            <div class="friend-name">
+                                <ins><a href="@Url.Action("ProfilePage","OrganizerBasicDetails",new {UserId=item.UserId })" title="">@item.UserName</a></ins> have uploaded below post
+                                <span>published: @item.DateAndTime</span>
+                            </div>
+                            @if (item.Image != null)
+                            {
+                                <div class="post-meta">
+                                    <img src="@item.Image" alt="">
+                                    <div class="description">
+
+                                        <p>
+                                            @item.Caption
+                                        </p>
+                                    </div>
+                                    <div class="we-video-info">
+                                        <ul>
+                                            @*<li>
+                                                    <span class="views" data-toggle="tooltip" title="views">
+                                                        <i class="fa fa-eye"></i>
+                                                        <ins>1.2k</ins>
+                                                    </span>
+                                                </li>*@
+                                            <li>
+                                                <input type="hidden" id="detinationId" value="@item.UserId" />
+                                                <input type="text" value="0" id="PostId" hidden />  <!-- Ch2-->
+                                                <input type="text" id="pcid" hidden />  <!-- Ch3-->
+                                                <input type="text" value="0" id="IsReplay" hidden />  <!-- Ch4-->
+                                                <span class="comment" data-toggle="tooltip" title="Comments" id="@item.PostId">
+                                                    <!-- Ch5-->
+                                                    <i class="fa fa-comments-o"></i>
+                                                    @{
+                                                        var count = Model.sponsorSingleData.commentList.Where(model => model.DestinationUserId == item.UserId && model.PostId == item.PostId).ToList().Count() != 0 ? Model.sponsorSingleData.commentList.Where(model => model.DestinationUserId == item.UserId && model.PostId == item.PostId).ToList().Count() : 0;
+                                                        ViewBag.commentCount = count;
+                                                    }
+                                                    <ins>@ViewBag.commentCount</ins>
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span class="like" data-toggle="tooltip" title="like">
+                                                    <i class="ti-heart" onclick="postlike(true,'@item.PostId','@item.UserId',this)"></i>
+                                                    @{var abc1 = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.PostId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.PostId && model.LikeStatus == true).Select(model => model.LikeStatus == true).Count() : 0;
+                                                        ViewBag.Count2 = abc1;
+                                                    }
+                                                    <ins id="Like_@item.PostId">@ViewBag.Count2</ins>
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span class="dislike" data-toggle="tooltip" title="dislike">
+                                                    <i class="ti-heart-broken" onclick="postlike(false,'@item.PostId','@item.UserId',this)"></i>
+                                                    @{var abc = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.PostId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.PostId && model.LikeStatus == false).Select(model => model.LikeStatus == false).Count() : 0;
+                                                        ViewBag.Count3 = abc;
+                                                    }
+                                                    <ins id="DisLike_@item.PostId">@ViewBag.Count3</ins>
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span data-toggle="tooltip" title="Share">
+                                                    @{ var xyz = Model.sponsorSingleData.sharelist.Select(model => model.PostId == item.PostId && model.SourcePage == item.UserId).ToList().Count() != 0 ? Model.sponsorSingleData.sharelist.Where(model => model.PostId == item.PostId && model.SourcePage == item.UserId).Select(model => model).Count() : 0;
+                                                        ViewBag.ShareCount = xyz;
+                                                    }
+                                                    <ins id="shareId_@item.PostId">@ViewBag.ShareCount</ins>
+                                                    <i class="fa fa-share-alt" onclick="postshare('@item.PostId','@item.UserId' )"></i>
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                                                        }
+                            @if (item.VideoData != null)
+                            {
+                                <div class="post-meta">
+                                    <video id="VideoPlayer" src='@Url.Action("DownloadFile", "Participants", new { VideoID = item.PostId })' controls="true" loop="true" />
+                                    <div class="description">
+
+                                        <p>
+                                            @item.Caption
+                                        </p>
+                                    </div>
+                                    <div class="we-video-info">
+                                        <ul>
+                                            <li>
+                                                <input type="hidden" id="detinationId" value="@item.UserId" />
+                                                <input type="text" value="0" id="PostId" hidden />  <!-- Ch2-->
+                                                <input type="text" id="pcid" hidden />  <!-- Ch3-->
+                                                <input type="text" value="0" id="IsReplay" hidden />  <!-- Ch4-->
+                                                <span class="comment" data-toggle="tooltip" title="Comments" id="@item.PostId">
+                                                    <!-- Ch5-->
+                                                    <i class="fa fa-comments-o"></i>
+                                                    @{
+                                                        var count = Model.sponsorSingleData.commentList.Where(model => model.DestinationUserId == item.UserId && model.PostId == item.PostId).ToList().Count() != 0 ? Model.sponsorSingleData.commentList.Where(model => model.DestinationUserId == item.UserId && model.PostId == item.PostId).ToList().Count() : 0;
+                                                        ViewBag.commentCount = count;
+                                                    }
+                                                    <ins>@ViewBag.commentCount</ins>
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span class="like" data-toggle="tooltip" title="like">
+                                                    <i class="ti-heart" onclick="postlike(true,'@item.PostId','@item.UserId',this)"></i>
+                                                    @{var abc1 = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.PostId && model.DestinationUserId == item.UserId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.PostId && model.LikeStatus == true).Select(model => model.LikeStatus == true).Count() : 0;
+                                                        ViewBag.Count = abc1;
+                                                    }
+                                                    <ins id="Like_@item.PostId">@ViewBag.Count </ins>
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span class="dislike" data-toggle="tooltip" title="dislike">
+                                                    <i class="ti-heart-broken" onclick="postlike(false,'@item.PostId','@item.UserId',this)"></i>
+                                                    @{var abc = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.PostId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.PostId && model.LikeStatus == false).Select(model => model.LikeStatus == false).Count() : 0;
+                                                        ViewBag.Count1 = abc;
+                                                    }
+                                                    <ins id="DisLike_@item.PostId">@ViewBag.Count1</ins>
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span data-toggle="tooltip" title="Share">
+                                                    @{ var xyz = Model.sponsorSingleData.sharelist.Select(model => model.PostId == item.PostId && model.SourcePage == item.UserId).ToList().Count() != 0 ? Model.sponsorSingleData.sharelist.Where(model => model.PostId == item.PostId && model.SourcePage == item.UserId).Select(model => model).Count() : 0;
+                                                        ViewBag.ShareCount = xyz;
+                                                    }
+                                                    <ins id="shareId_@item.PostId">@ViewBag.ShareCount</ins>
+                                                    <i class="fa fa-share-alt" onclick="postshare('@item.PostId','@item.UserId' )"></i>
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                                                        }
+                        </div>
+
+                    </div>
+                </div>
+                                                            }
+                                                        }
+
+        @if (Model.sponsorMultipleData.Count != 0)
+        {
+            foreach (var item in Model.sponsorMultipleData)
+            {
+                <div class="central-meta item">
+                    <div class="user-post">
+
+                        <div class="friend-info" id="postid_@item.ImageId">
+                            <figure>
+                                <a href="@Url.Action("ProfilePage","OrganizerBasicDetails",new {UserId=item.UserId })" title=""><img src="@item.profilepic" alt=""></a>
+                            </figure>
+                            <div class="friend-name">
+                                <ins><a href="@Url.Action("ProfilePage","OrganizerBasicDetails",new {UserId=item.UserId })" title="">@item.UserName</a></ins> have uploaded below post
+                                <span>published: @item.DateandTime</span>
+                            </div>
+                            @if (item.Image != null)
+                            {
+                                <div class="post-meta">
+                                    <img src="@item.Image1" alt="">
+                                    <div class="description">
+
+                                        <p>
+                                            @item.Caption
+                                        </p>
+                                    </div>
+                                    <div class="we-video-info">
+                                        <ul>
+                                            @*<li>
+                                                    <span class="views" data-toggle="tooltip" title="views">
+                                                        <i class="fa fa-eye"></i>
+                                                        <ins>1.2k</ins>
+                                                    </span>
+                                                </li>*@
+                                            <li>
+                                                <input type="hidden" id="detinationId" value="@item.UserId" />
+                                                <input type="text" value="0" id="PostId" hidden />  <!-- Ch2-->
+                                                <input type="text" id="pcid" hidden />  <!-- Ch3-->
+                                                <input type="text" value="0" id="IsReplay" hidden />  <!-- Ch4-->
+                                                <span class="comment" data-toggle="tooltip" title="Comments" id="@item.ImageId">
+                                                    <!-- Ch5-->
+                                                    <i class="fa fa-comments-o"></i>
+                                                    @{
+                                                        var count = Model.sponsorSingleData.commentList.Where(model => model.DestinationUserId == item.UserId && model.PostId == item.ImageId).ToList().Count() != 0 ? Model.sponsorSingleData.commentList.Where(model => model.DestinationUserId == item.UserId && model.PostId == item.ImageId).ToList().Count() : 0;
+                                                        ViewBag.commentCount = count;
+                                                    }
+                                                    <ins>@ViewBag.commentCount</ins>
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span class="like" data-toggle="tooltip" title="like">
+                                                    <i class="ti-heart" onclick="postlike(true,'@item.ImageId','@item.UserId',this)"></i>
+                                                    @{var abc = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.ImageId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.ImageId && model.LikeStatus == true).Select(model => model.LikeStatus == true).Count() : 0;
+                                                        ViewBag.Count4 = abc;
+                                                    }
+
+
+                                                    <ins id="Like_@item.ImageId">@ViewBag.Count4</ins>
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span class="dislike" data-toggle="tooltip" title="dislike">
+                                                    <i class="ti-heart-broken" onclick="postlike(false,'@item.ImageId','@item.UserId',this)"></i>
+                                                    @{var abc1 = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.ImageId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.ImageId && model.LikeStatus == false).Select(model => model.LikeStatus == false).Count() : 0;
+                                                        ViewBag.Count5 = abc1;
+                                                    }
+                                                    <ins id="DisLike_@item.ImageId">@ViewBag.Count5</ins>
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span data-toggle="tooltip" title="Share">
+                                                    @{ var xyz = Model.sponsorSingleData.sharelist.Select(model => model.PostId == item.ImageId && model.SourcePage == item.UserId).ToList().Count() != 0 ? Model.sponsorSingleData.sharelist.Where(model => model.PostId == item.ImageId && model.SourcePage == item.UserId).Select(model => model).Count() : 0;
+                                                        ViewBag.ShareCount = xyz;
+                                                    }
+                                                    <ins id="shareId_@item.ImageId">@ViewBag.ShareCount</ins>
+                                                    <i class="fa fa-share-alt" onclick="postshare('@item.ImageId','@item.UserId' )"></i>
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                                                        }
+
+                        </div>
+
+                    </div>
+                </div>
+
+                                                            }
+                                                        }
+        @if (Model.sponsorListdata.Count != 0)
+        {
+            foreach (var item in Model.sponsorListdata)
+            {
+                <div class="central-meta item">
+                    <div class="user-post">
+
+                        <div class="friend-info" id="postid_@item.ImageId">
+                            <figure>
+                                <a href="@Url.Action("ProfilePage","OrganizerBasicDetails",new {UserId=item.UserId })" title=""><img src="@item.profilepic" alt=""></a>
+                            </figure>
+                            <div class="friend-name">
+                                <ins><a href="@Url.Action("ProfilePage","OrganizerBasicDetails",new {UserId=item.UserId })" title="">@item.UserName</a></ins> have uploaded below post
+                                <span>published:@item.DateandTime</span>
+                            </div>
+                            @if (item.Image != null)
+                            {
+                                <div class="post-meta">
+                                    <img src="@item.Image1" alt="">
+                                    <div class="description">
+
+                                        <p>
+                                            @item.Caption
+                                        </p>
+                                    </div>
+                                    <div class="we-video-info">
+                                        <ul>
+                                            @*<li>
+                                                    <span class="views" data-toggle="tooltip" title="views">
+                                                        <i class="fa fa-eye"></i>
+                                                        <ins>1.2k</ins>
+                                                    </span>
+                                                </li>*@
+                                            <li>
+                                                <input type="hidden" id="detinationId" value="@item.UserId" />
+                                                <input type="text" value="0" id="PostId" hidden />  <!-- Ch2-->
+                                                <input type="text" id="pcid" hidden />  <!-- Ch3-->
+                                                <input type="text" value="0" id="IsReplay" hidden />  <!-- Ch4-->
+                                                <span class="comment" data-toggle="tooltip" title="Comments" id="@item.ImageId">
+                                                    <!-- Ch5-->
+                                                    <i class="fa fa-comments-o"></i>
+                                                    @{
+                                                        var count = Model.sponsorSingleData.commentList.Where(model => model.DestinationUserId == item.UserId && model.PostId == item.ImageId).ToList().Count() != 0 ? Model.sponsorSingleData.commentList.Where(model => model.DestinationUserId == item.UserId && model.PostId == item.ImageId).ToList().Count() : 0;
+                                                        ViewBag.commentCount = count;
+                                                    }
+                                                    <ins>@ViewBag.commentCount</ins>
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span class="like" data-toggle="tooltip" title="like">
+                                                    <i class="ti-heart" onclick="postlike(true,'@item.ImageId','@item.UserId',this)"></i>
+                                                    @{var abc = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.ImageId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.ImageId && model.LikeStatus == true).Select(model => model.LikeStatus == true).Count() : 0;
+                                                        ViewBag.Count6 = abc;
+                                                    }
+                                                    <ins id="Like_@item.ImageId">@ViewBag.Count6</ins>
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span class="dislike" data-toggle="tooltip" title="dislike">
+                                                    <i class="ti-heart-broken" onclick="postlike(false,'@item.ImageId','@item.UserId',this)"></i>
+                                                    @{var abc1 = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.ImageId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.ImageId && model.LikeStatus == false).Select(model => model.LikeStatus == false).Count() : 0;
+                                                        ViewBag.Count7 = abc1;
+                                                    }
+                                                    <ins id="DisLike_@item.ImageId">@ViewBag.Count7</ins>
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span data-toggle="tooltip" title="Share">
+                                                    @{ var xyz = Model.sponsorSingleData.sharelist.Select(model => model.PostId == item.ImageId && model.SourcePage == item.UserId).ToList().Count() != 0 ? Model.sponsorSingleData.sharelist.Where(model => model.PostId == item.ImageId && model.SourcePage == item.UserId).Select(model => model).Count() : 0;
+                                                        ViewBag.ShareCount = xyz;
+                                                    }
+                                                    <ins id="shareId_@item.ImageId">@ViewBag.ShareCount</ins>
+                                                    <i class="fa fa-share-alt" onclick="postshare('@item.ImageId','@item.UserId' )"></i>
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                                                        }
+
+                        </div>
+
+                    </div>
+                </div>
+
+                                                            }
+                                                        }
+        @if (Model.GalleryListSubscribed.Count != 0)
+        {
+            foreach (var item in Model.GalleryListSubscribed)
+            {
+                <div class="central-meta item">
+                    <div class="user-post">
+
+                        <div class="friend-info" id="postid_@item.PostId">
+                            <figure>
+                                <a href="@Url.Action("ProfilePage","OrganizerBasicDetails",new {UserId=item.UserId })" title=""> <img src="@item.Profilepic" alt=""></a>
+                            </figure>
+                            <div class="friend-name">
+                                <ins><a href="@Url.Action("ProfilePage","OrganizerBasicDetails",new {UserId=item.UserId })" title="">@item.UserName</a></ins> have shared below post
+                                <span>published: @item.DateAndTime</span>
+                            </div>
+                            @if (item.Image != null)
+                            {
+                                <div class="post-meta">
+                                    <img src="@item.Image" alt="">
+                                    <div class="description">
+
+                                        <p>
+                                            @item.Caption
+                                        </p>
+                                    </div>
+                                    <div class="we-video-info">
+                                        <ul>
+                                            @*<li>
+                                                    <span class="views" data-toggle="tooltip" title="views">
+                                                        <i class="fa fa-eye"></i>
+                                                        <ins>1.2k</ins>
+                                                    </span>
+                                                </li>*@
+                                            <li>
+                                                <input type="hidden" id="detinationId" value="@item.UserId" />
+                                                <input type="text" value="0" id="PostId" hidden />  <!-- Ch2-->
+                                                <input type="text" id="pcid" hidden />  <!-- Ch3-->
+                                                <input type="text" value="0" id="IsReplay" hidden />  <!-- Ch4-->
+                                                <span class="comment" data-toggle="tooltip" title="Comments" id="@item.PostId">
+                                                    <!-- Ch5-->
+                                                    <i class="fa fa-comments-o"></i>
+                                                    @{
+                                                        var count = Model.sponsorSingleData.commentList.Where(model => model.DestinationUserId == item.UserId && model.PostId == item.PostId).ToList().Count() != 0 ? Model.sponsorSingleData.commentList.Where(model => model.DestinationUserId == item.UserId && model.PostId == item.PostId).ToList().Count() : 0;
+                                                        ViewBag.commentCount = count;
+                                                    }
+                                                    <ins>@ViewBag.commentCount</ins>
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span class="like" data-toggle="tooltip" title="like">
+                                                    <i class="ti-heart" onclick="postlike(true,'@item.PostId','@item.UserId',this)"></i><i class="ti-heart"></i>
+                                                    @{var abc = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.PostId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.PostId && model.LikeStatus == true).Select(model => model.LikeStatus == true).Count() : 0;
+                                                        ViewBag.Count1 = abc;
+                                                    }
+                                                    <ins id="Like_@item.PostId">@ViewBag.Count1</ins>
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span class="dislike" data-toggle="tooltip" title="dislike">
+                                                    <i class="ti-heart-broken" onclick="postlike(false,'@item.PostId','@item.UserId',this)"></i>
+                                                    @{var abc1 = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.PostId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.PostId && model.LikeStatus == false).Select(model => model.LikeStatus == false).Count() : 0;
+                                                        ViewBag.Count = abc1;
+                                                    }
+                                                    <ins id="DisLike_@item.PostId">@ViewBag.Count</ins>
+                                                </span>
+                                            </li>
+                                            <li class="social-media">
+                                                <span data-toggle="tooltip" title="Share">
+                                                    @{ var xyz = Model.sponsorSingleData.sharelist.Select(model => model.PostId == item.PostId && model.SourcePage == item.UserId).ToList().Count() != 0 ? Model.sponsorSingleData.sharelist.Where(model => model.PostId == item.PostId && model.SourcePage == item.UserId).Select(model => model).Count() : 0;
+                                                        ViewBag.ShareCount = xyz;
+                                                    }
+                                                    <ins id="shareId_@item.PostId">@ViewBag.ShareCount</ins>
+                                                    <i class="fa fa-share-alt" onclick="postshare('@item.PostId','@item.UserId' )"></i>
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                                                        }
+                            @if (item.VideoData != null)
+                            {
+                                <div class="post-meta">
+                                    <video id="VideoPlayer" src='@Url.Action("DownloadFile", "Participants", new { VideoID = item.PostId })' controls="true" loop="true" />
+                                    <div class="description">
+
+                                        <p>
+                                            @item.Caption
+                                        </p>
+                                    </div>
+                                    <div class="we-video-info">
+                                        <ul>
+                                            <li>
+                                                <input type="hidden" id="detinationId" value="@item.UserId" />
+                                                <input type="text" value="0" id="PostId" hidden />  <!-- Ch2-->
+                                                <input type="text" id="pcid" hidden />  <!-- Ch3-->
+                                                <input type="text" value="0" id="IsReplay" hidden />  <!-- Ch4-->
+                                                <span class="comment" data-toggle="tooltip" title="Comments" id="@item.PostId">
+                                                    <!-- Ch5-->
+                                                    <i class="fa fa-comments-o"></i>
+                                                    @{
+                                                        var count = Model.sponsorSingleData.commentList.Where(model => model.DestinationUserId == item.UserId && model.PostId == item.PostId).ToList().Count() != 0 ? Model.sponsorSingleData.commentList.Where(model => model.DestinationUserId == item.UserId && model.PostId == item.PostId).ToList().Count() : 0;
+                                                        ViewBag.commentCount = count;
+                                                    }
+                                                    <ins>@ViewBag.commentCount</ins>
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span class="like" data-toggle="tooltip" title="like">
+                                                    <i class="ti-heart" onclick="postlike(true,'@item.PostId','@item.UserId',this)"></i>
+                                                    @{var abc = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.PostId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.PostId && model.DestinationUserId == item.UserId && model.LikeStatus == true).Select(model => model.LikeStatus == true).Count() : 0;
+                                                        ViewBag.Count1 = abc;
+                                                    }
+                                                    <ins id="Like_@item.PostId">@ViewBag.Count1</ins>
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span class="dislike" data-toggle="tooltip" title="dislike">
+                                                    <i class="ti-heart-broken" onclick="postlike(false,'@item.PostId','@item.UserId',this)"></i>
+                                                    @{var abc1 = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.PostId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.PostId && model.DestinationUserId == item.UserId && model.LikeStatus == false).Select(model => model.LikeStatus == false).Count() : 0;
+                                                        ViewBag.Count = abc1;
+                                                    }
+                                                    <ins id="DisLike_@item.PostId">@ViewBag.Count</ins>
+                                                </span>
+                                            </li>
+                                            <li class="social-media">
+                                                <span data-toggle="tooltip" title="Share">
+                                                    @{ var xyz = Model.sponsorSingleData.sharelist.Select(model => model.PostId == item.PostId && model.SourcePage == item.UserId).ToList().Count() != 0 ? Model.sponsorSingleData.sharelist.Where(model => model.PostId == item.PostId && model.SourcePage == item.UserId).Select(model => model).Count() : 0;
+                                                        ViewBag.ShareCount = xyz;
+                                                    }
+                                                    <ins id="shareId_@item.PostId">@ViewBag.ShareCount</ins>
+                                                    <i class="fa fa-share-alt" onclick="postshare('@item.PostId','@item.UserId' )"></i>
+                                                </span>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+
+                                </div>
+                                                        }
+                        </div>
+
+                    </div>
+                </div>
+                                                            }
+                                                        }
+        @if (Model.Homelistofsubscribed.Count != 0)
+        {
+            foreach (var item in Model.Homelistofsubscribed)
+            {
+                <div class="central-meta item">
+                    <div class="user-post">
+                        <div class="close" onclick='DeleteHomePost("@item.Postid","@item.UserId")'>x</div>
+                        <div class="friend-info" id="postid_@item.Postid">
+                            <figure>
+                                <a href="@Url.Action("ProfilePage","OrganizerBasicDetails",new {UserId=item.UserId })" title="">   <img src="@item.Profilepic" alt=""></a>
+                            </figure>
+                            <div class="friend-name">
+                                <ins><a href="@Url.Action("ProfilePage","OrganizerBasicDetails",new {UserId=item.UserId })" title="">@item.UserName</a></ins> Have posted the below
+                                <span>published: @item.DateTime</span>
+                            </div>
+                            <div class="post-meta">
+                                @if (item.Image2 != null)
+                                {
+                                    <img src="@item.Image2" alt="">
+                                }
+                                <div class="description">
+
+                                    <p>
+                                        @item.PostText
+                                    </p>
+                                </div>
+                                <div class="we-video-info">
+                                    <ul>
+                                        @*<li>
+                                                <span class="views" data-toggle="tooltip" title="views">
+                                                    <i class="fa fa-eye"></i>
+                                                    <ins>1.2k</ins>
+                                                </span>
+                                            </li>*@
+                                        <li>
+                                            <input type="hidden" id="detinationId" value="@item.UserId" />
+                                            <input type="text" value="0" id="PostId" hidden />  <!-- Ch2-->
+                                            <input type="text" id="pcid" hidden />  <!-- Ch3-->
+                                            <input type="text" value="0" id="IsReplay" hidden />  <!-- Ch4-->
+                                            <span class="comment" data-toggle="tooltip" title="Comments" id="@item.Postid">
+                                                <!-- Ch5-->
+                                                <i class="fa fa-comments-o"></i>
+                                                @{
+                                                    var count = Model.sponsorSingleData.commentList.Where(model => model.DestinationUserId == item.UserId && model.PostId == item.Postid).ToList().Count() != 0 ? Model.sponsorSingleData.commentList.Where(model => model.DestinationUserId == item.UserId && model.PostId == item.Postid).ToList().Count() : 0;
+                                                    ViewBag.commentCount = count;
+                                                }
+                                                <ins>@ViewBag.commentCount</ins>
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="like" data-toggle="tooltip" title="like">
+                                                <i class="ti-heart" onclick="postlike(true,'@item.Postid','@item.UserId',this)"></i>
+                                                @{var abc1 = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.Postid).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.Postid && model.LikeStatus == true).Select(model => model.LikeStatus == true).Count() : 0;
+                                                    ViewBag.Count = abc1;
+                                                }
+                                                <ins id="Like_@item.Postid">@ViewBag.Count</ins>
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="dislike" data-toggle="tooltip" title="dislike">
+                                                <i class="ti-heart-broken" onclick="postlike(false,'@item.Postid','@item.UserId',this)"></i>
+                                                @{var abc = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.Postid).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.Postid && model.LikeStatus == false).Select(model => model.LikeStatus == false).Count() : 0;
+                                                    ViewBag.Count1 = abc;
+                                                }
+                                                <ins id="DisLike_@item.Postid">@ViewBag.Count1</ins>
+                                            </span>
+                                        </li>
+                                        <li class="social-media">
+                                            <span data-toggle="tooltip" title="Share">
+                                                @{ var xyz = Model.sponsorSingleData.sharelist.Select(model => model.PostId == item.Postid && model.SourcePage == item.UserId).ToList().Count() != 0 ? Model.sponsorSingleData.sharelist.Where(model => model.PostId == item.Postid && model.SourcePage == item.UserId).Select(model => model).Count() : 0;
+                                                    ViewBag.ShareCount = xyz;
+                                                }
+                                                <ins id="shareId_@item.Postid">@ViewBag.ShareCount</ins>
+                                                <i class="fa fa-share-alt" onclick="postshare('@item.Postid','@item.UserId' )"></i>
+                                            </span>
+                                        </li>
+
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                                                        }
+                                                    }
+        @if (Model.Participantregistration.Count != 0)
+        {
+
+            foreach (var item in Model.Participantregistration)
+            {
+                <div class="central-meta item">
+                    <div class="user-post">
+
+                        <div class="friend-info" id="postid_@item.VideoId">
+                            <figure>
+                                <a href="@Url.Action("ProfilePage","OrganizerBasicDetails",new {UserId=item.ParticipantId })" title=""><img src="@item.Profilepic" alt=""></a>
+                            </figure>
+                            <div class="friend-name">
+                                <ins><a href="@Url.Action("ProfilePage","OrganizerBasicDetails",new {UserId=item.ParticipantId })" title="">@item.UserName</a></ins> have uploaded below post
+                                <span>published: </span>
+                            </div>
+                            @if (item.Images != null)
+                            {
+                                <div class="post-meta">
+                                    <img src="@item.Images" alt="">
+                                    <div class="description">
+                                        @item.OrganizerId
+                                        <p>
+                                            If you want to vote this performance click <a href="@Url.Action("ShortlistedParticipants","Events",new { item.EventId, item.OrganizerId })"></a>
+
+
+                                        </p>
+                                    </div>
+                                    <div class="we-video-info">
+                                        <ul>
+                                            @*<li>
+                                                    <span class="views" data-toggle="tooltip" title="views">
+                                                        <i class="fa fa-eye"></i>
+                                                        <ins>1.2k</ins>
+                                                    </span>
+                                                </li>*@
+                                            <li>
+                                                <input type="hidden" id="detinationId" value="@item.ParticipantId" />
+                                                <input type="text" value="0" id="PostId" hidden />  <!-- Ch2-->
+                                                <input type="text" id="pcid" hidden />  <!-- Ch3-->
+                                                <input type="text" value="0" id="IsReplay" hidden />  <!-- Ch4-->
+                                                <span class="comment" data-toggle="tooltip" title="Comments" id="@item.VideoId">
+                                                    <!-- Ch5-->
+                                                    <i class="fa fa-comments-o"></i>
+                                                    @{
+                                                        var count = Model.sponsorSingleData.commentList.Where(model => model.DestinationUserId == item.ParticipantId && model.PostId == item.VideoId).ToList().Count() != 0 ? Model.sponsorSingleData.commentList.Where(model => model.DestinationUserId == item.ParticipantId && model.PostId == item.VideoId).ToList().Count() : 0;
+                                                        ViewBag.commentCount = count;
+                                                    }
+                                                    <ins>@ViewBag.commentCount</ins>
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span class="like" data-toggle="tooltip" title="like">
+                                                    <i class="ti-heart" onclick="postlike(true,'@item.VideoId','@item.ParticipantId',this)"></i>
+                                                    @{var abc = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.VideoId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.VideoId && model.LikeStatus == true).Select(model => model.LikeStatus == true).Count() : 0;
+                                                        ViewBag.Count1 = abc;
+                                                    }
+
+
+                                                    <ins id="Like_@item.VideoId">@ViewBag.Count1</ins>
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span class="dislike" data-toggle="tooltip" title="dislike">
+                                                    <i class="ti-heart-broken" onclick="postlike(false,'@item.VideoId','@item.ParticipantId',this)"></i>
+                                                    @{var abc1 = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.VideoId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.VideoId && model.LikeStatus == false).Select(model => model.LikeStatus == false).Count() : 0;
+                                                        ViewBag.Count = abc1;
+                                                    }
+                                                    <ins id="DisLike_@item.VideoId">@ViewBag.Count</ins>
+                                                </span>
+                                            </li>
+                                            <li class="social-media">
+                                                <span data-toggle="tooltip" title="Share">
+                                                    @{ var xyz = Model.sponsorSingleData.sharelist.Select(model => model.PostId == item.VideoId && model.SourcePage == item.ParticipantId).ToList().Count() != 0 ? Model.sponsorSingleData.sharelist.Where(model => model.PostId == item.VideoId && model.SourcePage == item.ParticipantId).Select(model => model).Count() : 0;
+                                                        ViewBag.ShareCount = xyz;
+                                                    }
+                                                    <ins id="shareId_@item.VideoId">@ViewBag.ShareCount</ins>
+                                                    <i class="fa fa-share-alt" onclick="postshare('@item.VideoId','@item.ParticipantId' )"></i>
+                                                </span>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+
+                                </div>
+                                                        }
+                            @if (item.Data != null)
+                            {
+                                <div class="post-meta">
+                                    <video id="VideoPlayer" src='@Url.Action("DownloadFile", "Participants", new { VideoID = item.VideoId })' controls="true" loop="true" />
+                                    <div class="description">
+                                        @item.OrganizerId
+                                        <p>
+                                            If you want to vote this performance click <a href="@Url.Action("ShortlistedParticipants","Events",new { item.EventId, item.OrganizerId })"></a>
+
+
+                                        </p>
+                                    </div>
+                                    <div class="we-video-info">
+                                        <ul>
+                                            @*<li>
+                                                    <span class="views" data-toggle="tooltip" title="views">
+                                                        <i class="fa fa-eye"></i>
+                                                        <ins>1.2k</ins>
+                                                    </span>
+                                                </li>*@
+                                            <li>
+                                                <input type="hidden" id="detinationId" value="@item.ParticipantId" />
+                                                <input type="text" value="0" id="PostId" hidden />  <!-- Ch2-->
+                                                <input type="text" id="pcid" hidden />  <!-- Ch3-->
+                                                <input type="text" value="0" id="IsReplay" hidden />  <!-- Ch4-->
+                                                <span class="comment" data-toggle="tooltip" title="Comments" id="@item.VideoId">
+                                                    <!-- Ch5-->
+                                                    <i class="fa fa-comments-o"></i>
+                                                    @{
+                                                        var count = Model.sponsorSingleData.commentList.Where(model => model.DestinationUserId == item.ParticipantId && model.PostId == item.VideoId).ToList().Count() != 0 ? Model.sponsorSingleData.commentList.Where(model => model.DestinationUserId == item.ParticipantId && model.PostId == item.VideoId).ToList().Count() : 0;
+                                                        ViewBag.commentCount = count;
+                                                    }
+                                                    <ins>@ViewBag.commentCount</ins>
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span class="like" data-toggle="tooltip" title="like">
+                                                    <i class="ti-heart" onclick="postlike(true,'@item.VideoId','@item.ParticipantId',this)"></i>
+                                                    @{var abc = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.VideoId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.VideoId && model.DestinationUserId == item.ParticipantId && model.LikeStatus == true).Select(model => model.LikeStatus == true).Count() : 0;
+                                                        ViewBag.Count1 = abc;
+                                                    }
+
+
+                                                    <ins id="Like_@item.VideoId">@ViewBag.Count1</ins>
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span class="dislike" data-toggle="tooltip" title="dislike">
+                                                    <i class="ti-heart-broken" onclick="postlike(false,'@item.VideoId','@item.ParticipantId',this)"></i>
+                                                    @{var abc1 = Model.sponsorSingleData.LikeList.Select(model => model.Imageid == item.VideoId).ToList().Count() != 0 ? Model.sponsorSingleData.LikeList.Where(model => model.Imageid == item.VideoId && model.DestinationUserId == item.ParticipantId && model.LikeStatus == false).Select(model => model.LikeStatus == false).Count() : 0;
+                                                        ViewBag.Count = abc1;
+                                                    }
+                                                    <ins id="DisLike_@item.VideoId">@ViewBag.Count</ins>
+                                                </span>
+                                            </li>
+                                            <li class="social-media">
+                                                <span data-toggle="tooltip" title="Share">
+                                                    @{ var xyz = Model.sponsorSingleData.sharelist.Select(model => model.PostId == item.VideoId && model.SourcePage == item.ParticipantId).ToList().Count() != 0 ? Model.sponsorSingleData.sharelist.Where(model => model.PostId == item.VideoId && model.SourcePage == item.ParticipantId).Select(model => model).Count() : 0;
+                                                        ViewBag.ShareCount = xyz;
+                                                    }
+                                                    <ins id="shareId_@item.VideoId">@ViewBag.ShareCount</ins>
+                                                    <i class="fa fa-share-alt" onclick="postshare('@item.VideoId','@item.ParticipantId' )"></i>
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                                                        }
+
+                        </div>
+
+                    </div>
+                </div>
+
+                                                            }
+                                                        }
+
+
+    </div>
+</div>
+<script>
+        function Deleteparticipantsgallerypost(id,userid) {
+            debugger;
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DeleteHomePost", "BasicFunctionality")",
+
+                contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({
+                Postid: id,
+                Userid:userid
+            }),
+
+            dataType: "json",
+            success: function (result) {
+                if (result != null) {
+                    alert("Image deleted successfully")
+                }
+                else {
+                    alert("Image not deleted sucessfully")
+                };
+            },
+            error: function () { alert('A error'); }
+        });
+        }
+</script>
+<script>
+    function ImgPre(input) {
+        $("#ImgPreview").removeAttr("hidden");
+        if (input.files[0]) {
+            var uploadimg = new FileReader();
+            uploadimg.onload = function (displayimg) {
+                $("#ImgPreview").attr('src', displayimg.target.result);
+            }
+            uploadimg.readAsDataURL(input.files[0]);
+        }
+    }
+    $(document).on("change", ".file_multi_video", function (evt) {
+        $("#VidPreview").removeAttr("hidden");
+        var $source = $('#video_here');
+        $source[0].src = URL.createObjectURL(this.files[0]);
+        $source.parent()[0].load();
+    });
+</script>

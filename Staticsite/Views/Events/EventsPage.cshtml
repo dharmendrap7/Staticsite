@@ -1,0 +1,362 @@
+﻿@model Conquerorhub.Models.EventRegistrationfromOrganizerModel
+@{
+    ViewBag.Title = "ShowEvent";
+
+    Layout = "~/Views/Shared/_WinkuEventsLayout.cshtml";
+}
+
+
+<div class="col-lg-6">
+    <div class="central-meta">
+        <div class="frnds">
+            <ul class="nav nav-tabs">
+                <li class="nav-item"><a class="active" href="#past" data-toggle="tab">Past Event</a> <span>@Model.aboutEventlist.Where(model=>model.EventStatus==5).Count()</span></li>
+               
+                <li class="nav-item"><a class="" href="#Present" data-toggle="tab">Present Event</a><span>@Model.aboutEventlist.Where(model => model.EventStatus == 2 || model.EventStatus == 3 || model.EventStatus == 4).Count()</span></li>
+                
+              
+                <li class="nav-item"><a class="" href="#upcoming" data-toggle="tab">Upcoming Event</a><span>@Model.aboutEventlist.Where(model=>model.EventStatus==1).Count()</span></li>
+               
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane active fade show " id="past">
+                    <ul class="nearby-contct">
+@for (int i = 0; i < Model.aboutEventlist.Count; i++)
+
+
+{
+    var x = Model.aboutEventlist.Count;
+    if ((int)Model.aboutEventlist[i].modeofevent == 1 || (int)Model.aboutEventlist[i].modeofevent == 3)
+    {
+        if (Model.aboutEventlist[i].EventStatus == 5)
+        {
+
+                        <li>
+                            <div class="nearly-pepls">
+                                <figure>
+                                    <a href="@Url.Action("EventDetailsToParticipants", "Events", new { id = Model.ImagevideoList[i].EventIdImageorVideo, Userid = Model.ImagevideoList[i].EventIdImageorVideo })" title=""><img src="@Model.ImagevideoList.Where(w => w.EventIdImageorVideo == Model.aboutEventlist[i].EventId).Select(w => w.Image).FirstOrDefault()" alt="EventImage"></a>
+                                </figure>
+                                <div class="pepl-info">
+                                    <ul>
+                                        <li>
+
+                                            <label>Event Name</label>   <label style="color:blue">:     @Model.aboutEventlist[i].EventName</label>
+                                        </li>
+                                        <li>
+                                            <label>Name of Organizer</label>    <label style="color:blue">:     @Model.aboutEventlist[i].NameofOrganizer</label>
+                                        </li>
+                                        <li><label>Status of the event:</label> <label style="color:green">:        Event ended</label></li>
+                                        <li>To see the performance click<a href="@Url.Action("PastEventsPerformance", "Events", new { Userid = ViewBag.UserId, EventId = Model.aboutEventlist[i].EventId })" style="color:blue">:       here</a></li>
+                                        <li>
+
+                                            To Know more about event click<a href="@Url.Action("EventDetailsToParticipants", "Events", new { id = Model.aboutEventlist[i].EventId, Userid = ViewBag.UserId })" style="color:blue">:     here</a>
+                                        </li>
+
+                                    </ul>
+
+
+                                </div>
+                            </div>
+                        </li>
+        }
+    }
+    if ((int)Model.aboutEventlist[i].modeofevent == 2)
+    {
+        if (Model.aboutEventlist[i].EventStatus == 5)
+        {
+
+            <li>
+                <div class="nearly-pepls">
+                    <figure>
+                        <a href="@Url.Action("EventDetailsToParticipants", "Events", new { id = Model.ImagevideoList[i].EventIdImageorVideo, Userid = Model.ImagevideoList[i].EventIdImageorVideo })" title=""><img src="@Model.ImagevideoList.Where(w => w.EventIdImageorVideo == Model.aboutEventlist[i].EventId).Select(w => w.Image).FirstOrDefault()" alt="EventImage"></a>
+                    </figure>
+                    <div class="pepl-info">
+                        <ul>
+                            <li>
+
+                                <label>Event Name:</label><label style="color:blue">@Model.aboutEventlist[i].EventName</label>
+                            </li>
+                            <li>
+                                <label>Name of Organizer:</label><label style="color:blue">@Model.aboutEventlist[i].NameofOrganizer</label>
+                            </li>
+                            <li><label>Status of the event:</label><label style="color:blue">Event ended</label></li>
+                           
+                            <li>
+
+                                To Know more about event   <a href="@Url.Action("EventDetailsToParticipants", "Events", new { id = Model.aboutEventlist[i].EventId, Userid = ViewBag.UserId })" title="" class="add-butn" data-ripple="" style="margin-top:110px; margin-right:200px"> click here</a>
+                            </li>
+
+                        </ul>
+
+
+                    </div>
+                </div>
+            </li>
+        }
+    }
+}
+
+                    </ul>
+                    <div class="lodmore"><button class="btn-view btn-load-more"></button></div>
+                </div>
+                <div class="tab-pane fade" id="Present">
+                    <ul class="nearby-contct">
+@for (int i = 0; i < Model.aboutEventlist.Count; i++)
+
+
+{
+    var x = Model.aboutEventlist.Count;
+    if ((int)Model.aboutEventlist[i].modeofevent == 1 || (int)Model.aboutEventlist[i].modeofevent == 3|| (int)Model.aboutEventlist[i].modeofevent == 2)
+    {
+        if (Model.aboutEventlist[i].EventStatus == 2)
+        {
+
+                        <li>
+                            <div class="nearly-pepls">
+                                <figure>
+                                    <a href="@Url.Action("EventDetailsToParticipants", "Events", new { id = Model.ImagevideoList[i].EventIdImageorVideo, Userid = Model.ImagevideoList[i].EventIdImageorVideo })" title=""><img src="@Model.ImagevideoList.Where(w => w.EventIdImageorVideo == Model.aboutEventlist[i].EventId).Select(w => w.Image).FirstOrDefault()" alt="EventImage"></a>
+                                </figure>
+                                <div class="pepl-info">
+                                    <ul>
+                                        <li>
+
+                                            <label>Event Name:</label><label style="color:blue">        @Model.aboutEventlist[i].EventName</label>
+                                        </li>
+                                        <li>
+                                            <label>Name of Organizer:</label><label style="color:blue">     @Model.aboutEventlist[i].NameofOrganizer</label>
+                                        </li>
+                                        <li><label>Status of the event:</label><label style="color:green">      Event Registration have been started.</label></li>
+                                       <li>Click <a style="color:blue" href="@Url.Action("ParticipantRegistration", "Participants", new { EventId = Model.aboutEventlist[i].EventId, Userid = ViewBag.UserId })">   here</a> to register</li>
+                                        <li>
+
+                                            To Know more about event click   <a href="@Url.Action("EventDetailsToParticipants", "Events", new { id = Model.aboutEventlist[i].EventId, Userid = ViewBag.UserId })" style="color:blue">   here</a>
+                                        </li>
+                                        <li>
+                                            @if (ViewBag.UserId == null)
+                                            {
+                                                <label> See the registered participants</label> <a style="color:blue" href="@Url.Action("RegisteredParticipantsfortheevent", "Events", new { EventId = Model.aboutEventlist[i].EventId })"> here</a>
+                                            }
+                                        </li>
+
+                                    </ul>
+
+                                   
+                                </div>
+                            </div>
+                        </li>
+        }
+    }
+   
+
+    if ((int)Model.aboutEventlist[i].modeofevent == 2)
+    {
+
+        if (Model.aboutEventlist[i].EventStatus == 3)
+        {
+                        <li>
+                            <div class="nearly-pepls">
+                                <figure>
+                                    <a href="@Url.Action("EventDetailsToParticipants", "Events", new { id = Model.ImagevideoList[i].EventIdImageorVideo, Userid = Model.ImagevideoList[i].EventIdImageorVideo })" title=""><img src="@Model.ImagevideoList.Where(w => w.EventIdImageorVideo == Model.aboutEventlist[i].EventId).Select(w => w.Image).FirstOrDefault()" alt="EventImage"></a>
+                                </figure>
+                                <div class="pepl-info">
+                                    <ul>
+                                        <li>
+
+                                            <label>Event Name:</label><label style="color:blue">      @Model.aboutEventlist[i].EventName</label>
+                                        </li>
+                                        <li>
+                                            <label>Name of Organizer:</label><label style="color:blue">     @Model.aboutEventlist[i].NameofOrganizer</label>
+                                        </li>
+                                        <li><label>Status of the event:</label><label style="color:green">Event Started</label></li>
+                                        
+                                        <li>
+
+                                            To Know more about event click   <a href="@Url.Action("EventDetailsToParticipants", "Events", new { id = Model.aboutEventlist[i].EventId, Userid = ViewBag.UserId })" style="color:blue">       here</a>
+                                        </li>
+                                        <li>
+                                            @if (ViewBag.UserId == null)
+                                            {
+                                                <label> See the registered participants</label> <a style="color:blue" href="@Url.Action("RegisteredParticipantsfortheevent", "Events", new { EventId = Model.aboutEventlist[i].EventId })">     here</a>
+                                            }
+                                        </li>
+
+                                    </ul>
+
+
+                                </div>
+                            </div>
+
+                        </li>
+
+        }
+
+    }
+    if ((int)Model.aboutEventlist[i].modeofevent == 1 || (int)Model.aboutEventlist[i].modeofevent == 3)
+    {
+        if (Model.aboutEventlist[i].EventStatus == 3)
+        {
+            if ((int)Model.aboutEventlist[i].ImageorVideo == 2)
+            {
+    <li>
+        <div class="nearly-pepls">
+            <figure>
+                <a href="@Url.Action("EventDetailsToParticipants", "Events", new { id = Model.ImagevideoList[i].EventIdImageorVideo, Userid = Model.ImagevideoList[i].EventIdImageorVideo })" title=""><img src="@Model.ImagevideoList.Where(w => w.EventIdImageorVideo == Model.aboutEventlist[i].EventId).Select(w => w.Image).FirstOrDefault()" alt="EventImage"></a>
+            </figure>
+            <div class="pepl-info">
+                <ul>
+                    <li>
+
+                        <label>Event Name:  </label><label style="color:blue">      @Model.aboutEventlist[i].EventName</label>
+                    </li>
+                    <li>
+                        <label>Name of Organizer:  </label><label style="color:blue">       @Model.aboutEventlist[i].NameofOrganizer</label>
+                    </li>
+                    <li><label>Status of the event:  </label><label style="color:green">        Registered users can upload their videos</label></li>
+                    <li>Upload your videos<a href="@Url.Action("CheckOTPRedirecttovideoupload", "Events", new { Eventid = Model.aboutEventlist[i].EventId, OrganizerId = ViewBag.UserId })" style="color:blue">     here</a></li>
+                    <li>
+
+                        To Know more about event click   <a href="@Url.Action("EventDetailsToParticipants", "Events", new { id = Model.aboutEventlist[i].EventId, Userid = ViewBag.UserId })" style="color:blue" >      here</a>
+                    </li>
+                    <li>
+                        @if (ViewBag.UserId == null)
+                        {
+                            <label style="float:left;font-size:15px"> To see and shortlist applicants click <a href="@Url.Action("RegisteredParticipantsfortheevent", "Events", new { EventId = Model.aboutEventlist[i].EventId })" style="color:blue">     here</a></label>
+                        }
+                    </li>
+
+                </ul>
+
+
+            </div>
+        </div>
+
+    </li>
+            }
+            if ((int)Model.aboutEventlist[i].ImageorVideo == 1)
+            {
+            <li>
+                <div class="nearly-pepls">
+                    <figure>
+                        <a href="@Url.Action("EventDetailsToParticipants", "Events", new { id = Model.ImagevideoList[i].EventIdImageorVideo, Userid = Model.ImagevideoList[i].EventIdImageorVideo })" title=""><img src="@Model.ImagevideoList.Where(w => w.EventIdImageorVideo == Model.aboutEventlist[i].EventId).Select(w => w.Image).FirstOrDefault()" alt="EventImage"></a>
+                    </figure>
+                    <div class="pepl-info">
+                        <ul>
+                            <li>
+
+                                <label>Event Name:</label><label style="color:blue">        @Model.aboutEventlist[i].EventName</label>
+                            </li>
+                            <li>
+                                <label>Name of Organizer:</label><label style="color:blue">     @Model.aboutEventlist[i].NameofOrganizer</label>
+                            </li>
+                            <li><label>Status of the event:</label><label style="color:blue">       Registered users can upload their Images</label></li>
+                            <li>Upload your Images<a style="color:blue" href="@Url.Action("CheckOTPRedirecttovideoupload", "Events", new { Eventid = Model.aboutEventlist[i].EventId, OrganizerId = ViewBag.UserId })">     here</a></li>
+                            <li>
+
+                                To Know more about event click   <a href="@Url.Action("EventDetailsToParticipants", "Events", new { id = Model.aboutEventlist[i].EventId, Userid = ViewBag.UserId })" style="color:blue">       here</a>
+                            </li>
+                            <li>
+                                @if (ViewBag.UserId == null)
+                                {
+                                    <label> To see and shortlist applicants click <a style="color:blue" href="@Url.Action("RegisteredParticipantsfortheevent", "Events", new { EventId = Model.aboutEventlist[i].EventId })">       here</a></label>
+                                }
+                            </li>
+
+                        </ul>
+
+
+                    </div>
+                </div>
+
+            </li>
+
+            }
+        }
+    }
+    if ((int)Model.aboutEventlist[i].modeofevent == 1 || (int)Model.aboutEventlist[i].modeofevent == 3)
+    {
+        if (Model.aboutEventlist[i].EventStatus == 4)
+        {
+            <li>
+                <div class="nearly-pepls">
+                    <figure>
+                        <a href="@Url.Action("EventDetailsToParticipants", "Events", new { id = Model.ImagevideoList[i].EventIdImageorVideo, Userid = Model.ImagevideoList[i].EventIdImageorVideo })" title=""><img src="@Model.ImagevideoList.Where(w => w.EventIdImageorVideo == Model.aboutEventlist[i].EventId).Select(w => w.Image).FirstOrDefault()" alt="EventImage"></a>
+                    </figure>
+                    <div class="pepl-info">
+                        <ul>
+                            <li>
+
+                                <label>Event Name:</label><label style="color:blue">        @Model.aboutEventlist[i].EventName</label>
+                            </li>
+                            <li>
+                                <label>Name of Organizer:</label><label style="color:blue">     @Model.aboutEventlist[i].NameofOrganizer</label>
+                            </li>
+                            <li><label>Status of the event:</label><label style="color:green">      Evaluation from the viewers started </label></li>
+                           
+                                <li>Click <a style="color:blue" href="@Url.Action("ShortlistedParticipants", "Events", new { Eventid = Model.aboutEventlist[i].EventId, Userid = ViewBag.UserId })">here</a> to vote</li>
+                                <li>
+
+                                    To Know more about event click   <a href="@Url.Action("EventDetailsToParticipants", "Events", new { id = Model.aboutEventlist[i].EventId, Userid = ViewBag.UserId })" style="color:blue">       here</a>
+                                </li>
+
+
+</ul>
+
+
+                    </div>
+                </div>
+
+            </li>
+
+
+        }
+    }
+
+}
+
+                    </ul>
+                    <div class="lodmore"><button class="btn-view btn-load-more"></button></div>
+                </div>
+                <div class="tab-pane fade" id="upcoming">
+                    <ul class="nearby-contct">
+                       
+                       @if (Model.aboutEventlist.Where(a => a.EventStatus == 1).Count() != 0)
+                       {
+                           for (int i = 0; i < Model.aboutEventlist.Count(); i++)
+
+                           {
+                               var x = Model.aboutEventlist.Count();
+                               if (Model.aboutEventlist[i].EventStatus == 1)
+                               {
+                                    <li>
+                                        <div class="nearly-pepls">
+                                            <figure>
+                                                <a href="@Url.Action("EventDetailsToParticipants","Events",new {id=Model.ImagevideoList[i].EventIdImageorVideo, Userid=Model.ImagevideoList[i].EventIdImageorVideo })" title=""><img src="@Model.ImagevideoList.Where(w=>w.EventIdImageorVideo== Model.aboutEventlist[i].EventId).Select(w=>w.Image).FirstOrDefault()" alt="EventImage"></a>
+                                            </figure>
+                                            <div class="pepl-info">
+                                                <ul>
+                                                    <li>
+
+                                                        <label>Event Name:</label><label style="color:blue">        @Model.aboutEventlist[i].EventName</label>
+                                                    </li>
+                                                    <li>
+                                                        <label>Name of Organizer:</label><label style="color:blue">     @Model.aboutEventlist[i].NameofOrganizer</label>
+                                                    </li>
+                                                    <li>
+
+                                                        To Know more about event click   <a href="@Url.Action("EventDetailsToParticipants", "Events", new { id = Model.aboutEventlist[i].EventId, Userid = ViewBag.UserId })" style="color:blue">       here</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
+                            }
+                        }
+                    </ul>
+                    <div class="lodmore"><button class="btn-view btn-load-more"></button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- centerl meta -->

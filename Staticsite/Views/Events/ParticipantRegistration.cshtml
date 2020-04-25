@@ -1,0 +1,179 @@
+﻿@model Conquerorhub.Models.ParticipationRegistrationModel
+@{
+    ViewBag.Title = "ParticipantRegistration";
+    Layout = "~/Views/Shared/_NewLayoutForOrganizer.cshtml";
+}
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: "Lato", sans-serif;
+    }
+
+    /* Style the tab */
+    .tab {
+        float: left;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+        width: 30%;
+        height: 450px;
+    }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+            display: block;
+            background-color: inherit;
+            color: black;
+            padding: 22px 16px;
+            width: 100%;
+            border: none;
+            outline: none;
+            text-align: left;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 17px;
+        }
+
+            /* Change background color of buttons on hover */
+            .tab button:hover {
+                background-color: #ddd;
+            }
+
+            /* Create an active/current "tab button" class */
+            .tab button.active {
+                background-color: #ccc;
+            }
+
+    /* Style the tab content */
+    .tabcontent {
+        float: left;
+        padding: 0px 12px;
+        border: 1px solid #ccc;
+        width: 70%;
+        border-left: none;
+        height: 450px;
+    }
+
+    .one {
+        width: 100%;
+    }
+
+    .row1 {
+        background-color: rgb(20,90,50);
+    }
+</style>
+<div class="group excerpts">
+    <article class="one">
+
+        <div class="container">
+
+
+            <div class="tab">
+
+                <button class="tablinks" onclick="openCity(event, 'AboutEvent')" id="defaultOpen">About Event</button>
+                <button class="tablinks" onclick="openCity(event, 'payment')">About Participants</button>
+
+               
+            </div>
+
+            @if (Model != null)
+            {
+                <div id="AboutEvent" class="tabcontent">
+
+                    <div class="form-group col-sm-12" style="margin-top:20px">
+                        <label for="nameoforganization" class="col-sm-6">Name of Oraganizer</label>
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control col-sm-6", id = "nameoforganization" })
+                        @*<input type="text" class="form-control col-sm-6" id="nameoforganization">*@
+                        <br />
+                        @Html.ValidationMessageFor(m => m.Name, null, new { style = "color:red" })
+                    </div>
+                    <hr />
+                    <div class="form-group col-sm-12" style="margin-top:20px">
+                        <label for="nameoforganization" class="col-sm-6">Name of Oraganizer</label>
+                        @Html.TextBoxFor(m => m.CollegeorSchool, new { @class = "form-control col-sm-6", id = "nameoforganization" })
+                        @*<input type="text" class="form-control col-sm-6" id="nameoforganization">*@
+                        <br />
+                        @Html.ValidationMessageFor(m => m.CollegeorSchool, null, new { style = "color:red" })
+                    </div>
+                    <hr />
+                    <div class="form-group col-sm-12" style="margin-top:20px">
+                        <label for="nameoforganization" class="col-sm-6">Name of Oraganizer</label>
+                        @Html.TextBoxFor(m => m.DateOfBirthh, new { @class = "form-control col-sm-6", id = "nameoforganization" })
+                        @*<input type="text" class="form-control col-sm-6" id="nameoforganization">*@
+                        <br />
+                        @Html.ValidationMessageFor(m => m.DateOfBirthh, null, new { style = "color:red" })
+                    </div>
+                    <hr />
+                    <div class="form-group col-sm-12" style="margin-top:20px">
+                        <label for="nameoforganization" class="col-sm-6">Name of Oraganizer</label>
+                        @Html.TextBoxFor(m => m.Qualification, new { @class = "form-control col-sm-6", id = "nameoforganization" })
+                        @*<input type="text" class="form-control col-sm-6" id="nameoforganization">*@
+                        <br />
+                        @Html.ValidationMessageFor(m => m.Qualification, null, new { style = "color:red" })
+                    </div>
+                    <hr />
+                    <div class="form-group col-sm-12" style="margin-top:20px">
+                        <label for="nameoforganization" class="col-sm-6">Name of Oraganizer</label>
+                        @Html.TextBoxFor(m => m.emailid, new { @class = "form-control col-sm-6", id = "nameoforganization" })
+                        @*<input type="text" class="form-control col-sm-6" id="nameoforganization">*@
+                        <br />
+                        @Html.ValidationMessageFor(m => m.emailid, null, new { style = "color:red" })
+                    </div>
+                    <div class="form-group col-sm-12" style="margin-top:20px">
+                        <label for="nameoforganization" class="col-sm-6">Name of Oraganizer</label>
+                        @Html.TextBoxFor(m => m.Modeofcompitetion, new { @class = "form-control col-sm-6", id = "nameoforganization" })
+                        @*<input type="text" class="form-control col-sm-6" id="nameoforganization">*@
+                        <br />
+                        @Html.ValidationMessageFor(m => m.Modeofcompitetion, null, new { style = "color:red" })
+                    </div>
+
+                    <hr />
+                    <div class="form-group col-sm-12" style="margin-top:20px">
+                        <label for="nameoforganization" class="col-sm-6">Name of Oraganizer</label>
+                        @Html.TextBoxFor(m => m.About_Self, new { @class = "form-control col-sm-6", id = "nameoforganization" })
+                        @*<input type="text" class="form-control col-sm-6" id="nameoforganization">*@
+                        <br />
+                        @Html.ValidationMessageFor(m => m.About_Self, null, new { style = "color:red" })
+                    </div>
+                    <hr />
+
+
+                </div>
+
+
+
+                <div id="payment" class="tabcontent">
+                    Payment
+                </div>
+
+               
+                
+
+
+            }
+              </div>
+        </article>
+</div>
+
+
+<script>
+function openCity(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
