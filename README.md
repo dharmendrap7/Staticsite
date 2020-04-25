@@ -1,0 +1,2 @@
+# Staticsite
+Staticsite for Conquerorhub.
